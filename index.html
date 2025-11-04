@@ -1,45 +1,367 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ExamArchive.AI</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ExamArchive — Home</title>
+  <meta name="description" content="Community-driven archive of past exam papers." />
+  <meta name="theme-color" content="#b71c1c" />
+
+  <style>
+    :root{
+      --accent: #b71c1c;
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --muted: #666666;
+      --text: #111111;
+      --card-shadow: rgba(0,0,0,0.06);
+      --easing: cubic-bezier(.2,.9,.2,1);
+    }
+    :root[data-theme="dark"]{
+      --bg: #0b0b0d;
+      --surface: #0f1113;
+      --muted: #9aa0a6;
+      --text: #e6e6e6;
+      --card-shadow: rgba(0,0,0,0.6);
+    }
+
+    /* Respect user motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      :root { --disable-animations: 1; }
+    }
+
+    html,body{height:100%; margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
+    .container{max-width:1100px; margin:0 auto; padding:1.25rem;}
+    header{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0.5rem 0;}
+    .brand{display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;}
+    .logo{width:42px; height:42px; border-radius:8px; background:linear-gradient(135deg,var(--accent), #e64a19); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; box-shadow:0 4px 12px var(--card-shadow); transform-origin:center; will-change:transform;}
+    .site-title{font-weight:700; font-size:1.05rem;}
+    nav{display:flex; gap:0.5rem; align-items:center;}
+    .nav-link{padding:0.45rem 0.6rem; border-radius:8px; text-decoration:none; color:var(--text); font-weight:600;}
+    .nav-link:hover{background:rgba(0,0,0,0.04); transform:translateY(-2px); transition:transform .18s var(--easing);}
+
+    /* Right-controls */
+    .controls{display:flex; gap:0.5rem; align-items:center;}
+    .dark-toggle{display:inline-flex; align-items:center; gap:0.5rem; padding:0.25rem; border-radius:999px; cursor:pointer; user-select:none; background:transparent; border:0;}
+    .toggle-switch{width:44px; height:26px; background:linear-gradient(90deg,#ddd,#eee); border-radius:999px; position:relative; display:inline-block; padding:3px; box-sizing:border-box; transition:background .22s var(--easing);}
+    .toggle-thumb{width:20px; height:20px; background:#fff; border-radius:50%; position:absolute; top:3px; left:3px; transition:transform .24s var(--easing), left .24s var(--easing), box-shadow .2s var(--easing); box-shadow:0 6px 14px rgba(0,0,0,0.12); transform:translateZ(0);}
+    :root[data-theme="dark"] .toggle-switch{background:linear-gradient(90deg,#222,#121212);}
+    :root[data-theme="dark"] .toggle-thumb{transform:translateX(18px) rotate(10deg); box-shadow:0 8px 22px rgba(0,0,0,0.28);}
+
+    /* small press animation for button */
+    .dark-toggle:active .toggle-thumb{transform:scale(.96);}
+
+    /* Profile circle */
+    .profile-link{position:relative; display:inline-block; text-decoration:none; color:inherit;}
+    .avatar{
+      width:44px; height:44px; border-radius:50%; background:linear-gradient(180deg,#fff, #f3f3f3); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent);
+      border:2px solid rgba(255,255,255,0.06); box-shadow:0 6px 18px var(--card-shadow); overflow:hidden; transform-origin:center; will-change:transform; transition:transform .28s var(--easing), box-shadow .28s var(--easing);
+    }
+    :root[data-theme="dark"] .avatar{background: linear-gradient(180deg,#111,#181818); color:var(--accent); border:1px solid rgba(255,255,255,0.04);}
+
+    .profile-link:hover .avatar{transform:translateY(-4px) scale(1.03); box-shadow:0 12px 30px rgba(0,0,0,0.18);}
+
+    /* small profile popup */
+    .profile-popup{
+      position:absolute; right:0; top:64px; min-width:220px; background:var(--surface); border-radius:12px; box-shadow:0 18px 40px var(--card-shadow); padding:0.85rem; display:none; z-index:40; transform-origin:top right; opacity:0; transform:translateY(-7px) scale(.98);
+      border:1px solid rgba(0,0,0,0.03); transition:opacity .26s var(--easing), transform .26s var(--easing);
+    }
+    :root[data-theme="dark"] .profile-popup{border:1px solid rgba(255,255,255,0.04);}
+    .profile-popup.visible{display:block; opacity:1; transform:translateY(0) scale(1);}
+    .profile-row{display:flex; gap:0.65rem; align-items:center;}
+    .profile-name{font-weight:700;}
+    .profile-meta{font-size:0.85rem; color:var(--muted);}
+    .rank-badge{display:inline-block; margin-top:0.35rem; padding:0.25rem 0.5rem; border-radius:999px; background:rgba(0,0,0,0.04); font-size:0.78rem; color:var(--muted);}
+
+    /* Hero & layout */
+    .hero{display:grid; grid-template-columns:1fr 380px; gap:1.25rem; align-items:start; margin-top:1.25rem;}
+    @media (max-width:920px){ .hero{grid-template-columns:1fr;} .profile-popup{right:8px; left:8px;} }
+
+    .card{background:var(--surface); border-radius:12px; padding:1.1rem; box-shadow:0 10px 30px var(--card-shadow); border:1px solid rgba(0,0,0,0.03); transition:transform .36s var(--easing), box-shadow .36s var(--easing), opacity .36s var(--easing); will-change:transform,opacity;}
+    :root[data-theme="dark"] .card{border:1px solid rgba(255,255,255,0.03);}
+
+    .card.hover-lift:hover{transform:translateY(-6px); box-shadow:0 20px 50px var(--card-shadow);}
+
+    .cta{display:inline-block; padding:0.6rem 0.9rem; border-radius:10px; background:var(--accent); color:#fff; text-decoration:none; font-weight:700; position:relative; overflow:hidden;}
+    .cta::after{content:""; position:absolute; left:50%; top:50%; width:0; height:0; border-radius:50%; background:rgba(255,255,255,0.08); transform:translate(-50%,-50%); transition:width .4s ease, height .4s ease;}
+    .cta:active::after{ width:250px; height:250px; transition:0s; }
+
+    .muted{color:var(--muted);}
+
+    /* About */
+    .about-section{margin-top:1rem; border-radius:12px; overflow:hidden;}
+    .about-content{display:flex; gap:1rem; align-items:flex-start; padding:1rem;}
+    .about-content img{width:120px; height:120px; border-radius:12px; object-fit:cover; box-shadow:0 8px 20px rgba(0,0,0,0.06);}
+    .about-list{margin-top:0.5rem; padding-left:1.05rem;}
+    .feature{margin-bottom:0.45rem;}
+
+    footer{margin-top:2rem; padding:1rem 0; color:var(--muted); font-size:0.9rem;}
+
+    /* Animations: keyframes */
+    @keyframes popIn {
+      0% { opacity:0; transform:translateY(10px) scale(.98); }
+      100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    @keyframes logoPop {
+      0% { transform:scale(.88) rotate(-6deg); opacity:0.0; }
+      60% { transform:scale(1.06) rotate(4deg); opacity:1; }
+      100% { transform:scale(1) rotate(0); }
+    }
+    @keyframes floaty {
+      0% { transform:translateY(0); }
+      50% { transform:translateY(-4px); }
+      100% { transform:translateY(0); }
+    }
+
+    /* Entrance classes (applied via JS on load) */
+    .reveal { opacity:0; transform:translateY(8px); }
+    .reveal.visible { animation: popIn .6s var(--easing) forwards; }
+    .logo.animate { animation: logoPop .8s var(--easing) forwards; }
+    .avatar.float { animation: floaty 3.6s ease-in-out infinite; }
+
+    /* reduced motion: turn animations off */
+    @media (prefers-reduced-motion: reduce) {
+      .logo.animate, .reveal.visible, .avatar.float, .profile-popup { animation: none !important; transition: none !important; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col items-center p-6">
-  <header class="w-full max-w-4xl mt-8 mb-6 px-4">
-    <nav class="flex justify-between items-center">
-  <h1 class="text-3xl font-bold text-red-600">ExamArchive.AI</h1>
-  <div class="space-x-4">
-    <a class="hover:text-red-500" href="browse.html">Browse</a>
-    <a class="hover:text-red-500" href="upload.html">Upload</a>
-  </div>
-</nav>
-  </header>
-
-  <main class="w-full max-w-2xl p-6 bg-white rounded-2xl shadow-sm">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Find old question papers</h2>
-    <p class="text-gray-600 mb-4">Search by subject, year, or course — start with your college.</p>
-
-    <div class="flex gap-2">
-      <input
-        type="text"
-        placeholder="Search by subject, year, or course..."
-        class="flex-1 p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none"
-      />
-      <button class="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700">Search</button>
-    </div>
-
-    <div class="mt-6 text-center">
-      <p class="text-gray-700 mb-3">Want to contribute?</p>
-      <a href="/upload" class="inline-block px-6 py-3 rounded-xl bg-red-500 text-white hover:bg-red-600">
-        Upload a Paper
+<body>
+  <div class="container">
+    <header>
+      <a class="brand" href="/">
+        <div class="logo" id="siteLogo" aria-hidden="true">EA</div>
+        <div>
+          <div class="site-title">ExamArchive</div>
+          <div class="muted small">Old question papers — community powered</div>
+        </div>
       </a>
-    </div>
-  </main>
 
-  <footer class="mt-8 mb-12 text-center text-sm text-gray-500">
-    Made with ❤️ • Start with Physics papers — Haflong Govt. College
-  </footer>
+      <nav aria-label="Main navigation">
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="/upload.html">Upload</a>
+        <a class="nav-link" href="/browse.html">Browse</a>
+        <a class="nav-link" href="/collections.html">Collections</a>
+      </nav>
+
+      <div class="controls" role="region" aria-label="User controls">
+        <!-- Dark mode toggle -->
+        <button id="darkToggle" class="dark-toggle" aria-pressed="false" title="Toggle dark mode">
+          <div style="display:inline-flex; align-items:center; gap:8px;">
+            <svg id="dmIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path id="dmPath" d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4M12 7a5 5 0 100 10 5 5 0 000-10z"
+                stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div class="toggle-switch" aria-hidden="true"><div class="toggle-thumb"></div></div>
+          </div>
+        </button>
+
+        <!-- Profile / login circle -->
+        <a id="profileLink" class="profile-link" href="/login.html" title="Sign in or view profile">
+          <div class="avatar" id="avatarEl" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 21v-1a4 4 0 00-4-4H8a4 4 0 00-4 4v1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Profile popup (click to show) -->
+        <div id="profilePopup" class="profile-popup" role="dialog" aria-hidden="true" aria-label="Profile">
+          <div class="profile-row">
+            <div style="width:56px; height:56px; border-radius:12px; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,var(--accent), #e64a19); color:#fff; font-weight:800;">
+              <span id="avatarInitial">G</span>
+            </div>
+            <div>
+              <div class="profile-name" id="profileName">Guest User</div>
+              <div class="profile-meta" id="profileMeta">Signed out</div>
+              <div class="rank-badge" id="profileRank">Visitor</div>
+            </div>
+          </div>
+
+          <div style="margin-top:0.8rem; display:flex; gap:0.5rem;">
+            <a href="/login.html" class="cta" style="flex:1; text-align:center;">Sign in</a>
+            <a href="/profile.html" class="nav-link" style="align-self:center; padding:0.4rem 0.6rem;">Profile</a>
+          </div>
+
+          <div style="margin-top:0.8rem; font-size:0.88rem; color:var(--muted);">
+            When signed in your name & role will appear here.
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main class="hero">
+      <section class="card hover-lift reveal" id="mainCard">
+        <h1 style="margin:0 0 0.25rem 0;">Find & share past exam papers</h1>
+        <p class="muted small" style="margin:0 0 1rem 0;">Browse papers by subject, year, and college. Free to use — built with ❤️ and AI.</p>
+
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+          <a class="cta" href="/browse.html">Browse papers</a>
+          <a class="nav-link" href="/upload.html" style="align-self:center; border-radius:10px;">Upload paper</a>
+        </div>
+
+        <hr style="margin:1rem 0; border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(0,0,0,0.04),transparent);">
+
+        <h3 style="margin:0 0 0.4rem 0;">Quick search</h3>
+        <form onsubmit="event.preventDefault(); alert('Search demo — integrate later');" style="display:flex; gap:0.5rem;">
+          <input aria-label="Search papers" placeholder="Search by subject, year, college..." style="flex:1; padding:0.6rem 0.8rem; border-radius:10px; border:1px solid rgba(0,0,0,0.06); background:transparent; color:var(--text);">
+          <button class="cta" type="submit">Search</button>
+        </form>
+
+        <div style="margin-top:1rem; color:var(--muted); font-size:0.92rem;">
+          Popular: Physics • Chemistry • Mathematics • Electronics
+        </div>
+      </section>
+
+      <!-- small profile / activity card -->
+      <aside class="card reveal" style="animation-delay:.08s;" id="asideCard" aria-labelledby="about-heading">
+        <h2 id="about-heading" style="margin-top:0; margin-bottom:0.5rem;">About</h2>
+        <div class="about-section">
+          <div class="about-content">
+            <div style="width:120px; height:120px; border-radius:12px; background:linear-gradient(135deg,var(--accent), #e64a19); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.25rem;">
+              EA
+            </div>
+            <div>
+              <p style="margin:0 0 0.5rem 0;">
+                Welcome to <strong>ExamArchive</strong> — a community-driven archive of past question papers. This site collects, organizes, and shares old exam papers contributed by students and teachers to help everyone revise more effectively.
+              </p>
+
+              <ul class="about-list" aria-hidden="false" style="margin:0; padding-left:1rem; color:var(--muted);">
+                <li class="feature">Upload and view past papers quickly.</li>
+                <li class="feature">Browse by subject, year and college.</li>
+                <li class="feature">Free to use — made with ❤️ and AI.</li>
+              </ul>
+
+              <div style="margin-top:0.8rem;">
+                <a href="/upload.html" class="cta">Upload a paper</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem; font-size:0.9rem;">
+          <strong>Site status:</strong> Open for contributions.
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      © <span id="year"></span> ExamArchive • Built with ❤️ • <span class="muted">Made by community</span>
+    </footer>
+  </div>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Dark mode persistence & toggle
+    const root = document.documentElement;
+    const stored = localStorage.getItem('ea-theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    function applyTheme(theme){
+      if(theme === 'dark'){
+        root.setAttribute('data-theme', 'dark');
+        document.getElementById('darkToggle').setAttribute('aria-pressed','true');
+      } else {
+        root.removeAttribute('data-theme');
+        document.getElementById('darkToggle').setAttribute('aria-pressed','false');
+      }
+    }
+
+    if(stored){
+      applyTheme(stored);
+    } else {
+      applyTheme(prefersDark ? 'dark' : 'light');
+    }
+
+    document.getElementById('darkToggle').addEventListener('click', () => {
+      // If reduced motion requested, do not toggle quickly — still apply theme though
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem('ea-theme', next);
+      // small haptic-like animation on icon (lightweight)
+      const icon = document.getElementById('dmIcon');
+      if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
+        icon.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(14deg)' }, { transform: 'rotate(0)'}], { duration: 320, easing: 'ease-out' });
+      }
+    });
+
+    // Profile popup behavior
+    const profileLink = document.getElementById('profileLink');
+    const popup = document.getElementById('profilePopup');
+    const avatarEl = document.getElementById('avatarEl');
+    const siteLogo = document.getElementById('siteLogo');
+
+    // Logo pop on load
+    if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
+      siteLogo.classList.add('logo', 'animate');
+    }
+
+    // Reveal main cards
+    function revealOnLoad() {
+      const reveals = document.querySelectorAll('.reveal');
+      reveals.forEach((el, i) => {
+        const delay = 120 * i;
+        if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
+          setTimeout(()=> el.classList.add('visible'), delay);
+        } else {
+          el.classList.add('visible');
+        }
+      });
+    }
+    revealOnLoad();
+
+    // Add float to avatar if motion allowed
+    if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
+      avatarEl.classList.add('float');
+    }
+
+    // Show popup on click (but profileLink is still a navigation link).
+    profileLink.addEventListener('click', (e) => {
+      if(e.ctrlKey || e.metaKey) return;
+      e.preventDefault();
+      popup.classList.toggle('visible');
+      const isVisible = popup.classList.contains('visible');
+      popup.setAttribute('aria-hidden', (!isVisible).toString());
+      // small focus for accessibility
+      if(isVisible) popup.querySelector('a').focus();
+    });
+
+    // close popup when clicking outside
+    document.addEventListener('click', (e) => {
+      if(!popup.classList.contains('visible')) return;
+      const inside = popup.contains(e.target) || profileLink.contains(e.target);
+      if(!inside) popup.classList.remove('visible');
+    });
+
+    // close on Escape
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && popup.classList.contains('visible')) popup.classList.remove('visible');
+    });
+
+    // Example: function to set profile info in future (call this when user signs in)
+    function setProfile({name='Guest User', rank='Visitor', avatarUrl=null} = {}) {
+      document.getElementById('profileName').textContent = name;
+      document.getElementById('profileRank').textContent = rank;
+      document.getElementById('avatarInitial').textContent = name ? name.charAt(0).toUpperCase() : 'G';
+      // swap avatar svg with image if avatarUrl present (kept simple)
+      if(avatarUrl) {
+        avatarEl.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = avatarUrl;
+        img.alt = name;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        avatarEl.appendChild(img);
+      }
+    }
+
+    // Expose for future scripts
+    window.EA = { setProfile };
+  </script>
 </body>
 </html>
