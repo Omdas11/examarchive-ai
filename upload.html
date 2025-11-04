@@ -1,14 +1,106 @@
 <!doctype html>
-<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><script src="https://cdn.tailwindcss.com"></script></head>
-<body class="p-6 bg-gray-50">
-  <a href="/" class="text-red-600 font-bold">← Home</a>
-  <main class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow mt-6">
-    <h1 class="text-xl font-semibold mb-3">Upload a Paper</h1>
-    <p class="mb-4">Use the Google Form to upload a PDF. After upload, the admin will add it to the site.</p>
-    <a href="https://forms.gle/YOUR_FORM_LINK" target="_blank" class="px-4 py-3 bg-red-600 text-white rounded-lg inline-block">Open Upload Form</a>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Upload — ExamArchive.AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <header class="max-w-4xl mx-auto mb-6">
+    <nav class="flex justify-between items-center">
+      <a href="index.html" class="text-red-600 font-bold text-xl">ExamArchive.AI</a>
+      <div class="space-x-4">
+        <a href="browse.html" class="hover:text-red-500">Browse</a>
+        <a href="upload.html" class="hover:text-red-500 font-semibold">Upload</a>
+        <a href="about.html" class="hover:text-red-500">About</a>
+      </div>
+    </nav>
+  </header>
 
-    <hr class="my-6" />
-    <h2 class="font-medium">Manual upload (for contributors)</h2>
-    <p class="text-sm text-gray-600">If you prefer, you can attach the PDF in a GitHub issue or email it to: <strong>your-email@example.com</strong></p>
+  <main class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow">
+    <h1 class="text-2xl font-semibold mb-2">Upload a Question Paper</h1>
+    <p class="text-gray-600 mb-4">
+      Please upload a scanned PDF of your question paper.  
+      Submissions will be reviewed before being published on the website.
+    </p>
+
+    <!-- ===== Formspree form ===== -->
+    <form id="uploadForm"
+      action="https://formspree.io/f/xnnokrez"
+      method="POST"
+      enctype="multipart/form-data"
+      class="space-y-4"
+    >
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Your name</span>
+        <input name="name" required class="mt-1 block w-full p-3 border rounded-lg" placeholder="Full name"/>
+      </label>
+
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Email (for follow-up)</span>
+        <input name="email" type="email" required class="mt-1 block w-full p-3 border rounded-lg" placeholder="you@example.com"/>
+      </label>
+
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">College / Department</span>
+        <input name="college" required class="mt-1 block w-full p-3 border rounded-lg" placeholder="Haflong Govt. College — Physics"/>
+      </label>
+
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Subject</span>
+        <input name="subject" required class="mt-1 block w-full p-3 border rounded-lg" placeholder="Mechanics"/>
+      </label>
+
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Year</span>
+        <input name="year" inputmode="numeric" required class="mt-1 block w-full p-3 border rounded-lg" placeholder="2022"/>
+      </label>
+
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Exam type</span>
+        <select name="type" required class="mt-1 block w-full p-3 border rounded-lg">
+          <option value="Final">Final</option>
+          <option value="Midterm">Midterm</option>
+          <option value="Internal">Internal</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Attach PDF</span>
+        <input name="paper" type="file" accept="application/pdf" required class="mt-2 block w-full"/>
+        <p class="text-xs text-gray-500 mt-1">Only PDF files. File size depends on your Formspree plan.</p>
+      </label>
+
+      <div class="flex items-center gap-3">
+        <button type="submit" class="px-4 py-2 rounded-lg bg-red-600 text-white">Upload</button>
+        <button type="reset" class="px-4 py-2 rounded-lg border">Reset</button>
+      </div>
+
+      <div id="message" class="mt-3 text-sm text-gray-700"></div>
+    </form>
+    <!-- ===== end form ===== -->
+
+    <hr class="my-6"/>
+
+    <div class="text-sm text-gray-600">
+      <p><strong>Note:</strong> Uploaded files are sent to the admin for review. Verified papers will appear in the <a href="browse.html" class="text-red-500 underline">Browse</a> section after approval.</p>
+      <p class="mt-2">If you face any issue, please email <strong>omdas11@example.com</strong>.</p>
+    </div>
   </main>
-</body></html>
+
+  <footer class="mt-8 mb-6 text-center text-sm text-gray-500">
+    © 2025 ExamArchive.AI — Made with ❤️ by Om Das
+  </footer>
+
+  <script>
+    // Simple user feedback on submit
+    const form = document.getElementById('uploadForm');
+    const msg = document.getElementById('message');
+    form.addEventListener('submit', () => {
+      msg.textContent = 'Uploading... please wait. You’ll get a success message if the form submits correctly.';
+    });
+  </script>
+</body>
+</html>
