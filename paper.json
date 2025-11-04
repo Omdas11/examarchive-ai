@@ -1,0 +1,20 @@
+[
+  {
+    "id": "p1",
+    "title": "BSc Physics — Semester II — 2022",
+    "college": "Haflong Govt. College",
+    "subject": "Mechanics",
+    "year": 2022,
+    "type": "Final",
+    "fileUrl": "https://example.com/papers/physics_sem2_2022.pdf"
+  },
+  {
+    "id": "p2",
+    "title": "BSc Physics — Semester I — 2021",
+    "college": "Haflong Govt. College",
+    "subject": "Mathematical Physics",
+    "year": 2021,
+    "type": "Midterm",
+    "fileUrl": "https://example.com/papers/mathphys_sem1_2021.pdf"
+  }
+]
