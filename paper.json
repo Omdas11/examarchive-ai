@@ -1,20 +1,29 @@
 [
   {
-    "id": "p1",
-    "title": "BSc Physics — Semester II — 2022",
+    "id": "sample1",
+    "title": "Demo — B.Sc Physics Sem 1 — 2020 (Sample)",
     "college": "Haflong Govt. College",
-    "subject": "Mechanics",
-    "year": 2022,
+    "subject": "Mechanics (Sample)",
+    "year": 2020,
     "type": "Final",
-    "fileUrl": "https://example.com/papers/physics_sem2_2022.pdf"
+    "fileUrl": "https://raw.githubusercontent.com/omdas11/examarchive-ai/main/papers/sample-paper-1.pdf"
   },
   {
-    "id": "p2",
-    "title": "BSc Physics — Semester I — 2021",
+    "id": "sample2",
+    "title": "Demo — B.Sc Physics Sem 2 — 2021 (Sample)",
     "college": "Haflong Govt. College",
-    "subject": "Mathematical Physics",
+    "subject": "Mathematical Physics (Sample)",
     "year": 2021,
     "type": "Midterm",
-    "fileUrl": "https://example.com/papers/mathphys_sem1_2021.pdf"
+    "fileUrl": "https://raw.githubusercontent.com/omdas11/examarchive-ai/main/papers/sample-paper-2.pdf"
+  },
+  {
+    "id": "sample3",
+    "title": "Demo — B.Sc Chemistry Sem 3 — 2022 (Sample)",
+    "college": "Haflong Govt. College",
+    "subject": "Physical Chemistry (Sample)",
+    "year": 2022,
+    "type": "Final",
+    "fileUrl": "https://raw.githubusercontent.com/omdas11/examarchive-ai/main/papers/sample-paper-3.pdf"
   }
 ]
