@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Browse Papers — ExamArchive.AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <header class="max-w-4xl mx-auto mb-6">
+    <nav class="flex justify-between items-center">
+      <a href="/" class="text-red-600 font-bold text-xl">ExamArchive.AI</a>
+      <div class="space-x-4">
+        <a href="/browse.html">Browse</a>
+        <a href="/upload.html">Upload</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-4xl mx-auto bg-white rounded-xl p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold mb-2">Browse Papers</h1>
+    <input id="search" placeholder="Search by subject, year, course..." class="w-full p-3 rounded-lg border mb-4" />
+
+    <div id="list" class="space-y-4"></div>
+  </main>
+
+  <script>
+    async function loadPapers() {
+      const res = await fetch('/papers.json');
+      const papers = await res.json();
+      return papers;
+    }
+
+    function renderList(items) {
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      if (items.length === 0) {
+        list.innerHTML = '<p class="text-gray-500">No papers found.</p>';
+        return;
+      }
+      items.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'p-4 border rounded-lg flex justify-between items-start';
+        card.innerHTML = `
+          <div>
+            <div class="font-semibold text-lg">${p.title}</div>
+            <div class="text-sm text-gray-600">${p.college} • ${p.subject} • ${p.year}</div>
+          </div>
+          <div class="space-x-2">
+            <a href="${p.fileUrl}" target="_blank" class="inline-block px-3 py-1 bg-red-600 text-white rounded-lg">View</a>
+            <a href="${p.fileUrl}" download class="inline-block px-3 py-1 border rounded-lg">Download</a>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    (async () => {
+      const papers = await loadPapers();
+      renderList(papers);
+
+      document.getElementById('search').addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase();
+        const filtered = papers.filter(p =>
+          (p.title + ' ' + p.subject + ' ' + p.college + ' ' + p.year + ' ' + p.type).toLowerCase().includes(q)
+        );
+        renderList(filtered);
+      });
+    })();
+  </script>
+</body>
+</html>
