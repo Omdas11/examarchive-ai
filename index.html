@@ -6,36 +6,46 @@
   <title>ExamArchive — Home</title>
   <meta name="description" content="Community-driven archive of past exam papers." />
   <meta name="theme-color" content="#b71c1c" />
+
   <style>
     :root{
       --accent: #b71c1c;
       --bg: #fff;
-      --surface: #fff;
+      --surface: #fbfbfb;
+      --header-surface: #f2f2f2; /* darker shade for header */
       --muted: #6b6b6b;
       --text: #111;
+      --footer-bg: #e6e6e9; /* grey bottom section */
       --radius: 10px;
     }
     :root[data-theme="dark"]{
       --bg: #070708;
       --surface: #0d0e10;
+      --header-surface: #0b0b0d;
       --muted: #9aa0a6;
       --text: #e8e8e8;
+      --footer-bg: #111214;
     }
 
     html,body{height:100%; margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
     .wrap{max-width:980px; margin:0 auto; padding:1rem;}
-    header{display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.4rem 0;}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.5rem 0;
+      background:var(--header-surface); border-radius:12px; padding:0.6rem; box-shadow:0 6px 20px rgba(0,0,0,0.03);
+    }
     .left-header{display:flex; align-items:center; gap:0.65rem;}
     .brand{display:flex; align-items:center; gap:0.6rem; text-decoration:none; color:inherit;}
     .logo{width:44px; height:44px; border-radius:8px; background:linear-gradient(135deg,var(--accent),#e64a19); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700;}
     .title{font-weight:700; font-size:1rem;}
+    .subtitle{font-size:0.85rem; color:var(--muted);}
+
     /* login on left */
     .login-link{display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none; color:inherit; margin-left:6px;}
     .avatar{width:40px; height:40px; border-radius:50%; background:linear-gradient(180deg,#fff,#f3f3f3); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); box-shadow:0 6px 16px rgba(0,0,0,0.06);}
     :root[data-theme="dark"] .avatar{background:linear-gradient(180deg,#111,#181818);}
 
     nav{display:flex; gap:0.5rem; align-items:center;}
-    .nav-link{font-weight:600; text-decoration:none; padding:0.4rem 0.6rem; border-radius:8px; color:var(--text);}
+    .nav-link{font-weight:600; text-decoration:none; padding:0.45rem 0.6rem; border-radius:8px; color:var(--text);}
     .nav-link:hover{background:rgba(0,0,0,0.04);}
 
     .right-controls{display:flex; align-items:center; gap:0.5rem;}
@@ -45,33 +55,38 @@
     .dm .dot{width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 6px 14px rgba(0,0,0,0.12); transition:transform .18s; }
     :root[data-theme="dark"] .dm .dot{transform:translateX(14px);}
 
-    /* hero */
-    .hero{background:var(--surface); border-radius:var(--radius); padding:1rem; margin-top:0.6rem; box-shadow:0 10px 28px rgba(0,0,0,0.04);}
-    .hero h1{margin:0 0 0.25rem 0; font-size:1.2rem;}
+    /* content */
+    .hero{background:var(--surface); border-radius:10px; padding:1rem; margin-top:0.7rem; box-shadow:0 10px 28px rgba(0,0,0,0.04);}
+    .hero h1{margin:0 0 0.25rem 0; font-size:1.18rem;}
     .hero p{margin:0 0 1rem 0; color:var(--muted); font-size:0.95rem;}
 
-    /* simple old-style search */
     .search-row{display:flex; gap:0.5rem; margin-top:0.6rem;}
     .search-input{flex:1; padding:0.6rem 0.75rem; border-radius:8px; border:1px solid rgba(0,0,0,0.08); font-size:0.95rem; background:transparent; color:var(--text);}
     .search-btn{padding:0.6rem 0.9rem; border-radius:8px; border:0; background:var(--accent); color:#fff; font-weight:700;}
 
-    /* main content */
     main{margin-top:1rem;}
-    .grid{display:grid; grid-template-columns:1fr; gap:1rem;}
+    .grid{display:grid; gap:1rem;}
     .card{background:var(--surface); padding:0.85rem; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.03);}
     h2.section-title{margin:0 0 0.6rem 0; font-size:1rem}
 
     hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,rgba(0,0,0,0.06),transparent); margin:1.1rem 0;}
 
-    /* lists minimal */
     .two-cols{display:flex; gap:1rem; flex-wrap:wrap;}
-    .col{flex:1; min-width:180px;}
+    .col{flex:1; min-width:160px;}
     .small{font-size:0.95rem; color:var(--muted); margin:0.35rem 0;}
     .link{color:var(--accent); text-decoration:none; font-weight:600;}
 
-    footer{margin:1.25rem 0; color:var(--muted); font-size:0.9rem; text-align:center;}
+    /* footer / bottom section in grey */
+    .bottom {
+      margin-top:1rem;
+      background:var(--footer-bg);
+      border-radius:10px;
+      padding:0.9rem;
+      color:var(--muted);
+      text-align:center;
+      font-size:0.95rem;
+    }
 
-    /* responsive */
     @media (min-width:860px){
       .grid{grid-template-columns:1fr;}
     }
@@ -85,25 +100,26 @@
           <div class="logo">EA</div>
           <div>
             <div class="title">ExamArchive</div>
-            <div style="font-size:0.85rem; color:var(--muted);">Old question papers — community</div>
+            <div class="subtitle">Old question papers — community</div>
           </div>
         </a>
 
-        <!-- LOGIN moved to LEFT (links to /login.html) -->
+        <!-- LOGIN on left -->
         <a id="loginLink" class="login-link" href="/login.html" title="Sign in or view profile">
           <div class="avatar" aria-hidden="true">G</div>
           <div style="display:flex; flex-direction:column;">
-            <div style="font-weight:700; font-size:0.95rem;">Guest User</div>
-            <div style="font-size:0.82rem; color:var(--muted);">Visitor</div>
+            <div id="loginName" style="font-weight:700; font-size:0.95rem;">Guest User</div>
+            <div id="loginRank" style="font-size:0.82rem; color:var(--muted);">Visitor</div>
           </div>
         </a>
       </div>
 
       <div style="display:flex; align-items:center; gap:0.6rem;">
         <nav aria-label="Main navigation">
-          <a class="nav-link" href="#about">About</a>
-          <a class="nav-link" href="/upload.html">Upload</a>
+          <!-- linked pages -->
           <a class="nav-link" href="/browse.html">Browse</a>
+          <a class="nav-link" href="/upload.html">Upload</a>
+          <a class="nav-link" href="/about.html">About</a>
         </nav>
 
         <div class="right-controls" aria-hidden="false">
@@ -114,10 +130,10 @@
       </div>
     </header>
 
-    <!-- HERO with old-style simple search -->
+    <!-- HERO -->
     <section class="hero card" aria-labelledby="hero-heading">
       <h1 id="hero-heading">Find & share past exam papers</h1>
-      <p>Search by subject, year, or college. Free and community-powered.</p>
+      <p>Simple search — type subject, year or college and hit Search.</p>
 
       <form onsubmit="event.preventDefault(); alert('Search demo — integrate later');" class="search-row" role="search" aria-label="Search papers">
         <input class="search-input" type="search" placeholder="Physics, 2022, College name..." aria-label="Search papers">
@@ -129,25 +145,24 @@
 
     <main>
       <div class="grid">
-        <!-- content card(s) - minimal -->
         <div class="card">
           <h2 class="section-title">Latest uploads</h2>
           <p class="small">No recent uploads yet. Be the first to <a class="link" href="/upload.html">upload a paper</a>.</p>
         </div>
 
-        <!-- ABOUT + other information below, separated by horizontal lines -->
         <hr class="sep">
 
-        <section id="about" class="card" aria-labelledby="about-title">
-          <h2 id="about-title" class="section-title">About</h2>
-          <p class="small">ExamArchive is a community-driven collection of past exam papers contributed by students and teachers to help revision and exam preparation.</p>
+        <section id="about-preview" class="card" aria-labelledby="about-title">
+          <h2 id="about-title" class="section-title">About (preview)</h2>
+          <p class="small">ExamArchive is a community-driven collection of past exam papers submitted by students and teachers to help revision and exam preparation. For full details see the About page.</p>
+          <p class="small"><a class="link" href="/about.html">Read full About</a></p>
         </section>
 
         <hr class="sep">
 
         <section class="card" aria-labelledby="sources-title">
           <h2 id="sources-title" class="section-title">Sources</h2>
-          <p class="small">Contributed papers come from students, archived college notices, and volunteer uploads. If you own content that should be removed, contact us.</p>
+          <p class="small">Community contributions, archived college notices, volunteer uploads. If you own content that should be removed, contact us.</p>
         </section>
 
         <hr class="sep">
@@ -172,27 +187,25 @@
         <section class="card" aria-labelledby="social-title">
           <h2 id="social-title" class="section-title">Social</h2>
           <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-            <!-- Replace hrefs with your real group/account links -->
             <a class="link" href="https://wa.me/your-number" aria-label="WhatsApp">WhatsApp</a>
             <a class="link" href="https://instagram.com/your-handle" aria-label="Instagram">Instagram</a>
             <a class="link" href="https://facebook.com/your-page" aria-label="Facebook">Facebook</a>
             <a class="link" href="https://twitter.com/your-handle" aria-label="Twitter">Twitter</a>
           </div>
         </section>
-
       </div>
     </main>
 
-    <footer>
-      © <span id="year"></span> ExamArchive • Made by community
-    </footer>
+    <div class="bottom">
+      © <span id="year"></span> ExamArchive • Made by community • <a class="link" href="/about.html">About</a>
+    </div>
   </div>
 
   <script>
-    // year
+    // set year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // dark mode toggle (compact)
+    // dark mode toggle
     const root = document.documentElement;
     const stored = localStorage.getItem('ea-theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -209,22 +222,12 @@
       document.getElementById('darkToggle').setAttribute('aria-pressed', (next==='dark').toString());
     });
 
-    // login link left — keep for future hooking; simple accessible behavior: focusable
-    document.getElementById('loginLink').addEventListener('click', (e)=> {
-      // allow default navigation to /login.html — this link currently leads to a placeholder
-    });
-
-    // Expose small API to set profile later
+    // small API to set profile later
     function setProfile({name='Guest User', rank='Visitor', avatarUrl=null} = {}) {
-      const loginLink = document.getElementById('loginLink');
-      // update text nodes
-      const nameEl = loginLink.querySelector('div > div:first-child');
-      const rankEl = loginLink.querySelector('div > div:last-child');
-      if(nameEl) nameEl.textContent = name;
-      if(rankEl) rankEl.textContent = rank;
-      // avatar replaced if avatarUrl provided
+      document.getElementById('loginName').textContent = name;
+      document.getElementById('loginRank').textContent = rank;
       if(avatarUrl) {
-        const av = loginLink.querySelector('.avatar');
+        const av = document.querySelector('.avatar');
         av.innerHTML = '';
         const img = document.createElement('img');
         img.src = avatarUrl; img.alt = name;
