@@ -25,7 +25,7 @@
       --card-shadow: rgba(0,0,0,0.6);
     }
 
-    /* Respect user motion preferences */
+    /* Respect user motion preferences via media query (no JS required) */
     @media (prefers-reduced-motion: reduce) {
       :root { --disable-animations: 1; }
     }
@@ -48,9 +48,6 @@
     :root[data-theme="dark"] .toggle-switch{background:linear-gradient(90deg,#222,#121212);}
     :root[data-theme="dark"] .toggle-thumb{transform:translateX(18px) rotate(10deg); box-shadow:0 8px 22px rgba(0,0,0,0.28);}
 
-    /* small press animation for button */
-    .dark-toggle:active .toggle-thumb{transform:scale(.96);}
-
     /* Profile circle */
     .profile-link{position:relative; display:inline-block; text-decoration:none; color:inherit;}
     .avatar{
@@ -61,7 +58,7 @@
 
     .profile-link:hover .avatar{transform:translateY(-4px) scale(1.03); box-shadow:0 12px 30px rgba(0,0,0,0.18);}
 
-    /* small profile popup */
+    /* Profile popup */
     .profile-popup{
       position:absolute; right:0; top:64px; min-width:220px; background:var(--surface); border-radius:12px; box-shadow:0 18px 40px var(--card-shadow); padding:0.85rem; display:none; z-index:40; transform-origin:top right; opacity:0; transform:translateY(-7px) scale(.98);
       border:1px solid rgba(0,0,0,0.03); transition:opacity .26s var(--easing), transform .26s var(--easing);
@@ -73,7 +70,7 @@
     .profile-meta{font-size:0.85rem; color:var(--muted);}
     .rank-badge{display:inline-block; margin-top:0.35rem; padding:0.25rem 0.5rem; border-radius:999px; background:rgba(0,0,0,0.04); font-size:0.78rem; color:var(--muted);}
 
-    /* Hero & layout */
+    /* Layout */
     .hero{display:grid; grid-template-columns:1fr 380px; gap:1.25rem; align-items:start; margin-top:1.25rem;}
     @media (max-width:920px){ .hero{grid-template-columns:1fr;} .profile-popup{right:8px; left:8px;} }
 
@@ -91,13 +88,12 @@
     /* About */
     .about-section{margin-top:1rem; border-radius:12px; overflow:hidden;}
     .about-content{display:flex; gap:1rem; align-items:flex-start; padding:1rem;}
-    .about-content img{width:120px; height:120px; border-radius:12px; object-fit:cover; box-shadow:0 8px 20px rgba(0,0,0,0.06);}
     .about-list{margin-top:0.5rem; padding-left:1.05rem;}
     .feature{margin-bottom:0.45rem;}
 
     footer{margin-top:2rem; padding:1rem 0; color:var(--muted); font-size:0.9rem;}
 
-    /* Animations: keyframes */
+    /* Animations */
     @keyframes popIn {
       0% { opacity:0; transform:translateY(10px) scale(.98); }
       100% { opacity:1; transform:translateY(0) scale(1); }
@@ -113,13 +109,11 @@
       100% { transform:translateY(0); }
     }
 
-    /* Entrance classes (applied via JS on load) */
     .reveal { opacity:0; transform:translateY(8px); }
     .reveal.visible { animation: popIn .6s var(--easing) forwards; }
     .logo.animate { animation: logoPop .8s var(--easing) forwards; }
     .avatar.float { animation: floaty 3.6s ease-in-out infinite; }
 
-    /* reduced motion: turn animations off */
     @media (prefers-reduced-motion: reduce) {
       .logo.animate, .reveal.visible, .avatar.float, .profile-popup { animation: none !important; transition: none !important; }
     }
@@ -165,7 +159,6 @@
           </div>
         </a>
 
-        <!-- Profile popup (click to show) -->
         <div id="profilePopup" class="profile-popup" role="dialog" aria-hidden="true" aria-label="Profile">
           <div class="profile-row">
             <div style="width:56px; height:56px; border-radius:12px; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,var(--accent), #e64a19); color:#fff; font-weight:800;">
@@ -214,7 +207,6 @@
         </div>
       </section>
 
-      <!-- small profile / activity card -->
       <aside class="card reveal" style="animation-delay:.08s;" id="asideCard" aria-labelledby="about-heading">
         <h2 id="about-heading" style="margin-top:0; margin-bottom:0.5rem;">About</h2>
         <div class="about-section">
@@ -252,10 +244,14 @@
   </div>
 
   <script>
-    // Set current year
+    // ---------- Utilities ----------
+    // Correctly detect reduced motion preference (works on mobile)
+    const reduceMotion = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      || (getComputedStyle(document.documentElement).getPropertyValue('--disable-animations') || '').trim() === '1';
+
+    // ---------- Basic UI setup ----------
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Dark mode persistence & toggle
     const root = document.documentElement;
     const stored = localStorage.getItem('ea-theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -277,77 +273,74 @@
     }
 
     document.getElementById('darkToggle').addEventListener('click', () => {
-      // If reduced motion requested, do not toggle quickly — still apply theme though
       const isDark = root.getAttribute('data-theme') === 'dark';
       const next = isDark ? 'light' : 'dark';
       applyTheme(next);
       localStorage.setItem('ea-theme', next);
-      // small haptic-like animation on icon (lightweight)
-      const icon = document.getElementById('dmIcon');
-      if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
-        icon.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(14deg)' }, { transform: 'rotate(0)'}], { duration: 320, easing: 'ease-out' });
+
+      // small icon animation only if motion not reduced
+      if(!reduceMotion) {
+        try {
+          document.getElementById('dmIcon').animate([{ transform: 'rotate(0)' }, { transform: 'rotate(14deg)' }, { transform: 'rotate(0)'}], { duration: 320, easing: 'ease-out' });
+        } catch(e){}
       }
     });
 
-    // Profile popup behavior
+    // ---------- Animations & profile popup ----------
     const profileLink = document.getElementById('profileLink');
     const popup = document.getElementById('profilePopup');
     const avatarEl = document.getElementById('avatarEl');
     const siteLogo = document.getElementById('siteLogo');
 
-    // Logo pop on load
-    if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
-      siteLogo.classList.add('logo', 'animate');
+    // Logo entrance
+    if(!reduceMotion) {
+      siteLogo.classList.add('animate');
     }
 
-    // Reveal main cards
+    // Reveal cards on load (mobile-safe)
     function revealOnLoad() {
       const reveals = document.querySelectorAll('.reveal');
       reveals.forEach((el, i) => {
         const delay = 120 * i;
-        if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
+        if(!reduceMotion) {
           setTimeout(()=> el.classList.add('visible'), delay);
         } else {
-          el.classList.add('visible');
+          el.classList.add('visible'); // show without animation
         }
       });
     }
     revealOnLoad();
 
-    // Add float to avatar if motion allowed
-    if(!document.documentElement.style.getPropertyValue('--disable-animations')) {
-      avatarEl.classList.add('float');
-    }
+    // Avatar float if allowed
+    if(!reduceMotion) avatarEl.classList.add('float');
 
-    // Show popup on click (but profileLink is still a navigation link).
+    // Profile popup: toggle on click (keeps link for future navigation)
     profileLink.addEventListener('click', (e) => {
-      if(e.ctrlKey || e.metaKey) return;
+      if(e.ctrlKey || e.metaKey) return; // allow new-tab if user requests
       e.preventDefault();
       popup.classList.toggle('visible');
       const isVisible = popup.classList.contains('visible');
       popup.setAttribute('aria-hidden', (!isVisible).toString());
-      // small focus for accessibility
-      if(isVisible) popup.querySelector('a').focus();
+      if(isVisible) popup.querySelector('a')?.focus();
     });
 
-    // close popup when clicking outside
+    // Close popup when tapping outside
     document.addEventListener('click', (e) => {
       if(!popup.classList.contains('visible')) return;
       const inside = popup.contains(e.target) || profileLink.contains(e.target);
       if(!inside) popup.classList.remove('visible');
     });
 
-    // close on Escape
+    // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if(e.key === 'Escape' && popup.classList.contains('visible')) popup.classList.remove('visible');
     });
 
-    // Example: function to set profile info in future (call this when user signs in)
+    // Example API for future login hookup
     function setProfile({name='Guest User', rank='Visitor', avatarUrl=null} = {}) {
       document.getElementById('profileName').textContent = name;
       document.getElementById('profileRank').textContent = rank;
       document.getElementById('avatarInitial').textContent = name ? name.charAt(0).toUpperCase() : 'G';
-      // swap avatar svg with image if avatarUrl present (kept simple)
       if(avatarUrl) {
         avatarEl.innerHTML = '';
         const img = document.createElement('img');
@@ -360,7 +353,6 @@
       }
     }
 
-    // Expose for future scripts
     window.EA = { setProfile };
   </script>
 </body>
