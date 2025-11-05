@@ -10,47 +10,58 @@
     }
     *{box-sizing:border-box}
     body{font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--text);margin:0}
-    header{background:var(--header);padding:14px 20px;color:#fff;display:flex;align-items:center;gap:18px}
-    header a{color:#fff;text-decoration:none;font-weight:600}
-    .wrap{max-width:1100px;margin:22px auto;padding:0 18px}
-    .searchbar{display:flex;gap:12px;margin:16px 0}
-    .searchbar input,.searchbar select{padding:10px;border-radius:8px;border:1px solid #ddd;background:#fff;flex:1}
+    /* header (index-like) */
+    header{background:var(--header);padding:12px 18px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand a{color:#fff;text-decoration:none;font-weight:700;font-size:18px}
+    nav a{color:#fff;text-decoration:none;margin-right:12px;font-weight:600}
+    .wrap{max-width:1100px;margin:18px auto;padding:0 18px}
+    .search-area{display:flex;gap:10px;margin:14px 0;align-items:center}
+    .search-area input{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd;background:#fff}
+    .search-area button{padding:10px 14px;border-radius:8px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
-    .meta{font-size:13px;color:#666;margin-bottom:8px}
-    .title{font-weight:700;margin:6px 0}
-    .btn{display:inline-block;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:600}
+    .card{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .meta{font-size:13px;color:#666;margin-bottom:6px}
+    .title{font-weight:700;margin-bottom:8px}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
     .btn-view{background:linear-gradient(90deg,var(--accent),#ff6659);color:#fff}
     .btn-download{border:1px solid #ddd;color:var(--accent);background:#fff;margin-left:8px}
     footer{max-width:1100px;margin:28px auto;padding:18px;background:var(--footer);text-align:center;color:#666}
     .small{font-size:13px}
-    code{background:#f4f4f6;padding:2px 6px;border-radius:4px;font-size:12px}
     .notice{padding:10px;border-radius:8px;background:#fff6f6;border:1px solid #ffd6d6;color:#7a1a1a}
+    .hidden{display:none}
   </style>
 </head>
 <body>
   <header>
-    <a href="index.html" style="font-size:20px">ExamArchive</a>
-    <nav style="margin-left:10px">
-      <a href="browse.html">Browse</a> · <a href="collection.html">Collection</a> · <a href="upload.html">Upload</a> · <a href="about.html">About</a>
-    </nav>
+    <div class="brand">
+      <a href="./index.html">ExamArchive</a>
+      <nav>
+        <a href="./browse.html">Browse</a>
+        <a href="./collection.html">Collection</a>
+        <a href="./upload.html">Upload</a>
+        <a href="./about.html">About</a>
+      </nav>
+    </div>
+    <!-- optional small helper on header -->
+    <div style="color:#dcdcdc;font-size:13px">CBSC Papers</div>
   </header>
 
   <main class="wrap">
     <h1>Browse papers</h1>
-    <p class="small">Search, filter and preview uploaded papers (data from <code>./papers/papers.json</code>).</p>
+    <p class="small">Searching from <code>papers.json</code>. Use the input + Search button (or press Enter).</p>
 
-    <div class="searchbar">
+    <div class="search-area">
       <input id="q" placeholder="Search by title, course code, year, subject..." />
       <select id="yearFilter"><option value="">All years</option></select>
       <select id="typeFilter"><option value="">All types</option><option>HCC</option><option>SEC</option><option>General</option></select>
+      <button id="searchBtn">Search</button>
     </div>
 
     <div id="list" class="grid"></div>
 
-    <div id="error" style="margin-top:18px;display:none">
-      <div class="notice">Could not load <code>./papers/papers.json</code>. Check the file exists and is valid JSON.</div>
-    </div>
+    <div id="error" class="notice hidden" style="margin-top:14px"></div>
+    <div style="margin-top:10px" class="small">Tip: If nothing appears, check path: <code>./papers/papers.json</code> or <code>./papers/index.json</code> or <code>./papers.json</code></div>
   </main>
 
   <footer>
@@ -58,40 +69,55 @@
   </footer>
 
   <script>
-    const JSON_PATH = './papers/papers.json';
-    let PAPERS = [];
+    // Try multiple common paths for your JSON so it's forgiving
+    const TRY_PATHS = [
+      './papers/papers.json',
+      './papers/index.json',
+      './papers.json'
+    ];
 
     const listEl = document.getElementById('list');
-    const errEl = document.getElementById('error');
+    const errorEl = document.getElementById('error');
     const qEl = document.getElementById('q');
-    const yearFilter = document.getElementById('yearFilter');
-    const typeFilter = document.getElementById('typeFilter');
+    const yEl = document.getElementById('yearFilter');
+    const tEl = document.getElementById('typeFilter');
+    const searchBtn = document.getElementById('searchBtn');
 
-    // fill year dropdown from available years
+    let PAPERS = [];
+
+    // Attempt to fetch JSON from the list of possible paths
+    async function fetchPapers(){
+      for(const p of TRY_PATHS){
+        try {
+          const res = await fetch(p, { cache: 'no-store' });
+          if(!res.ok) { console.warn('fetch not ok for', p, res.status); continue; }
+          const data = await res.json();
+          const arr = Array.isArray(data) ? data : (data.papers || []);
+          console.log('Loaded papers from', p, arr.length, 'items');
+          return arr;
+        } catch (err) {
+          console.warn('failed fetch', p, err);
+        }
+      }
+      throw new Error('Could not load papers.json from any known path: ' + TRY_PATHS.join(', '));
+    }
+
     function fillYearOptions(arr){
       const years = Array.from(new Set(arr.map(p=>{
-        // try to extract year from meta or title or filename
-        const fromMeta = (p.meta||'').match(/\\b(19|20)\\d{2}\\b/);
-        if(fromMeta) return fromMeta[0];
-        const fromTitle = (p.title||'').match(/\\b(19|20)\\d{2}\\b/);
-        if(fromTitle) return fromTitle[0];
-        const fromFile = (p.file||'').match(/\\b(19|20)\\d{2}\\b/);
-        if(fromFile) return fromFile[0];
-        return null;
+        const m = (p.meta||'').match(/\b(19|20)\d{2}\b/) || (p.title||'').match(/\b(19|20)\d{2}\b/) || (p.file||'').match(/\b(19|20)\d{2}\b/);
+        return m ? m[0] : null;
       }).filter(Boolean)));
       years.sort((a,b)=>b-a);
       years.forEach(y=>{
-        const opt = document.createElement('option');
-        opt.value = y; opt.textContent = y;
-        yearFilter.appendChild(opt);
+        const opt = document.createElement('option'); opt.value = y; opt.textContent = y; yEl.appendChild(opt);
       });
     }
 
     function render(items){
-      if(!items || items.length===0){
+      if(!items || items.length === 0){
         listEl.innerHTML = '<div class="small">No papers found.</div>'; return;
       }
-      listEl.innerHTML = items.map(p=>`
+      listEl.innerHTML = items.map(p => `
         <article class="card">
           <div class="meta">${escapeHtml(p.meta||'')}</div>
           <div class="title">${escapeHtml(p.title||p.file||'Untitled')}</div>
@@ -105,10 +131,10 @@
 
     function doFilter(){
       const term = qEl.value.trim().toLowerCase();
-      const yr = yearFilter.value;
-      const type = typeFilter.value;
+      const yr = yEl.value;
+      const type = tEl.value;
       const out = PAPERS.filter(p=>{
-        if(yr && !((p.meta||'') + ' ' + (p.title||'') + ' ' + (p.file||'')).includes(yr)) return false;
+        if(yr && !( (p.meta||'') + ' ' + (p.title||'') + ' ' + (p.file||'') ).includes(yr)) return false;
         if(type && !(p.meta||'').includes(type)) return false;
         if(!term) return true;
         const hay = ((p.title||'') + ' ' + (p.meta||'') + ' ' + (p.file||'')).toLowerCase();
@@ -117,33 +143,36 @@
       render(out);
     }
 
-    qEl.addEventListener('input', doFilter);
-    yearFilter.addEventListener('change', doFilter);
-    typeFilter.addEventListener('change', doFilter);
-
-    // If page opened with ?q=PHSHCC-201T etc, prefill search
-    function applyQueryParam(){
-      const params = new URLSearchParams(location.search);
-      const q = params.get('q');
-      if(q){ qEl.value = q; }
-    }
-
-    fetch(JSON_PATH).then(r=>{
-      if(!r.ok) throw new Error('Failed to fetch');
-      return r.json();
-    }).then(data=>{
-      PAPERS = Array.isArray(data) ? data : (data.papers||[]);
-      fillYearOptions(PAPERS);
-      applyQueryParam();
-      doFilter();
-    }).catch(e=>{
-      console.error(e);
-      errEl.style.display = 'block';
+    searchBtn.addEventListener('click', doFilter);
+    qEl.addEventListener('keydown', function(e){
+      if(e.key === 'Enter') doFilter();
     });
+    yEl.addEventListener('change', doFilter);
+    tEl.addEventListener('change', doFilter);
 
-    function escapeHtml(s){
-      if(!s) return '';
-      return String(s).replace(/[&<>"'`=\/]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'})[ch]));
+    // If URL contains ?q=... prefill search
+    (function applyQuery(){
+      const q = new URLSearchParams(location.search).get('q');
+      if(q) qEl.value = q;
+    })();
+
+    // boot
+    (async function init(){
+      try {
+        PAPERS = await fetchPapers();
+        fillYearOptions(PAPERS);
+        // initial render (applies query param if present)
+        doFilter();
+      } catch (err) {
+        console.error(err);
+        errorEl.classList.remove('hidden');
+        errorEl.textContent = 'Error loading papers JSON. See console for details.';
+      }
+    })();
+
+    function escapeHtml(str){
+      if(!str) return '';
+      return String(str).replace(/[&<>"'`=\/]/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'})[s]);
     }
   </script>
 </body>
