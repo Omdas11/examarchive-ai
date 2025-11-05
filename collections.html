@@ -1,100 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Collections | ExamArchive</title>
-<style>
-:root {
-  --accent: #d32f2f;
-  --bg: #f7f7f8;
-  --card: #fff;
-  --text: #111;
-  --muted: #666;
-}
-body { margin:0; background:var(--bg); font-family: Inter, system-ui, sans-serif; color:var(--text); }
-header {
-  background:#222; color:#fff; padding:10px 20px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-header h1 { margin:0; font-size:1.1rem; }
-nav a { color:#fff; text-decoration:none; margin-left:14px; font-size:14px; }
-nav a:hover { text-decoration:underline; }
-
-.container { max-width:1000px; margin:20px auto; padding:0 15px; }
-.grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
-.card {
-  background:var(--card); border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.05);
-  padding:12px;
-}
-.title { font-weight:600; color:var(--accent); margin-bottom:6px; font-size:15px; }
-.meta { color:var(--muted); font-size:13px; margin-bottom:8px; }
-.remove-btn {
-  background:none; border:1px solid var(--accent); color:var(--accent);
-  border-radius:6px; padding:4px 8px; font-size:13px; cursor:pointer;
-}
-.remove-btn:hover { background:var(--accent); color:#fff; }
-footer {
-  background:#eee; padding:10px; text-align:center; color:#555; font-size:13px; margin-top:30px;
-}
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ExamArchive — Collections</title>
+  <style>
+    :root{--accent:#d32f2f;--header:#0f1113;--bg:#fbfbfd;--card:#fff;--footer:#f3f3f5;--text:#222}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--text);margin:0}
+    header{background:var(--header);padding:14px 20px;color:#fff;display:flex;align-items:center;gap:18px}
+    header a{color:#fff;text-decoration:none;font-weight:600}
+    .wrap{max-width:1100px;margin:22px auto;padding:0 18px}
+    .grid{display:flex;gap:12px;flex-wrap:wrap}
+    .collection-card{background:var(--card);border-radius:12px;padding:14px;width:calc(33% - 8px);min-width:220px;box-shadow:0 6px 16px rgba(0,0,0,0.06)}
+    .collection-card h3{margin:6px 0}
+    .small{font-size:13px;color:#666}
+    @media(max-width:820px){.collection-card{width:48%}}
+    @media(max-width:520px){.collection-card{width:100%}}
+    footer{max-width:1100px;margin:28px auto;padding:18px;background:var(--footer);text-align:center;color:#666}
+    .notice{padding:10px;border-radius:8px;background:#fff6f6;border:1px solid #ffd6d6;color:#7a1a1a}
+  </style>
 </head>
 <body>
+  <header>
+    <a href="index.html" style="font-size:20px">ExamArchive</a>
+    <nav style="margin-left:10px">
+      <a href="browse.html">Browse</a> · <a href="collection.html">Collection</a> · <a href="upload.html">Upload</a>
+    </nav>
+  </header>
 
-<header>
-  <h1>ExamArchive</h1>
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/collection.html">Collections</a>
-    <a href="/about.html">About</a>
-  </nav>
-</header>
+  <main class="wrap">
+    <h1>Collections</h1>
+    <p class="small">Auto-grouped by course code (from <code>meta</code> or inferred from title/file).</p>
 
-<div class="container">
-  <h2 style="color:var(--accent);font-size:1.2rem;">Your Saved Papers</h2>
-  <div id="grid" class="grid"></div>
-  <div id="empty" style="text-align:center;color:#777;margin-top:30px;">No saved papers yet.</div>
-</div>
+    <div id="collections" class="grid"></div>
 
-<footer>© 2025 ExamArchive | Powered by AI</footer>
+    <div id="err" style="margin-top:18px;display:none">
+      <div class="notice">Could not load <code>./papers/papers.json</code>. Make sure the file exists and is valid.</div>
+    </div>
+  </main>
 
-<script>
-const STORAGE_KEY = "saved_papers";
+  <footer>
+    <div>Made with ❤️ · ExamArchive</div>
+  </footer>
 
-(async function() {
-  const res = await fetch("/mains/paper.json");
-  const papers = await res.json();
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  <script>
+    const JSON_PATH = './papers/papers.json';
+    const container = document.getElementById('collections');
+    const errBox = document.getElementById('err');
 
-  const grid = document.getElementById("grid");
-  const empty = document.getElementById("empty");
+    fetch(JSON_PATH).then(r=>{
+      if(!r.ok) throw new Error('fetch failed');
+      return r.json();
+    }).then(data=>{
+      const papers = Array.isArray(data) ? data : (data.papers||[]);
+      if(papers.length === 0){
+        container.innerHTML = '<div class="small">No papers available.</div>'; return;
+      }
 
-  const list = papers.filter(p => saved.includes(p.id));
-  if(!list.length){ empty.style.display="block"; return; }
-  empty.style.display="none";
+      // group function: prefer first token of meta (before ·), or course code from filename like 2023-PHSHCC-201T.pdf => PHSHCC-201T
+      const groups = {};
+      for(const p of papers){
+        let key = 'Others';
+        if(p.meta){
+          key = (p.meta.split('·')[0] || '').trim() || key;
+        } else if(p.title){
+          key = (p.title.split('—')[0] || '').trim() || key;
+        } else if(p.file){
+          const m = (p.file.match(/\\b(19|20)\\d{2}-([A-Z0-9-]+)\\.pdf$/i) || p.file.match(/([A-Z]{3,}[A-Z0-9-]*\\d*T)\\.pdf/i));
+          if(m && m[2]) key = m[2];
+        }
+        if(!key) key = 'Others';
+        if(!groups[key]) groups[key] = [];
+        groups[key].push(p);
+      }
 
-  list.forEach(p=>{
-    const card = document.createElement("div");
-    card.className="card";
-    const btn = document.createElement("button");
-    btn.className="remove-btn";
-    btn.textContent="Remove";
-    btn.onclick=()=>{
-      saved.splice(saved.indexOf(p.id),1);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-      card.remove();
-      if(!grid.children.length) empty.style.display="block";
-    };
-    card.innerHTML = `
-      <div class="title"><a href="${p.file}" target="_blank" style="text-decoration:none;color:var(--accent)">${p.title}</a></div>
-      <div class="meta">${p.subject || ""} · ${p.paper_type || ""} · ${p.university || ""} · ${p.year || ""}</div>
-    `;
-    card.appendChild(btn);
-    grid.appendChild(card);
-  });
-})();
-</script>
+      // render
+      const html = Object.entries(groups).map(([code, list]) => `
+        <section class="collection-card">
+          <h3>${escapeHtml(code)}</h3>
+          <div class="small">${list.length} paper(s)</div>
+          <div style="margin-top:10px">
+            <a class="small" href="browse.html?q=${encodeURIComponent(code)}">Open collection →</a>
+          </div>
+        </section>
+      `).join('');
+      container.innerHTML = html;
+    }).catch(err=>{
+      console.error(err);
+      errBox.style.display = 'block';
+    });
 
+    function escapeHtml(s){
+      if(!s) return '';
+      return String(s).replace(/[&<>"'`=\/]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'})[ch]));
+    }
+  </script>
 </body>
 </html>
