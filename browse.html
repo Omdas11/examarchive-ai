@@ -1,159 +1,150 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Browse | ExamArchive</title>
-<style>
-:root {
-  --accent: #d32f2f;
-  --bg: #f7f7f8;
-  --card: #fff;
-  --text: #111;
-  --muted: #666;
-}
-body { margin:0; background:var(--bg); font-family: Inter, system-ui, sans-serif; color:var(--text); }
-header {
-  background:#222; color:#fff; padding:10px 20px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-header h1 { margin:0; font-size:1.1rem; letter-spacing:0.5px; }
-nav a {
-  color:#fff; text-decoration:none; margin-left:14px; font-size:14px;
-}
-nav a:hover { text-decoration:underline; }
-
-.container { max-width:1000px; margin:20px auto; padding:0 15px; }
-.controls { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:15px; }
-input, select {
-  padding:8px 10px; border:1px solid #ddd; border-radius:6px; font-size:14px;
-}
-button { border:0; background:var(--accent); color:#fff; border-radius:6px; padding:8px 12px; cursor:pointer; }
-button:hover { opacity:0.9; }
-
-.grid {
-  display:grid; gap:12px;
-  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
-}
-.card {
-  background:var(--card); border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.05);
-  padding:12px; display:flex; flex-direction:column; justify-content:space-between;
-}
-.title { font-weight:600; color:var(--accent); margin-bottom:6px; font-size:15px; }
-.meta { color:var(--muted); font-size:13px; margin-bottom:8px; }
-.tags { display:flex; flex-wrap:wrap; gap:5px; }
-.tag {
-  background:#eee; padding:3px 8px; border-radius:20px; font-size:12px; color:var(--text);
-}
-.save-btn {
-  background:none; border:1px solid var(--accent); color:var(--accent);
-  border-radius:6px; padding:4px 8px; font-size:13px; cursor:pointer; align-self:flex-start;
-}
-.save-btn.saved { background:var(--accent); color:#fff; }
-
-footer {
-  background:#eee; padding:10px; text-align:center; color:#555; font-size:13px; margin-top:30px;
-}
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ExamArchive — Browse</title>
+  <style>
+    :root{
+      --accent:#d32f2f; --header:#0f1113; --bg:#fbfbfd; --card:#fff; --footer:#f3f3f5; --text:#222;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--text);margin:0}
+    header{background:var(--header);padding:14px 20px;color:#fff;display:flex;align-items:center;gap:18px}
+    header a{color:#fff;text-decoration:none;font-weight:600}
+    .wrap{max-width:1100px;margin:22px auto;padding:0 18px}
+    .searchbar{display:flex;gap:12px;margin:16px 0}
+    .searchbar input,.searchbar select{padding:10px;border-radius:8px;border:1px solid #ddd;background:#fff;flex:1}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .meta{font-size:13px;color:#666;margin-bottom:8px}
+    .title{font-weight:700;margin:6px 0}
+    .btn{display:inline-block;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:600}
+    .btn-view{background:linear-gradient(90deg,var(--accent),#ff6659);color:#fff}
+    .btn-download{border:1px solid #ddd;color:var(--accent);background:#fff;margin-left:8px}
+    footer{max-width:1100px;margin:28px auto;padding:18px;background:var(--footer);text-align:center;color:#666}
+    .small{font-size:13px}
+    code{background:#f4f4f6;padding:2px 6px;border-radius:4px;font-size:12px}
+    .notice{padding:10px;border-radius:8px;background:#fff6f6;border:1px solid #ffd6d6;color:#7a1a1a}
+  </style>
 </head>
 <body>
+  <header>
+    <a href="index.html" style="font-size:20px">ExamArchive</a>
+    <nav style="margin-left:10px">
+      <a href="browse.html">Browse</a> · <a href="collection.html">Collection</a> · <a href="upload.html">Upload</a> · <a href="about.html">About</a>
+    </nav>
+  </header>
 
-<header>
-  <h1>ExamArchive</h1>
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/collection.html">Collections</a>
-    <a href="/about.html">About</a>
-  </nav>
-</header>
+  <main class="wrap">
+    <h1>Browse papers</h1>
+    <p class="small">Search, filter and preview uploaded papers (data from <code>./papers/papers.json</code>).</p>
 
-<div class="container">
-  <div class="controls">
-    <input id="search" type="search" placeholder="Search papers..." />
-    <select id="filter-year"><option value="">All years</option></select>
-    <select id="filter-type"><option value="">All types</option></select>
-    <button id="clear">Clear</button>
-  </div>
+    <div class="searchbar">
+      <input id="q" placeholder="Search by title, course code, year, subject..." />
+      <select id="yearFilter"><option value="">All years</option></select>
+      <select id="typeFilter"><option value="">All types</option><option>HCC</option><option>SEC</option><option>General</option></select>
+    </div>
 
-  <div id="grid" class="grid"></div>
-  <div id="empty" style="text-align:center;color:#777;margin-top:30px;display:none;">No matching papers found.</div>
-</div>
+    <div id="list" class="grid"></div>
 
-<footer>© 2025 ExamArchive | Powered by AI</footer>
+    <div id="error" style="margin-top:18px;display:none">
+      <div class="notice">Could not load <code>./papers/papers.json</code>. Check the file exists and is valid JSON.</div>
+    </div>
+  </main>
 
-<script>
-const STORAGE_KEY = "saved_papers";
+  <footer>
+    <div>Made with ❤️ · ExamArchive</div>
+  </footer>
 
-(async function() {
-  const res = await fetch("/mains/paper.json");
-  const papers = await res.json();
+  <script>
+    const JSON_PATH = './papers/papers.json';
+    let PAPERS = [];
 
-  const grid = document.getElementById("grid");
-  const empty = document.getElementById("empty");
-  const search = document.getElementById("search");
-  const yearSel = document.getElementById("filter-year");
-  const typeSel = document.getElementById("filter-type");
-  const clear = document.getElementById("clear");
+    const listEl = document.getElementById('list');
+    const errEl = document.getElementById('error');
+    const qEl = document.getElementById('q');
+    const yearFilter = document.getElementById('yearFilter');
+    const typeFilter = document.getElementById('typeFilter');
 
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    // fill year dropdown from available years
+    function fillYearOptions(arr){
+      const years = Array.from(new Set(arr.map(p=>{
+        // try to extract year from meta or title or filename
+        const fromMeta = (p.meta||'').match(/\\b(19|20)\\d{2}\\b/);
+        if(fromMeta) return fromMeta[0];
+        const fromTitle = (p.title||'').match(/\\b(19|20)\\d{2}\\b/);
+        if(fromTitle) return fromTitle[0];
+        const fromFile = (p.file||'').match(/\\b(19|20)\\d{2}\\b/);
+        if(fromFile) return fromFile[0];
+        return null;
+      }).filter(Boolean)));
+      years.sort((a,b)=>b-a);
+      years.forEach(y=>{
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        yearFilter.appendChild(opt);
+      });
+    }
 
-  // populate filter
-  [...new Set(papers.map(p => p.year))].sort((a,b)=>b-a)
-    .forEach(y => yearSel.innerHTML += `<option value="${y}">${y}</option>`);
-  [...new Set(papers.map(p => p.paper_type))].forEach(t => typeSel.innerHTML += `<option value="${t}">${t}</option>`);
+    function render(items){
+      if(!items || items.length===0){
+        listEl.innerHTML = '<div class="small">No papers found.</div>'; return;
+      }
+      listEl.innerHTML = items.map(p=>`
+        <article class="card">
+          <div class="meta">${escapeHtml(p.meta||'')}</div>
+          <div class="title">${escapeHtml(p.title||p.file||'Untitled')}</div>
+          <div style="margin-top:10px">
+            <a class="btn btn-view" href="${encodeURI(p.file)}" target="_blank" rel="noopener">Preview</a>
+            <a class="btn btn-download" href="${encodeURI(p.file)}" download>Download</a>
+          </div>
+        </article>
+      `).join('');
+    }
 
-  function render(list){
-    grid.innerHTML = "";
-    if(!list.length){ empty.style.display="block"; return; }
-    empty.style.display="none";
-    list.forEach(p=>{
-      const card = document.createElement("div");
-      card.className="card";
-      const btn = document.createElement("button");
-      btn.className="save-btn";
-      btn.textContent = saved.includes(p.id) ? "Saved" : "⭐ Save";
-      if(saved.includes(p.id)) btn.classList.add("saved");
-      btn.onclick=()=>{
-        if(saved.includes(p.id)){
-          saved.splice(saved.indexOf(p.id),1);
-          btn.classList.remove("saved"); btn.textContent="⭐ Save";
-        } else {
-          saved.push(p.id);
-          btn.classList.add("saved"); btn.textContent="Saved";
-        }
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-      };
-      card.innerHTML = `
-        <div class="title"><a href="${p.file}" target="_blank" style="text-decoration:none;color:var(--accent)">${p.title}</a></div>
-        <div class="meta">${p.subject || ""} · ${p.paper_type || ""} · ${p.university || ""} · ${p.year || ""}</div>
-        <div class="tags">${(p.tags||[]).map(t=>`<span class='tag'>${t}</span>`).join("")}</div>
-      `;
-      card.appendChild(btn);
-      grid.appendChild(card);
+    function doFilter(){
+      const term = qEl.value.trim().toLowerCase();
+      const yr = yearFilter.value;
+      const type = typeFilter.value;
+      const out = PAPERS.filter(p=>{
+        if(yr && !((p.meta||'') + ' ' + (p.title||'') + ' ' + (p.file||'')).includes(yr)) return false;
+        if(type && !(p.meta||'').includes(type)) return false;
+        if(!term) return true;
+        const hay = ((p.title||'') + ' ' + (p.meta||'') + ' ' + (p.file||'')).toLowerCase();
+        return hay.includes(term);
+      });
+      render(out);
+    }
+
+    qEl.addEventListener('input', doFilter);
+    yearFilter.addEventListener('change', doFilter);
+    typeFilter.addEventListener('change', doFilter);
+
+    // If page opened with ?q=PHSHCC-201T etc, prefill search
+    function applyQueryParam(){
+      const params = new URLSearchParams(location.search);
+      const q = params.get('q');
+      if(q){ qEl.value = q; }
+    }
+
+    fetch(JSON_PATH).then(r=>{
+      if(!r.ok) throw new Error('Failed to fetch');
+      return r.json();
+    }).then(data=>{
+      PAPERS = Array.isArray(data) ? data : (data.papers||[]);
+      fillYearOptions(PAPERS);
+      applyQueryParam();
+      doFilter();
+    }).catch(e=>{
+      console.error(e);
+      errEl.style.display = 'block';
     });
-  }
 
-  function filterList(){
-    const q = search.value.toLowerCase();
-    const year = yearSel.value;
-    const type = typeSel.value;
-    const filtered = papers.filter(p=>{
-      return (!q || (p.title+p.tags.join(" ")+p.university).toLowerCase().includes(q))
-        && (!year || p.year == year)
-        && (!type || p.paper_type == type);
-    });
-    render(filtered);
-  }
-
-  search.oninput = filterList;
-  yearSel.onchange = filterList;
-  typeSel.onchange = filterList;
-  clear.onclick = ()=>{ search.value=""; yearSel.value=""; typeSel.value=""; render(papers); };
-
-  render(papers);
-})();
-</script>
-
+    function escapeHtml(s){
+      if(!s) return '';
+      return String(s).replace(/[&<>"'`=\/]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'})[ch]));
+    }
+  </script>
 </body>
 </html>
