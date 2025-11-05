@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Collection — ExamArchive AI</title>
+<style>
+  :root{
+    --bg-header:#0f1720; /* darker header */
+    --bg-page:#07101a;   /* page background */
+    --card:#0b1220;
+    --muted:#9ca3af;
+    --accent:#ef4444;    /* red accent */
+    --ok:#10b981;
+    --danger:#ef4444;
+    --surface:#0f1726;
+    --card-radius:12px;
+    --gap:12px;
+    color-scheme: dark;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  /* BASIC LAYOUT */
+  html,body{height:100%;margin:0;background:var(--bg-page);color:#e6eef3}
+  header{background:var(--bg-header);padding:16px 20px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.03)}
+  header h1{margin:0;font-size:1.05rem;font-weight:700}
+  nav{margin-left:auto;display:flex;gap:12px;align-items:center}
+  nav a{color:#dbeafe;text-decoration:none;font-weight:600;font-size:0.95rem}
+  main.container{max-width:1100px;margin:24px auto;padding:16px;box-sizing:border-box}
+
+  /* CONTROLS */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .controls .group{display:flex;gap:8px;align-items:center}
+  label{font-size:0.82rem;color:var(--muted);margin-right:6px}
+  select, input[type="search"]{
+    background:var(--surface);
+    border:1px solid rgba(255,255,255,0.04);
+    color:inherit;padding:10px 12px;border-radius:10px;font-size:0.95rem;
+    min-width:120px;
+  }
+  input[type="search"]{min-width:220px;flex:1}
+
+  /* CARD / TABLE */
+  .card{background:var(--card);padding:12px;border-radius:var(--card-radius);box-shadow:0 8px 28px rgba(2,6,23,0.6)}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.95rem}
+  th{color:var(--muted);font-weight:600;position:sticky;top:0;background:linear-gradient(0deg,rgba(11,18,28,0.9),rgba(11,18,28,0.9))}
+  tr:hover td{background:rgba(255,255,255,0.01)}
+  .badge{padding:6px 8px;border-radius:999px;font-weight:700;font-size:0.82rem}
+  .available{background:rgba(16,185,129,0.08);color:var(--ok);border:1px solid rgba(16,185,129,0.08)}
+  .missing{background:rgba(239,68,68,0.06);color:var(--danger);border:1px solid rgba(239,68,68,0.06)}
+  .link-btn{background:none;border:1px solid rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;color:inherit;text-decoration:none;font-weight:600}
+  .link-btn:disabled{opacity:0.45;cursor:not-allowed}
+
+  /* FOOTER / PAGINATION */
+  .pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:10px;color:var(--muted);font-size:0.92rem}
+  .pager .controls{margin:0}
+  .small{font-size:0.88rem;color:var(--muted)}
+
+  /* RESPONSIVE */
+  @media (max-width:860px){
+    input[type="search"]{min-width:140px}
+    th,td{font-size:0.9rem;padding:8px}
+  }
+  @media (max-width:600px){
+    header{padding:12px}
+    .controls{flex-direction:column;align-items:stretch}
+    .controls .group{width:100%;justify-content:space-between}
+    input[type="search"]{width:100%}
+    table,thead,tbody,th,td,tr{display:block}
+    thead{display:none}
+    tr{margin-bottom:10px;border-radius:10px;padding:10px;background:rgba(255,255,255,0.01)}
+    td{padding:6px 8px;border-bottom:none}
+    td .label{display:block;color:var(--muted);font-size:0.82rem;margin-bottom:6px}
+    .pager{flex-direction:column;align-items:flex-start;gap:8px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>ExamArchive AI — Collection</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="collection.html"><strong>Collection</strong></a>
+    <a href="browse.html">Browse</a>
+    <a href="upload.html">Upload</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main class="container" id="app">
+  <!-- Controls -->
+  <div class="controls" role="region" aria-label="Collection controls">
+    <div class="group">
+      <label for="courseSelect">Course</label>
+      <select id="courseSelect" aria-label="Select course">
+        <option value="CBCS">CBCS</option>
+        <option value="FYUG">FYUG</option>
+      </select>
+    </div>
+
+    <div class="group">
+      <label for="streamSelect">Stream</label>
+      <select id="streamSelect" aria-label="Select stream">
+        <option value="Arts">Arts</option>
+        <option value="Commerce">Commerce</option>
+        <option value="Science">Science</option>
+      </select>
+    </div>
+
+    <div class="group" style="margin-left:auto">
+      <label for="sortSelect">Sort by</label>
+      <select id="sortSelect" aria-label="Sort papers">
+        <option value="recent">Recently Added</option>
+        <option value="year_desc">Year (new → old)</option>
+        <option value="year_asc">Year (old → new)</option>
+        <option value="az">A - Z</option>
+        <option value="za">Z - A</option>
+      </select>
+    </div>
+
+    <div class="group" style="flex:1;min-width:200px">
+      <label for="searchBox" class="small" style="margin-right:8px">Search</label>
+      <input id="searchBox" type="search" placeholder="Search by paper code, name, or year..." aria-label="Search papers" />
+    </div>
+  </div>
+
+  <!-- Table card -->
+  <div class="card" role="region" aria-live="polite" aria-atomic="false">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="small" id="currentInfo">Showing <span id="showCount">0</span> items</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <label class="small" for="pageSize">Page</label>
+        <select id="pageSize" aria-label="Page size">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+    </div>
+
+    <table id="papersTable" role="table" aria-label="Papers table">
+      <thead>
+        <tr>
+          <th style="width:6%">SL. No.</th>
+          <th style="width:14%">Paper Code</th>
+          <th style="width:40%">Paper Name</th>
+          <th style="width:20%">Paper Syllabus</th>
+          <th style="width:20%">Link to Download</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- rows injected by JS -->
+      </tbody>
+    </table>
+
+    <div class="pager">
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="prevBtn" class="link-btn">Prev</button>
+        <button id="nextBtn" class="link-btn">Next</button>
+      </div>
+      <div class="small" id="pagerInfo"></div>
+    </div>
+  </div>
+
+  <div style="height:18px"></div>
+  <div class="small" style="color:var(--muted)">Tip: This view lists every syllabus item and shows whether a PDF exists on the site. Keep <code>data/syllabus.json</code> and <code>data/papers.json</code> updated.</div>
+</main>
+
+<script>
+/* =========================
+   CONFIG: Point to your JSON files
+   - SYLLABUS_JSON: master list of expected syllabus items (one per expected paper)
+   - PAPERS_JSON: actual uploaded files
+   Adjust paths if your files live at different locations.
+   ========================= */
+const SYLLABUS_JSON = '/data/syllabus.json';
+const PAPERS_JSON   = '/data/papers.json';
+
+/* STATE */
+let syllabus = []; // expected items
+let papers = [];   // uploaded files
+let merged = [];   // merged view
+let currentPage = 1;
+let pageSize = 10;
+
+/* UI refs */
+const courseSelect = document.getElementById('courseSelect');
+const streamSelect = document.getElementById('streamSelect');
+const sortSelect   = document.getElementById('sortSelect');
+const searchBox    = document.getElementById('searchBox');
+const tableBody    = document.getElementById('tableBody');
+const pageSizeEl   = document.getElementById('pageSize');
+const prevBtn      = document.getElementById('prevBtn');
+const nextBtn      = document.getElementById('nextBtn');
+const pagerInfo    = document.getElementById('pagerInfo');
+const showCount    = document.getElementById('showCount');
+const currentInfo  = document.getElementById('currentInfo');
+
+/* LOAD DATA */
+async function loadData(){
+  try {
+    const [sRes, pRes] = await Promise.all([fetch(SYLLABUS_JSON), fetch(PAPERS_JSON)]);
+    if(!sRes.ok || !pRes.ok) throw new Error('Failed to fetch JSON — check paths in script.');
+    syllabus = await sRes.json();
+    papers = await pRes.json();
+    buildMerged();
+    render();
+  } catch (err) {
+    tableBody.innerHTML = `<tr><td colspan="5" style="color:var(--muted)">Unable to load data — check JSON paths. Error: ${err.message}</td></tr>`;
+    console.error(err);
+  }
+}
+
+/* BUILD MERGED - match uploaded papers to syllabus by course+stream+paper_code+year (loose match optional) */
+function buildMerged(){
+  // create lookup by composite key for faster matching: course|stream|paper_code|year
+  const idx = {};
+  for (const p of papers){
+    const key = `${(p.course||'').toLowerCase()}|${(p.stream||'').toLowerCase()}|${(p.paper_code||'').toLowerCase()}|${(p.year||'')}`;
+    if(!idx[key]) idx[key] = [];
+    idx[key].push(p);
+  }
+
+  merged = syllabus.map((s, i) => {
+    const key = `${(s.course||'').toLowerCase()}|${(s.stream||'').toLowerCase()}|${(s.paper_code||'').toLowerCase()}|${(s.year||'')}`;
+    const found = idx[key] || [];
+    // allow fallback: match without year if nothing found (partial match)
+    let partial = [];
+    if(found.length === 0){
+      const keyNoYear = `${(s.course||'').toLowerCase()}|${(s.stream||'').toLowerCase()}|${(s.paper_code||'').toLowerCase()}|`;
+      for (const k in idx){
+        if(k.startsWith(keyNoYear)) partial = partial.concat(idx[k]);
+      }
+    }
+    return {
+      id: s.id || `syl_${i}`,
+      sl: i+1,
+      course: s.course || 'CBCS',
+      stream: s.stream || 'Arts',
+      paper_code: s.paper_code || '',
+      paper_name: s.paper_name || '',
+      year: s.year || '',
+      syllabus_link: s.syllabus_link || null,
+      available: found.length > 0,
+      files: found,
+      partial_matches: partial
+    };
+  });
+}
+
+/* FILTER + SORT */
+function getFilteredSorted(){
+  const course = courseSelect.value;
+  const stream = streamSelect.value;
+  const q = (searchBox.value || '').trim().toLowerCase();
+  let list = merged.filter(item => {
+    if(item.course !== course) return false;
+    if(item.stream !== stream) return false;
+    if(!q) return true;
+    return (item.paper_code || '').toLowerCase().includes(q) ||
+           (item.paper_name || '').toLowerCase().includes(q) ||
+           (String(item.year) || '').includes(q);
+  });
+
+  // sorting
+  const mode = sortSelect.value;
+  switch(mode){
+    case 'year_asc':
+      list.sort((a,b) => (a.year||0) - (b.year||0));
+      break;
+    case 'year_desc':
+      list.sort((a,b) => (b.year||0) - (a.year||0));
+      break;
+    case 'az':
+      list.sort((a,b) => (a.paper_name||'').localeCompare(b.paper_name||''));
+      break;
+    case 'za':
+      list.sort((a,b) => (b.paper_name||'').localeCompare(a.paper_name||''));
+      break;
+    case 'recent':
+    default:
+      // attempt to sort by uploaded_on of first file if exists, fallback to year desc
+      list.sort((a,b)=>{
+        const da = (a.files[0] && a.files[0].uploaded_on) ? new Date(a.files[0].uploaded_on).getTime() : 0;
+        const db = (b.files[0] && b.files[0].uploaded_on) ? new Date(b.files[0].uploaded_on).getTime() : 0;
+        if(da || db) return db - da;
+        return (b.year||0) - (a.year||0);
+      });
+  }
+  return list;
+}
+
+/* RENDER */
+function render(){
+  pageSize = parseInt(pageSizeEl.value, 10) || 10;
+  const list = getFilteredSorted();
+  const total = list.length;
+  const pages = Math.max(1, Math.ceil(total / pageSize));
+  if(currentPage > pages) currentPage = pages;
+  const start = (currentPage - 1) * pageSize;
+  const slice = list.slice(start, start + pageSize);
+
+  tableBody.innerHTML = '';
+  if(slice.length === 0){
+    tableBody.innerHTML = `<tr><td colspan="5" style="color:var(--muted)">No papers found for this Course / Stream. You can request uploads for missing items.</td></tr>`;
+  } else {
+    slice.forEach((r, idx) => {
+      const tr = document.createElement('tr');
+
+      // prepare syllabus cell
+      let syllabusCell = 'Coming Soon';
+      if(r.syllabus_link) syllabusCell = `<a class="link-btn" href="${escapeAttr(r.syllabus_link)}" target="_blank">View Syllabus</a>`;
+      // prepare download cell
+      let downloadCell = '';
+      if(r.available && r.files.length > 0){
+        // if multiple files, show first and small dropdown for others
+        const f = r.files[0];
+        downloadCell = `<a class="link-btn" href="${escapeAttr(f.path)}" target="_blank">Download</a>`;
+        if(r.files.length > 1){
+          downloadCell += ` <span class="small" style="margin-left:8px;color:var(--muted)">(+${r.files.length-1} more)</span>`;
+        }
+      } else if(r.partial_matches && r.partial_matches.length>0){
+        // partial matches available
+        downloadCell = `<span class="badge missing">Partial</span> <button class="link-btn" onclick="showPartial('${escapeAttr(r.id)}')">Show</button>`;
+      } else {
+        downloadCell = `<span class="badge missing">Not Available</span> <button class="link-btn" onclick="requestUpload('${escapeAttr(r.id)}')">Request Upload</button>`;
+      }
+
+      tr.innerHTML = `
+        <td>${start + idx + 1}</td>
+        <td>${escapeHtml(r.paper_code)}</td>
+        <td>${escapeHtml(r.paper_name)}${r.year ? ' <span class="small" style="color:var(--muted)">('+escapeHtml(r.year)+')</span>' : ''}</td>
+        <td>${syllabusCell}</td>
+        <td>${downloadCell}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  showCount.textContent = total;
+  pagerInfo.textContent = `Page ${currentPage} of ${pages} • Showing ${Math.min(total, start+1)}–${Math.min(total, start+pageSize)} of ${total}`;
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage === pages;
+}
+
+/* ACTIONS */
+function requestUpload(syllabusId){
+  // default action: copy syllabus id to clipboard and show a small alert (admin workflow)
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(syllabusId).then(()=>{
+      alert('Syllabus ID copied: ' + syllabusId + '\nPaste this in the upload form or share with contributors.');
+    }).catch(()=> {
+      alert('Please copy this ID: ' + syllabusId);
+    });
+  } else {
+    alert('Please copy this ID: ' + syllabusId);
+  }
+}
+
+function showPartial(syllabusId){
+  // find the item and show a small modal or alert with links
+  const item = merged.find(x => x.id === syllabusId);
+  if(!item) return alert('No partial matches found.');
+  let txt = 'Partial matches for ' + item.paper_code + ':\n\n';
+  item.partial_matches.forEach(p => {
+    txt += `${p.paper_name || p.path || p.id} — ${p.path || 'no path'}\n`;
+  });
+  alert(txt);
+}
+
+/* HELPERS */
+function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
+function escapeAttr(s){ return String(s||'').replace(/"/g,'&quot;'); }
+
+/* EVENTS */
+courseSelect.addEventListener('change', ()=>{ currentPage = 1; render(); });
+streamSelect.addEventListener('change', ()=>{ currentPage = 1; render(); });
+sortSelect.addEventListener('change', ()=>{ currentPage = 1; render(); });
+searchBox.addEventListener('input', ()=>{ currentPage = 1; render(); });
+pageSizeEl.addEventListener('change', ()=>{ currentPage = 1; render(); });
+prevBtn.addEventListener('click', ()=>{ if(currentPage>1){ currentPage--; render(); }});
+nextBtn.addEventListener('click', ()=>{ currentPage++; render(); });
+
+/* INIT */
+loadData();
+</script>
+</body>
+</html>
