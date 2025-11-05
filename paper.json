@@ -1,29 +1,28 @@
 [
   {
-    "id": "sample1",
-    "title": "Demo — B.Sc Physics Sem 1 — 2020 (Sample)",
-    "college": "Haflong Govt. College",
-    "subject": "Mechanics (Sample)",
-    "year": 2020,
-    "type": "Final",
-    "fileUrl": "https://raw.githubusercontent.com/omdas11/examarchive-ai/main/papers/sample-paper-1.pdf"
-  },
-  {
-    "id": "sample2",
-    "title": "Demo — B.Sc Physics Sem 2 — 2021 (Sample)",
-    "college": "Haflong Govt. College",
-    "subject": "Mathematical Physics (Sample)",
-    "year": 2021,
-    "type": "Midterm",
-    "fileUrl": "https://raw.githubusercontent.com/omdas11/examarchive-ai/main/papers/sample-paper-2.pdf"
-  },
-  {
-    "id": "sample3",
-    "title": "Demo — B.Sc Chemistry Sem 3 — 2022 (Sample)",
-    "college": "Haflong Govt. College",
-    "subject": "Physical Chemistry (Sample)",
+    "id": "PHSHCC-201T-2022",
+    "title": "Electricity and Magnetism (CBCS 2022)",
+    "file": "/papers/CBCS/Science/HCC/Physics/2022-PHSHCC-201T.pdf",
     "year": 2022,
-    "type": "Final",
-    "fileUrl": "https://raw.githubusercontent.com/omdas11/examarchive-ai/main/papers/sample-paper-3.pdf"
+    "level": "CBCS",
+    "stream": "Science",
+    "paper_type": "HCC",
+    "subject": "Physics",
+    "paper_name": "PHSHCC-201T",
+    "university": "Assam University",
+    "tags": ["Electricity", "Magnetism", "PHSHCC", "201T", "CBCS"]
+  },
+  {
+    "id": "PHSHCC-201T-2023",
+    "title": "Electricity and Magnetism (CBCS 2023)",
+    "file": "/papers/CBCS/Science/HCC/Physics/2023-PHSHCC-201T.pdf",
+    "year": 2023,
+    "level": "CBCS",
+    "stream": "Science",
+    "paper_type": "HCC",
+    "subject": "Physics",
+    "paper_name": "PHSHCC-201T",
+    "university": "Assam University",
+    "tags": ["Electricity", "Magnetism", "PHSHCC", "201T", "CBCS"]
   }
 ]
