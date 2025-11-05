@@ -6,234 +6,246 @@
   <title>ExamArchive — Find & share past exam papers</title>
 
   <style>
-    :root{
+    :root {
       --bg: #fafafa;
       --card: #ffffff;
       --muted: #6b6b6b;
-      --accent: #c62828; /* red accent */
-      --header-dark: #e9e9eb; /* darker header shade */
-      --footer-gray: #f0f1f3; /* bottom grey section */
+      --accent: #c62828;
+      --header-dark: #e9e9eb;
+      --footer-gray: #f0f1f3;
       --radius: 14px;
       --max-width: 980px;
       --container-padding: 18px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
     }
 
-    /* Responsive base font sizing */
-    html { font-size: 16px; }
-    body{
-      margin:0;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
       background: var(--bg);
       color: #111;
       line-height: 1.45;
       -webkit-text-size-adjust: 100%;
     }
 
-    /* Layout container */
-    .site-wrap{
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 22px var(--container-padding);
-      box-sizing: border-box;
-    }
-
-    /* Full-width header bar */
-    header.fullbar{
-      width:100%;
+    /* Header */
+    header.fullbar {
+      width: 100%;
       background: var(--header-dark);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
     }
-    .header-inner{
+    .header-inner {
       max-width: var(--max-width);
       margin: 0 auto;
       padding: 12px var(--container-padding);
-      display:flex;
-      align-items:center;
-      gap:12px;
-      box-sizing:border-box;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-
-    /* Logo / title */
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .logo {
-      width:44px;
-      height:44px;
-      border-radius:10px;
-      background:var(--accent);
-      color:white;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      font-size:18px;
-      box-shadow: 0 6px 16px rgba(198,40,40,0.08);
-      flex-shrink:0;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
     }
-    .site-title{
-      display:flex;
-      flex-direction:column;
-      min-width:0;
+    .site-title .title {
+      font-weight: 700;
+      font-size: clamp(0.9rem, 1.6vw, 1.05rem);
     }
-    .site-title .title { font-weight:700; font-size: clamp(0.9rem, 1.6vw, 1.05rem); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .site-title .subtitle { font-size: 0.78rem; color: var(--muted); margin-top:2px; }
+    .site-title .subtitle {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
 
-    /* Right nav (login, menu) align right */
     .header-right {
-      margin-left:auto;
-      display:flex;
-      gap:12px;
-      align-items:center;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .login-pill{
-      background:transparent;
-      border-radius:999px;
-      padding:6px 10px;
-      display:flex;
-      gap:8px;
-      align-items:center;
-      color:#222;
-      font-weight:600;
-      cursor:pointer;
+    .login-pill {
+      background: transparent;
+      border-radius: 999px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
     }
-    .nav-links{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      font-weight:600;
-      color:#222;
+    .login-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
     }
-    .nav-links a { text-decoration:none; color:inherit; font-size:0.95rem; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 600;
+    }
+    .nav-links a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 6px 8px;
+      border-radius: 8px;
+    }
+    .nav-links a:hover { background: rgba(0,0,0,0.05); }
 
-    /* Main card */
-    main{
-      padding: 22px var(--container-padding) 42px;
-    }
-
-    .hero-card{
-      background:var(--card);
-      border-radius: var(--radius);
-      padding:20px;
-      box-shadow: 0 8px 30px rgba(12,12,12,0.06);
-      margin-bottom:18px;
-    }
-
-    h1{
-      margin:0 0 8px 0;
-      font-size: clamp(1.05rem, 2.6vw, 1.6rem); /* responsive */
-      letter-spacing: -0.2px;
-    }
-    p.lead{
-      margin:0 0 12px 0;
-      color:var(--muted);
-      font-size: clamp(0.9rem, 1.6vw, 1rem);
-    }
-
-    /* Search form */
-    .search-row{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .search-input{
-      flex:1;
-      min-width:0;
-      padding:12px 14px;
-      border-radius:10px;
-      border:1px solid #eee;
-      font-size: clamp(0.9rem, 1.6vw, 1rem);
-      box-sizing:border-box;
-    }
-    .btn{
-      background:var(--accent);
-      color:white;
-      border:none;
-      padding: 10px 14px;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow: 0 6px 18px rgba(198,40,40,0.12);
-      white-space:nowrap;
-    }
-
-    /* Latest uploads small card */
-    .small-card{
-      background:var(--card);
-      border-radius:12px;
-      padding:14px;
-      margin-bottom:16px;
-      box-shadow: 0 8px 20px rgba(12,12,12,0.04);
-    }
-    .muted-link { color:var(--muted); font-size:0.95rem; }
-
-    /* Footer */
-    footer.site-footer{
-      background: var(--footer-gray);
-      padding: 28px var(--container-padding);
-      margin-top:18px;
-    }
-    .footer-inner{
+    /* Main */
+    .site-wrap {
       max-width: var(--max-width);
       margin: 0 auto;
-      display:flex;
-      gap:18px;
-      align-items:flex-start;
-      box-sizing:border-box;
-      padding-bottom:12px;
-      flex-wrap:wrap;
-      justify-content:space-between;
+      padding: 22px var(--container-padding);
+    }
+    .hero-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 8px 30px rgba(12,12,12,0.06);
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(1.05rem, 2.6vw, 1.6rem);
+      margin: 0 0 8px;
+    }
+    p.lead {
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+    .search-row {
+      display: flex;
+      gap: 10px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+    }
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .small-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(12,12,12,0.04);
     }
 
-    .footer-column{
-      background:var(--card);
-      border-radius:12px;
-      padding:14px;
+    /* Footer */
+    footer.site-footer {
+      background: var(--footer-gray);
+      padding: 28px var(--container-padding);
+      margin-top: 18px;
+    }
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: space-between;
+    }
+    .footer-column {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px;
       box-shadow: 0 6px 20px rgba(12,12,12,0.04);
-      min-width:220px;
-      flex:1 1 220px;
-      margin-bottom:12px;
+      flex: 1 1 220px;
     }
-    .footer-column h4{ margin:0 0 8px 0; font-size:1rem; }
-    .footer-column p, .footer-column a{ margin:0; color:var(--muted); font-size:0.95rem; text-decoration:none; display:block; }
-    .footer-links a{ color:var(--accent); font-weight:700; margin-bottom:6px; display:inline-block; }
-
-    /* make sure nothing overflows on small screens */
-    * { box-sizing: border-box; }
-
-    /* Responsive tweaks for desktop */
-    @media(min-width:1100px){
-      body{ font-size: 0.98rem; } /* slightly smaller on larger screens */
-      .site-wrap{ padding: 30px; }
-      .header-inner{ padding: 18px 30px; }
-      h1{ font-size: 1.9rem; } /* cap headline */
-      .search-input{ font-size: 1rem; padding:14px 16px; }
+    .footer-column h4 { margin: 0 0 8px; }
+    .footer-links a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 6px;
     }
 
-    /* Mobile specific */
-    @media(max-width:520px){
-      .header-inner{ padding: 10px 12px; gap:8px; }
-      .logo { width:40px; height:40px; font-size:16px; }
-      .header-right .nav-links { display:none; } /* hide full nav on mobile */
-      .search-row { flex-direction:row; }
-      .site-wrap{ padding: 14px; }
-      .footer-inner{ padding-top:18px; }
-      .footer-column{ min-width:unset; flex:1 1 100%; }
+    /* Modal (login form) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px;
+      width: 90%;
+      max-width: 380px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+    .modal h3 { margin-top: 0; }
+    .modal label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .modal input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .modal-actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
+    @media (max-width:520px) {
+      .header-inner { flex-wrap: wrap; }
+      .nav-links { flex-wrap: wrap; gap: 8px; }
+      .footer-column { flex: 1 1 100%; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- full width header background -->
-  <header class="fullbar" role="banner">
+  <!-- Header -->
+  <header class="fullbar">
     <div class="header-inner">
-      <div class="brand" aria-label="ExamArchive home">
+      <div class="brand">
         <div class="logo">EA</div>
         <div class="site-title">
           <div class="title">ExamArchive</div>
@@ -242,16 +254,15 @@
       </div>
 
       <div class="header-right">
-        <!-- Login (left side as requested) -->
-        <div class="login-pill" title="Guest user">
-          <div style="width:28px;height:28px;border-radius:50%;background:#fff;color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700">G</div>
-          <div style="display:flex;flex-direction:column;line-height:1">
-            <span style="font-weight:700;font-size:0.95rem;">Guest</span>
-            <span style="font-size:0.74rem;color:var(--muted);margin-top:2px;">Visitor</span>
+        <div id="loginPill" class="login-pill">
+          <div class="login-avatar">G</div>
+          <div>
+            <div style="font-weight:700;">Guest</div>
+            <div style="font-size:0.75rem;color:var(--muted)">Visitor</div>
           </div>
         </div>
 
-        <nav class="nav-links" aria-label="Main navigation">
+        <nav class="nav-links">
           <a href="browse.html">Browse</a>
           <a href="upload.html">Upload</a>
           <a href="about.html">About</a>
@@ -260,76 +271,97 @@
     </div>
   </header>
 
-  <!-- main page content -->
+  <!-- Main -->
   <main>
     <div class="site-wrap">
-      <section class="hero-card" aria-labelledby="findpapers">
-        <h1 id="findpapers">Find & share past exam papers</h1>
+      <section class="hero-card">
+        <h1>Find &amp; share past exam papers</h1>
         <p class="lead">Simple search — type subject, year or college and hit Search.</p>
-
-        <form class="search-row" onsubmit="event.preventDefault(); alert('Search demo — integrate your search logic');">
-          <input class="search-input" type="search" placeholder="Physics, 2022, College name..." aria-label="Search papers" />
-          <button class="btn" type="submit">Search</button>
+        <form class="search-row" onsubmit="event.preventDefault(); alert('Search logic pending!')">
+          <input class="search-input" placeholder="Physics, 2022, College name...">
+          <button class="btn">Search</button>
         </form>
-
-        <div style="margin-top:10px;color:var(--muted);font-size:0.9rem">
+        <div style="margin-top:10px;color:var(--muted);">
           Popular: <strong style="color:var(--accent)">Physics</strong> · Chemistry · Mathematics
         </div>
       </section>
 
-      <div class="small-card" aria-live="polite">
-        <strong>Latest uploads</strong>
-        <div style="margin-top:8px;color:var(--muted);">No recent uploads yet. Be the first to <a href="upload.html" class="muted-link" style="color:var(--accent)">upload a paper</a>.</div>
-      </div>
-
-      <!-- preview of about moved to footer — kept minimal here -->
       <div class="small-card">
-        <strong>About (preview)</strong>
-        <p style="margin-top:8px;color:var(--muted)">
-          ExamArchive is a community-driven collection of past exam papers submitted by students and teachers to help revision and exam preparation.
-          For full details see the About page.
-        </p>
-        <div style="margin-top:10px"><a href="about.html" style="color:var(--accent);font-weight:700">Read full About</a></div>
+        <strong>Latest uploads</strong>
+        <div style="margin-top:8px;color:var(--muted);">
+          No recent uploads yet. Be the first to
+          <a href="upload.html" style="color:var(--accent)">upload a paper</a>.
+        </div>
       </div>
-
     </div>
   </main>
 
-  <!-- Footer: About, Sources, Important links grouped -->
-  <footer class="site-footer" role="contentinfo">
+  <!-- Footer -->
+  <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-column" aria-labelledby="f-about">
-        <h4 id="f-about">About</h4>
-        <p>ExamArchive is a community-driven repository of old question papers submitted by students and teachers to help with revision and exam prep.</p>
+      <div class="footer-column">
+        <h4>About</h4>
+        <p style="color:var(--muted)">—</p>
       </div>
-
-      <div class="footer-column" aria-labelledby="f-sources">
-        <h4 id="f-sources">Sources</h4>
-        <p>Community contributions, archived notices, volunteer uploads. If you own content that should be removed, contact us.</p>
+      <div class="footer-column">
+        <h4>Sources</h4>
+        <p>Community contributions, archived notices, volunteer uploads.</p>
       </div>
-
-      <div class="footer-column" aria-labelledby="f-links">
-        <h4 id="f-links">Important links</h4>
-        <div class="footer-links" style="margin-top:8px">
-          <a href="upload.html">Upload paper</a><br/>
-          <a href="browse.html">Browse papers</a><br/>
+      <div class="footer-column">
+        <h4>Important links</h4>
+        <div class="footer-links">
+          <a href="upload.html">Upload paper</a><br>
+          <a href="browse.html">Browse papers</a><br>
           <a href="collections.html">Collections</a>
         </div>
-
-        <div style="margin-top:12px;color:var(--muted)">
-          <div style="font-weight:700;color:#333">Contact:</div>
-          <div>youremail@example.com</div>
-        </div>
+        <p style="margin-top:8px;color:var(--muted)">Contact: youremail@example.com</p>
       </div>
     </div>
-
-    <div style="max-width:var(--max-width);margin:0 auto;padding:0 var(--container-padding);color:var(--muted);font-size:0.9rem;">
-      <div style="padding:12px 0 0;border-top:1px solid rgba(0,0,0,0.04);margin-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
-        <div>© <strong>ExamArchive</strong> — Community run</div>
-        <div style="margin-top:8px">Privacy · Terms · <a href="#" style="color:var(--accent);text-decoration:none;font-weight:700">Report</a></div>
-      </div>
+    <div style="max-width:var(--max-width);margin:0 auto;padding:10px var(--container-padding);color:var(--muted);font-size:0.9rem;text-align:center;border-top:1px solid #ddd;">
+      © ExamArchive — Community run
     </div>
   </footer>
+
+  <!-- Login Modal -->
+  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+    <div class="modal">
+      <h3>Sign in</h3>
+      <form onsubmit="event.preventDefault(); alert('Login functionality coming soon!')">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" required>
+        <label>Password</label>
+        <input type="password" placeholder="Enter password" required>
+        <div class="modal-actions">
+          <button type="button" id="cancelBtn" class="btn-outline">Cancel</button>
+          <button type="submit" class="btn">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const loginPill = document.getElementById('loginPill');
+    const backdrop = document.getElementById('modalBackdrop');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    function openModal() {
+      backdrop.style.display = 'flex';
+      backdrop.setAttribute('aria-hidden', 'false');
+      cancelBtn.focus();
+    }
+    function closeModal() {
+      backdrop.style.display = 'none';
+      backdrop.setAttribute('aria-hidden', 'true');
+    }
+
+    loginPill.addEventListener('click', openModal);
+    loginPill.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+    });
+    cancelBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
 
 </body>
 </html>
