@@ -3,150 +3,192 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ExamArchive — Browse</title>
+<title>Browse Papers — ExamArchive</title>
 <style>
-:root{
-  --bg:#fafafa; --card:#fff; --muted:#6b6b6b; --accent:#c62828; --header-dark:#e9eeb;
-  --footer-gray:#f0f1f3; --radius:14px; --max-width:980px; --pad:18px;
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#111;line-height:1.45}
-header.fullbar{width:100%;background:var(--header-dark)}
-.header-inner{max-width:var(--max-width);margin:0 auto;padding:12px var(--pad);display:flex;gap:12px;align-items:center}
-.brand{display:flex;gap:10px;align-items:center}
-.logo{width:44px;height:44px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
-.site-title .title{font-weight:700;font-size:clamp(0.95rem,1.6vw,1.1rem)}
-.site-title .subtitle{font-size:0.78rem;color:var(--muted)}
-.header-right{margin-left:auto;display:flex;gap:12px;align-items:center}
-.login-pill{display:flex;gap:8px;align-items:center;cursor:pointer;border-radius:999px;padding:6px 10px;background:transparent}
-.login-avatar{width:28px;height:28px;border-radius:50%;background:#fff;color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700}
-.nav-links{display:flex;gap:14px;align-items:center;font-weight:600}
-.nav-links a{color:inherit;text-decoration:none;padding:6px 8px;border-radius:8px}
-.nav-links a.active{background:rgba(0,0,0,0.06)}
-.site-wrap{max-width:var(--max-width);margin:0 auto;padding:22px var(--pad)}
-.list-card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 8px 20px rgba(12,12,12,0.04);margin-bottom:12px}
-footer.site-footer{background:var(--footer-gray);padding:28px var(--pad);margin-top:18px}
-.footer-inner{max-width:var(--max-width);margin:0 auto;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
-.footer-column{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(12,12,12,0.04);flex:1 1 220px}
-.footer-links a{color:var(--accent);font-weight:700;text-decoration:none;display:inline-block;margin-bottom:6px}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;z-index:100}
-.modal{background:var(--card);border-radius:14px;padding:20px;width:90%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,0.3)}
-.modal h3{margin:0 0 8px}
-.modal label{display:block;margin-top:10px;font-weight:600}
-.modal input{width:100%;margin-top:6px;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:1rem}
-.modal-actions{margin-top:18px;display:flex;justify-content:flex-end;gap:10px}
-.btn{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-.btn-outline{background:transparent;border:1px solid #ccc;padding:8px 12px;border-radius:8px;cursor:pointer}
-@media(max-width:520px){.header-inner{flex-wrap:wrap}.nav-links{flex-wrap:wrap}.footer-column{flex:1 1 100%}}
+  :root{
+    --accent:#d32f2f; /* your red */
+    --muted:#6b7280;
+    --bg:#f7f7f8;
+    --card:#ffffff;
+    --radius:12px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  body{margin:0;background:var(--bg);color:#111;padding:18px}
+  .wrap{max-width:1100px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  h1{color:var(--accent);margin:0;font-size:1.3rem}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  input[type="search"], select{padding:10px;border-radius:10px;border:1px solid #ddd;min-width:160px}
+  button{padding:10px 12px;border-radius:10px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:18px}
+  .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);display:flex;gap:10px;align-items:flex-start}
+  .thumb{width:76px;height:96px;border-radius:6px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;overflow:hidden}
+  .meta{flex:1}
+  .title{font-weight:700;margin:0 0 6px 0;color:var(--accent);font-size:14px}
+  .sub{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:5px 8px;border-radius:999px;border:1px solid #eee;background:#fafafa}
+  .empty{padding:30px;text-align:center;color:var(--muted)}
+  footer{margin-top:18px;color:var(--muted);font-size:13px}
+  @media (max-width:520px){ .controls{flex-direction:column;align-items:stretch} input[type="search"],select{width:100%} }
 </style>
 </head>
 <body>
-
-<header class="fullbar" role="banner">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo">EA</div>
-      <div class="site-title">
-        <div class="title">ExamArchive</div>
-        <div class="subtitle">Old question papers — community</div>
-      </div>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Browse — Papers</h1>
+      <div style="font-size:13px;color:var(--muted)">Source: <strong>mains/paper.json</strong></div>
     </div>
-
-    <div class="header-right">
-      <div id="loginPill" class="login-pill" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="modalBackdrop">
-        <div class="login-avatar">G</div>
-        <div style="line-height:1">
-          <div style="font-weight:700">Guest</div>
-          <div style="font-size:0.75rem;color:var(--muted)">Visitor</div>
-        </div>
-      </div>
-
-      <nav class="nav-links" aria-label="main nav">
-        <a href="index.html">Home</a>
-        <a href="browse.html" class="active">Browse</a>
-        <a href="collections.html">Collections</a>
-        <a href="upload.html">Upload</a>
-        <a href="about.html">About</a>
-      </nav>
+    <div style="text-align:right">
+      <a href="/upload.html" style="color:var(--accent);text-decoration:none;font-size:13px">Upload</a>
     </div>
+  </header>
+
+  <div class="controls" style="margin-top:14px">
+    <input id="q" type="search" placeholder="Search by title, code, tags, university..." />
+    <select id="filter-year"><option value="">All years</option></select>
+    <select id="filter-level"><option value="">All levels</option></select>
+    <select id="filter-stream"><option value="">All streams</option></select>
+    <select id="filter-type"><option value="">All types</option></select>
+    <select id="filter-subject"><option value="">All subjects</option></select>
+    <select id="sort"><option value="new">Newest</option><option value="old">Oldest</option><option value="title">Title</option></select>
+    <button id="clear">Clear</button>
   </div>
-</header>
 
-<main>
-  <div class="site-wrap">
-    <h1 style="margin-top:0">Browse papers</h1>
-    <p style="color:var(--muted)">Filter and explore uploaded papers. (Placeholder — add filtering later.)</p>
+  <div id="grid" class="grid" aria-live="polite"></div>
+  <div id="empty" class="empty" style="display:none">No matching papers.</div>
 
-    <!-- Example list -->
-    <div class="list-card">
-      <strong>Physics — 2022 — College A</strong>
-      <div style="color:var(--muted);margin-top:6px">PDF • Uploaded by user123 • <a href="#" style="color:var(--accent)">View</a></div>
-    </div>
-
-    <div class="list-card">
-      <strong>Chemistry — 2021 — College B</strong>
-      <div style="color:var(--muted);margin-top:6px">PDF • Uploaded by user456 • <a href="#" style="color:var(--accent)">View</a></div>
-    </div>
-
-    <div class="list-card">
-      <strong>Mathematics — 2020 — College C</strong>
-      <div style="color:var(--muted);margin-top:6px">PDF • Uploaded by user789 • <a href="#" style="color:var(--accent)">View</a></div>
-    </div>
-
-  </div>
-</main>
-
-<footer class="site-footer" role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-column"><h4>About</h4><p style="color:var(--muted)">—</p></div>
-    <div class="footer-column"><h4>Sources</h4><p>Community contributions, archived notices, volunteer uploads.</p></div>
-    <div class="footer-column">
-      <h4>Important links</h4>
-      <div class="footer-links">
-        <a href="upload.html">Upload paper</a><br>
-        <a href="browse.html">Browse papers</a><br>
-        <a href="collections.html">Collections</a>
-      </div>
-      <p style="margin-top:8px;color:var(--muted)">Contact: youremail@example.com</p>
-    </div>
-  </div>
-  <div style="max-width:var(--max-width);margin:0 auto;padding:10px var(--pad);text-align:center;color:var(--muted);border-top:1px solid #ddd">© ExamArchive — Community run</div>
-</footer>
-
-<!-- Login Modal -->
-<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-    <h3 id="loginTitle">Sign in</h3>
-    <form onsubmit="event.preventDefault(); alert('Login submission placeholder')">
-      <label for="email">Email</label>
-      <input id="email" type="email" placeholder="you@example.com" required>
-      <label for="pwd">Password</label>
-      <input id="pwd" type="password" placeholder="Enter password" required>
-      <div class="modal-actions">
-        <button type="button" id="cancelBtn" class="btn-outline">Cancel</button>
-        <button type="submit" class="btn">Login</button>
-      </div>
-    </form>
-  </div>
+  <footer>
+    Tip: include paper code and 4-digit year in filename (e.g., <code>2023-PHSHCC-201T.pdf</code>).
+  </footer>
 </div>
 
 <script>
-(function(){
-  const loginPill = document.querySelector('#loginPill');
-  const backdrop = document.querySelector('#modalBackdrop');
-  const cancelBtn = document.querySelector('#cancelBtn');
+(async function(){
+  // Fetch mains/paper.json — supports array or {papers:[...]}
+  let resp;
+  try { resp = await fetch('/mains/paper.json'); } catch(e){ showError('Failed to fetch mains/paper.json'); return; }
+  if(!resp.ok){ showError('Could not load mains/paper.json (404).'); return; }
+  const raw = await resp.json();
+  const items = Array.isArray(raw) ? raw : (raw.papers || []);
+  const papers = items.map(normalize);
 
-  function openModal(){ backdrop.style.display='flex'; backdrop.setAttribute('aria-hidden','false'); cancelBtn.focus(); }
-  function closeModal(){ backdrop.style.display='none'; backdrop.setAttribute('aria-hidden','true'); loginPill.focus(); }
+  // DOM refs
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  const q = document.getElementById('q');
+  const yearSel = document.getElementById('filter-year');
+  const levelSel = document.getElementById('filter-level');
+  const streamSel = document.getElementById('filter-stream');
+  const typeSel = document.getElementById('filter-type');
+  const subjectSel = document.getElementById('filter-subject');
+  const sortSel = document.getElementById('sort');
+  const clearBtn = document.getElementById('clear');
 
-  loginPill.addEventListener('click', openModal);
-  loginPill.addEventListener('keydown', e => { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openModal(); }});
-  cancelBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', e => { if(e.target === backdrop) closeModal(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+  // populate filters
+  populateFilter(yearSel, unique(papers.map(p=>p.year)).sort((a,b)=>b-a));
+  populateFilter(levelSel, unique(papers.map(p=>p.level)));
+  populateFilter(streamSel, unique(papers.map(p=>p.stream)));
+  populateFilter(typeSel, unique(papers.map(p=>p.paper_type)));
+  populateFilter(subjectSel, unique(papers.map(p=>p.subject)));
+
+  // initial render
+  render(papers);
+
+  // events
+  [q, yearSel, levelSel, streamSel, typeSel, subjectSel, sortSel].forEach(el => el.addEventListener('input', doSearch));
+  clearBtn.addEventListener('click', ()=>{ q.value=''; yearSel.value=''; levelSel.value=''; streamSel.value=''; typeSel.value=''; subjectSel.value=''; sortSel.value='new'; doSearch(); });
+
+  function showError(msg){
+    document.getElementById('grid').innerHTML = '<div class="empty">'+msg+'</div>';
+  }
+
+  function normalize(it){
+    // ensure fields exist and standardize
+    const year = (it.year || (it.date||'').slice(0,4) || '').toString();
+    return {
+      id: it.id || (it.paper_name || (it.file||'').split('/').pop().split('.')[0]) ,
+      title: it.title || it.paper_name || it.id || 'Untitled',
+      file: (it.file || '').replace(/\\/g,'/'),
+      year: year || '',
+      level: (it.level || it.levels || it.level_name || '').toString(),
+      stream: it.stream || it.stream_name || '',
+      paper_type: it.paper_type || it.type || it.paperType || '',
+      subject: it.subject || '',
+      paper_name: it.paper_name || it.id || '',
+      university: it.university || it.college || '',
+      tags: Array.isArray(it.tags) ? it.tags.map(t=>t+'') : (typeof it.tags === 'string' ? it.tags.split(/[,|;]/).map(s=>s.trim()) : [])
+    };
+  }
+
+  function populateFilter(sel, values){
+    const cleaned = values.filter(v=>v && v!='' && v!=undefined).map(v=>v+'');
+    const uniq = unique(cleaned).sort();
+    uniq.forEach(v => sel.insertAdjacentHTML('beforeend', `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`));
+  }
+
+  function doSearch(){ 
+    const qv = q.value.trim().toLowerCase();
+    const yr = yearSel.value;
+    const lvl = levelSel.value;
+    const strm = streamSel.value;
+    const typ = typeSel.value;
+    const subj = subjectSel.value;
+    let list = papers.filter(p=>{
+      if(yr && p.year!==yr) return false;
+      if(lvl && (p.level||'')!==lvl) return false;
+      if(strm && (p.stream||'')!==strm) return false;
+      if(typ && (p.paper_type||'')!==typ) return false;
+      if(subj && (p.subject||'')!==subj) return false;
+      if(!qv) return true;
+      const hay = (p.title+' '+p.paper_name+' '+(p.tags||[]).join(' ')+' '+p.university+' '+p.id+' '+p.subject).toLowerCase();
+      return hay.includes(qv);
+    });
+    // sort
+    const sortv = sortSel.value;
+    list.sort((a,b)=>{
+      if(sortv==='new') return (parseInt(b.year||0) - parseInt(a.year||0));
+      if(sortv==='old') return (parseInt(a.year||0) - parseInt(b.year||0));
+      if(sortv==='title') return (a.title||'').localeCompare(b.title||'');
+      return 0;
+    });
+    render(list);
+  }
+
+  function render(list){
+    grid.innerHTML = '';
+    if(!list.length){ empty.style.display='block'; return; } else { empty.style.display='none'; }
+    list.forEach(p=>{
+      const thumb = `/assets/thumbnails/${p.id}.png`;
+      const thumbHtml = `<div class="thumb"><img src="${thumb}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'; this.parentElement.innerText='PDF'"></div>`;
+      const tagsHtml = (p.tags||[]).slice(0,6).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('');
+      const fileLink = p.file || guessFilePath(p);
+      const titleLink = `<a href="${fileLink}" target="_blank" rel="noopener">${escapeHtml(p.title)}</a>`;
+      const metaHtml = `<div class="sub">${escapeHtml(p.subject||'')} · ${escapeHtml(p.paper_type||'')} · ${escapeHtml(p.level||'')} · ${escapeHtml(p.university||'')} · ${escapeHtml(p.year||'')}</div>`;
+      const card = document.createElement('div');
+      card.className='card';
+      card.innerHTML = `${thumbHtml}<div class="meta"><div class="title">${titleLink}</div>${metaHtml}<div class="tags">${tagsHtml}</div></div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function guessFilePath(p){
+    // fallback guess: /papers/<LEVEL>/<STREAM>/<TYPE>/<SUBJECT>/<YEAR>-<ID>.pdf
+    const lvl = p.level || 'CBCS';
+    const stream = p.stream || 'Science';
+    const type = p.paper_type || 'HCC';
+    const subj = p.subject || 'Physics';
+    const idpart = p.id || p.paper_name || '';
+    const yr = p.year || '';
+    const filename = (yr ? (yr+'-') : '') + idpart + '.pdf';
+    return `/papers/${lvl}/${stream}/${type}/${subj}/${filename}`;
+  }
+
+  // utilities
+  function unique(a){ return [...new Set(a.filter(x=>x!==undefined && x!==null))]; }
+  function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 })();
 </script>
-
 </body>
 </html>
