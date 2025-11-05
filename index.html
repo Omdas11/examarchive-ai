@@ -3,239 +3,333 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ExamArchive — Home</title>
-  <meta name="description" content="Community-driven archive of past exam papers." />
-  <meta name="theme-color" content="#b71c1c" />
+  <title>ExamArchive — Find & share past exam papers</title>
 
   <style>
     :root{
-      --accent: #b71c1c;
-      --bg: #fff;
-      --surface: #fbfbfb;
-      --header-surface: #f2f2f2; /* darker shade for header */
+      --bg: #fafafa;
+      --card: #ffffff;
       --muted: #6b6b6b;
-      --text: #111;
-      --footer-bg: #e6e6e9; /* grey bottom section */
-      --radius: 10px;
-    }
-    :root[data-theme="dark"]{
-      --bg: #070708;
-      --surface: #0d0e10;
-      --header-surface: #0b0b0d;
-      --muted: #9aa0a6;
-      --text: #e8e8e8;
-      --footer-bg: #111214;
+      --accent: #c62828; /* red accent */
+      --header-dark: #e9e9eb; /* darker header shade */
+      --footer-gray: #f0f1f3; /* bottom grey section */
+      --radius: 14px;
+      --max-width: 980px;
+      --container-padding: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    html,body{height:100%; margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
-    .wrap{max-width:980px; margin:0 auto; padding:1rem;}
-    header{
-      display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.5rem 0;
-      background:var(--header-surface); border-radius:12px; padding:0.6rem; box-shadow:0 6px 20px rgba(0,0,0,0.03);
+    /* Responsive base font sizing */
+    html { font-size: 16px; }
+    body{
+      margin:0;
+      background: var(--bg);
+      color: #111;
+      line-height: 1.45;
+      -webkit-text-size-adjust: 100%;
     }
-    .left-header{display:flex; align-items:center; gap:0.65rem;}
-    .brand{display:flex; align-items:center; gap:0.6rem; text-decoration:none; color:inherit;}
-    .logo{width:44px; height:44px; border-radius:8px; background:linear-gradient(135deg,var(--accent),#e64a19); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700;}
-    .title{font-weight:700; font-size:1rem;}
-    .subtitle{font-size:0.85rem; color:var(--muted);}
 
-    /* login on left */
-    .login-link{display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none; color:inherit; margin-left:6px;}
-    .avatar{width:40px; height:40px; border-radius:50%; background:linear-gradient(180deg,#fff,#f3f3f3); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); box-shadow:0 6px 16px rgba(0,0,0,0.06);}
-    :root[data-theme="dark"] .avatar{background:linear-gradient(180deg,#111,#181818);}
+    /* Layout container */
+    .site-wrap{
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 22px var(--container-padding);
+      box-sizing: border-box;
+    }
 
-    nav{display:flex; gap:0.5rem; align-items:center;}
-    .nav-link{font-weight:600; text-decoration:none; padding:0.45rem 0.6rem; border-radius:8px; color:var(--text);}
-    .nav-link:hover{background:rgba(0,0,0,0.04);}
+    /* Full-width header bar */
+    header.fullbar{
+      width:100%;
+      background: var(--header-dark);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    }
+    .header-inner{
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 12px var(--container-padding);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      box-sizing:border-box;
+    }
 
-    .right-controls{display:flex; align-items:center; gap:0.5rem;}
-
-    /* dark toggle small */
-    .dm { width:44px; height:28px; border-radius:999px; display:flex; align-items:center; justify-content:center; cursor:pointer; border:0; background:transparent; }
-    .dm .dot{width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 6px 14px rgba(0,0,0,0.12); transition:transform .18s; }
-    :root[data-theme="dark"] .dm .dot{transform:translateX(14px);}
-
-    /* content */
-    .hero{background:var(--surface); border-radius:10px; padding:1rem; margin-top:0.7rem; box-shadow:0 10px 28px rgba(0,0,0,0.04);}
-    .hero h1{margin:0 0 0.25rem 0; font-size:1.18rem;}
-    .hero p{margin:0 0 1rem 0; color:var(--muted); font-size:0.95rem;}
-
-    .search-row{display:flex; gap:0.5rem; margin-top:0.6rem;}
-    .search-input{flex:1; padding:0.6rem 0.75rem; border-radius:8px; border:1px solid rgba(0,0,0,0.08); font-size:0.95rem; background:transparent; color:var(--text);}
-    .search-btn{padding:0.6rem 0.9rem; border-radius:8px; border:0; background:var(--accent); color:#fff; font-weight:700;}
-
-    main{margin-top:1rem;}
-    .grid{display:grid; gap:1rem;}
-    .card{background:var(--surface); padding:0.85rem; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.03);}
-    h2.section-title{margin:0 0 0.6rem 0; font-size:1rem}
-
-    hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,rgba(0,0,0,0.06),transparent); margin:1.1rem 0;}
-
-    .two-cols{display:flex; gap:1rem; flex-wrap:wrap;}
-    .col{flex:1; min-width:160px;}
-    .small{font-size:0.95rem; color:var(--muted); margin:0.35rem 0;}
-    .link{color:var(--accent); text-decoration:none; font-weight:600;}
-
-    /* footer / bottom section in grey */
-    .bottom {
-      margin-top:1rem;
-      background:var(--footer-bg);
+    /* Logo / title */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .logo {
+      width:44px;
+      height:44px;
       border-radius:10px;
-      padding:0.9rem;
-      color:var(--muted);
-      text-align:center;
-      font-size:0.95rem;
+      background:var(--accent);
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:18px;
+      box-shadow: 0 6px 16px rgba(198,40,40,0.08);
+      flex-shrink:0;
+    }
+    .site-title{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+    .site-title .title { font-weight:700; font-size: clamp(0.9rem, 1.6vw, 1.05rem); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .site-title .subtitle { font-size: 0.78rem; color: var(--muted); margin-top:2px; }
+
+    /* Right nav (login, menu) align right */
+    .header-right {
+      margin-left:auto;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .login-pill{
+      background:transparent;
+      border-radius:999px;
+      padding:6px 10px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:#222;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .nav-links{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      font-weight:600;
+      color:#222;
+    }
+    .nav-links a { text-decoration:none; color:inherit; font-size:0.95rem; }
+
+    /* Main card */
+    main{
+      padding: 22px var(--container-padding) 42px;
     }
 
-    @media (min-width:860px){
-      .grid{grid-template-columns:1fr;}
+    .hero-card{
+      background:var(--card);
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: 0 8px 30px rgba(12,12,12,0.06);
+      margin-bottom:18px;
     }
+
+    h1{
+      margin:0 0 8px 0;
+      font-size: clamp(1.05rem, 2.6vw, 1.6rem); /* responsive */
+      letter-spacing: -0.2px;
+    }
+    p.lead{
+      margin:0 0 12px 0;
+      color:var(--muted);
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+    }
+
+    /* Search form */
+    .search-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .search-input{
+      flex:1;
+      min-width:0;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid #eee;
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+      box-sizing:border-box;
+    }
+    .btn{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding: 10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(198,40,40,0.12);
+      white-space:nowrap;
+    }
+
+    /* Latest uploads small card */
+    .small-card{
+      background:var(--card);
+      border-radius:12px;
+      padding:14px;
+      margin-bottom:16px;
+      box-shadow: 0 8px 20px rgba(12,12,12,0.04);
+    }
+    .muted-link { color:var(--muted); font-size:0.95rem; }
+
+    /* Footer */
+    footer.site-footer{
+      background: var(--footer-gray);
+      padding: 28px var(--container-padding);
+      margin-top:18px;
+    }
+    .footer-inner{
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display:flex;
+      gap:18px;
+      align-items:flex-start;
+      box-sizing:border-box;
+      padding-bottom:12px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+    }
+
+    .footer-column{
+      background:var(--card);
+      border-radius:12px;
+      padding:14px;
+      box-shadow: 0 6px 20px rgba(12,12,12,0.04);
+      min-width:220px;
+      flex:1 1 220px;
+      margin-bottom:12px;
+    }
+    .footer-column h4{ margin:0 0 8px 0; font-size:1rem; }
+    .footer-column p, .footer-column a{ margin:0; color:var(--muted); font-size:0.95rem; text-decoration:none; display:block; }
+    .footer-links a{ color:var(--accent); font-weight:700; margin-bottom:6px; display:inline-block; }
+
+    /* make sure nothing overflows on small screens */
+    * { box-sizing: border-box; }
+
+    /* Responsive tweaks for desktop */
+    @media(min-width:1100px){
+      body{ font-size: 0.98rem; } /* slightly smaller on larger screens */
+      .site-wrap{ padding: 30px; }
+      .header-inner{ padding: 18px 30px; }
+      h1{ font-size: 1.9rem; } /* cap headline */
+      .search-input{ font-size: 1rem; padding:14px 16px; }
+    }
+
+    /* Mobile specific */
+    @media(max-width:520px){
+      .header-inner{ padding: 10px 12px; gap:8px; }
+      .logo { width:40px; height:40px; font-size:16px; }
+      .header-right .nav-links { display:none; } /* hide full nav on mobile */
+      .search-row { flex-direction:row; }
+      .site-wrap{ padding: 14px; }
+      .footer-inner{ padding-top:18px; }
+      .footer-column{ min-width:unset; flex:1 1 100%; }
+    }
+
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="left-header">
-        <a class="brand" href="/">
-          <div class="logo">EA</div>
-          <div>
-            <div class="title">ExamArchive</div>
-            <div class="subtitle">Old question papers — community</div>
-          </div>
-        </a>
 
-        <!-- LOGIN on left -->
-        <a id="loginLink" class="login-link" href="/login.html" title="Sign in or view profile">
-          <div class="avatar" aria-hidden="true">G</div>
-          <div style="display:flex; flex-direction:column;">
-            <div id="loginName" style="font-weight:700; font-size:0.95rem;">Guest User</div>
-            <div id="loginRank" style="font-size:0.82rem; color:var(--muted);">Visitor</div>
-          </div>
-        </a>
+  <!-- full width header background -->
+  <header class="fullbar" role="banner">
+    <div class="header-inner">
+      <div class="brand" aria-label="ExamArchive home">
+        <div class="logo">EA</div>
+        <div class="site-title">
+          <div class="title">ExamArchive</div>
+          <div class="subtitle">Old question papers — community</div>
+        </div>
       </div>
 
-      <div style="display:flex; align-items:center; gap:0.6rem;">
-        <nav aria-label="Main navigation">
-          <!-- linked pages -->
-          <a class="nav-link" href="browse.html">Browse</a>
-          <a class="nav-link" href="upload.html">Upload</a>
-          <a class="nav-link" href="about.html">About</a>
+      <div class="header-right">
+        <!-- Login (left side as requested) -->
+        <div class="login-pill" title="Guest user">
+          <div style="width:28px;height:28px;border-radius:50%;background:#fff;color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700">G</div>
+          <div style="display:flex;flex-direction:column;line-height:1">
+            <span style="font-weight:700;font-size:0.95rem;">Guest</span>
+            <span style="font-size:0.74rem;color:var(--muted);margin-top:2px;">Visitor</span>
+          </div>
+        </div>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="browse.html">Browse</a>
+          <a href="upload.html">Upload</a>
+          <a href="about.html">About</a>
         </nav>
-
-        <div class="right-controls" aria-hidden="false">
-          <button id="darkToggle" class="dm" aria-pressed="false" title="Toggle dark mode">
-            <div class="dot" aria-hidden="true"></div>
-          </button>
-        </div>
       </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero card" aria-labelledby="hero-heading">
-      <h1 id="hero-heading">Find & share past exam papers</h1>
-      <p>Simple search — type subject, year or college and hit Search.</p>
-
-      <form onsubmit="event.preventDefault(); alert('Search demo — integrate later');" class="search-row" role="search" aria-label="Search papers">
-        <input class="search-input" type="search" placeholder="Physics, 2022, College name..." aria-label="Search papers">
-        <button class="search-btn" type="submit">Search</button>
-      </form>
-
-      <div style="margin-top:0.6rem; color:var(--muted); font-size:0.92rem;">Popular: Physics • Chemistry • Mathematics</div>
-    </section>
-
-    <main>
-      <div class="grid">
-        <div class="card">
-          <h2 class="section-title">Latest uploads</h2>
-          <p class="small">No recent uploads yet. Be the first to <a class="link" href="/upload.html">upload a paper</a>.</p>
-        </div>
-
-        <hr class="sep">
-
-        <section id="about-preview" class="card" aria-labelledby="about-title">
-          <h2 id="about-title" class="section-title">About (preview)</h2>
-          <p class="small">ExamArchive is a community-driven collection of past exam papers submitted by students and teachers to help revision and exam preparation. For full details see the About page.</p>
-          <p class="small"><a class="link" href="/about.html">Read full About</a></p>
-        </section>
-
-        <hr class="sep">
-
-        <section class="card" aria-labelledby="sources-title">
-          <h2 id="sources-title" class="section-title">Sources</h2>
-          <p class="small">Community contributions, archived college notices, volunteer uploads. If you own content that should be removed, contact us.</p>
-        </section>
-
-        <hr class="sep">
-
-        <section class="card" aria-labelledby="links-title">
-          <h2 id="links-title" class="section-title">Important links</h2>
-          <div class="two-cols">
-            <div class="col">
-              <div><a class="link" href="/upload.html">Upload paper</a></div>
-              <div class="small"><a class="link" href="/browse.html">Browse papers</a></div>
-              <div class="small"><a class="link" href="/collections.html">Collections</a></div>
-            </div>
-            <div class="col">
-              <div class="small">Privacy • Terms</div>
-              <div class="small">Contact: <a class="link" href="mailto:youremail@example.com">youremail@example.com</a></div>
-            </div>
-          </div>
-        </section>
-
-        <hr class="sep">
-
-        <section class="card" aria-labelledby="social-title">
-          <h2 id="social-title" class="section-title">Social</h2>
-          <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-            <a class="link" href="https://wa.me/your-number" aria-label="WhatsApp">WhatsApp</a>
-            <a class="link" href="https://instagram.com/your-handle" aria-label="Instagram">Instagram</a>
-            <a class="link" href="https://facebook.com/your-page" aria-label="Facebook">Facebook</a>
-            <a class="link" href="https://twitter.com/your-handle" aria-label="Twitter">Twitter</a>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <div class="bottom">
-      © <span id="year"></span> ExamArchive • Made by community • <a class="link" href="/about.html">About</a>
     </div>
-  </div>
+  </header>
 
-  <script>
-    // set year
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <!-- main page content -->
+  <main>
+    <div class="site-wrap">
+      <section class="hero-card" aria-labelledby="findpapers">
+        <h1 id="findpapers">Find & share past exam papers</h1>
+        <p class="lead">Simple search — type subject, year or college and hit Search.</p>
 
-    // dark mode toggle
-    const root = document.documentElement;
-    const stored = localStorage.getItem('ea-theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    function applyTheme(t){
-      if(t === 'dark') root.setAttribute('data-theme','dark');
-      else root.removeAttribute('data-theme');
-    }
-    if(stored) applyTheme(stored); else applyTheme(prefersDark ? 'dark' : 'light');
-    document.getElementById('darkToggle').addEventListener('click', () => {
-      const isDark = root.getAttribute('data-theme') === 'dark';
-      const next = isDark ? 'light' : 'dark';
-      applyTheme(next);
-      localStorage.setItem('ea-theme', next);
-      document.getElementById('darkToggle').setAttribute('aria-pressed', (next==='dark').toString());
-    });
+        <form class="search-row" onsubmit="event.preventDefault(); alert('Search demo — integrate your search logic');">
+          <input class="search-input" type="search" placeholder="Physics, 2022, College name..." aria-label="Search papers" />
+          <button class="btn" type="submit">Search</button>
+        </form>
 
-    // small API to set profile later
-    function setProfile({name='Guest User', rank='Visitor', avatarUrl=null} = {}) {
-      document.getElementById('loginName').textContent = name;
-      document.getElementById('loginRank').textContent = rank;
-      if(avatarUrl) {
-        const av = document.querySelector('.avatar');
-        av.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = avatarUrl; img.alt = name;
-        img.style.width = '100%'; img.style.height = '100%'; img.style.objectFit = 'cover';
-        av.appendChild(img);
-      }
-    }
-    window.EA = { setProfile };
-  </script>
+        <div style="margin-top:10px;color:var(--muted);font-size:0.9rem">
+          Popular: <strong style="color:var(--accent)">Physics</strong> · Chemistry · Mathematics
+        </div>
+      </section>
+
+      <div class="small-card" aria-live="polite">
+        <strong>Latest uploads</strong>
+        <div style="margin-top:8px;color:var(--muted);">No recent uploads yet. Be the first to <a href="upload.html" class="muted-link" style="color:var(--accent)">upload a paper</a>.</div>
+      </div>
+
+      <!-- preview of about moved to footer — kept minimal here -->
+      <div class="small-card">
+        <strong>About (preview)</strong>
+        <p style="margin-top:8px;color:var(--muted)">
+          ExamArchive is a community-driven collection of past exam papers submitted by students and teachers to help revision and exam preparation.
+          For full details see the About page.
+        </p>
+        <div style="margin-top:10px"><a href="about.html" style="color:var(--accent);font-weight:700">Read full About</a></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer: About, Sources, Important links grouped -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-column" aria-labelledby="f-about">
+        <h4 id="f-about">About</h4>
+        <p>ExamArchive is a community-driven repository of old question papers submitted by students and teachers to help with revision and exam prep.</p>
+      </div>
+
+      <div class="footer-column" aria-labelledby="f-sources">
+        <h4 id="f-sources">Sources</h4>
+        <p>Community contributions, archived notices, volunteer uploads. If you own content that should be removed, contact us.</p>
+      </div>
+
+      <div class="footer-column" aria-labelledby="f-links">
+        <h4 id="f-links">Important links</h4>
+        <div class="footer-links" style="margin-top:8px">
+          <a href="upload.html">Upload paper</a><br/>
+          <a href="browse.html">Browse papers</a><br/>
+          <a href="collections.html">Collections</a>
+        </div>
+
+        <div style="margin-top:12px;color:var(--muted)">
+          <div style="font-weight:700;color:#333">Contact:</div>
+          <div>youremail@example.com</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:var(--max-width);margin:0 auto;padding:0 var(--container-padding);color:var(--muted);font-size:0.9rem;">
+      <div style="padding:12px 0 0;border-top:1px solid rgba(0,0,0,0.04);margin-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+        <div>© <strong>ExamArchive</strong> — Community run</div>
+        <div style="margin-top:8px">Privacy · Terms · <a href="#" style="color:var(--accent);text-decoration:none;font-weight:700">Report</a></div>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>
