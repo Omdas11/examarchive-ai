@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="styles/common.css">
   <style>
     .collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-    .collection-card{background:#fff;padding:10px;border-radius:8px;box-shadow:0 2px 0 rgba(0,0,0,0.04)}
+    .collection-card{background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 0 rgba(0,0,0,0.04)}
     .small-muted{font-size:0.9rem;color:#666}
+    .col-header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
   </style>
 </head>
 <body>
@@ -26,13 +27,20 @@
 
   <main class="container">
     <h1>Collections</h1>
-    <p class="small-muted">Collections are generated from your papers metadata. If you have no explicit collections, the page will group by type automatically.</p>
+    <p class="small-muted">Collections are generated from your papers metadata. If you have no explicit `collection` field, the page will automatically group by subject, type, system, category, or stream.</p>
 
     <div style="margin-top:12px;background:#fff;padding:12px;border-radius:8px">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button id="groupBySubject" class="btn">Group by subject</button>
-        <button id="groupByType" class="btn">Group by type</button>
-        <button id="refreshBtn" class="btn">Refresh</button>
+      <div class="col-header" style="margin-bottom:10px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="groupBySubject" class="btn">Group by subject</button>
+          <button id="groupByType" class="btn">Group by type</button>
+          <button id="groupBySystem" class="btn">Group by system</button>
+          <button id="groupByCategory" class="btn">Group by category</button>
+          <button id="groupByStream" class="btn">Group by stream</button>
+        </div>
+        <div>
+          <button id="refreshBtn" class="btn">Refresh</button>
+        </div>
       </div>
 
       <div id="collectionsArea" style="margin-top:12px"></div>
@@ -43,30 +51,40 @@
     const DATA_URL = 'papers/papers.json';
     const collectionsArea = document.getElementById('collectionsArea');
 
+    // fields tried in fallback order when auto-detecting collections
+    const FALLBACK_FIELDS = ['collection','subject','type','system','category','stream'];
+
     async function loadPapers(){
       try{
         const r = await fetch(DATA_URL);
         const papers = await r.json();
         return Array.isArray(papers) ? papers : [];
       }catch(e){
+        console.error(e);
         return [];
       }
+    }
+
+    function normalizeKey(k){
+      if(!k) return 'Unknown';
+      return String(k).trim() || 'Unknown';
     }
 
     function renderCollections(map){
       collectionsArea.innerHTML = '';
       if(Object.keys(map).length === 0){
-        collectionsArea.innerHTML = '<div style="padding:12px;color:#666">No collections found. Try grouping by subject or type.</div>';
+        collectionsArea.innerHTML = '<div style="padding:12px;color:#666">No collections found. Try using the buttons above to group by a specific field.</div>';
         return;
       }
       const grid = document.createElement('div'); grid.className='collection-grid';
-      for(const key of Object.keys(map).sort()){
+      for(const key of Object.keys(map).sort((a,b)=> a.localeCompare(b))){
         const card = document.createElement('div'); card.className='collection-card';
         const title = document.createElement('div'); title.style.fontWeight='700'; title.textContent = key;
         const count = document.createElement('div'); count.style.fontSize='0.92rem'; count.style.color='#666'; count.textContent = map[key].length + ' papers';
         const seeBtn = document.createElement('button'); seeBtn.className='btn'; seeBtn.textContent='Open';
         seeBtn.addEventListener('click', ()=> {
-          const list = map[key].map(p => `${p.id} — ${p.title} (${p.year || ''})`).join('\\n');
+          // build simple listing
+          const list = map[key].map(p => `${p.id || ''} — ${p.title || ''} (${p.year || ''})`).join('\\n');
           alert(key + '\\n\\n' + list);
         });
         card.appendChild(title); card.appendChild(count); card.appendChild(seeBtn);
@@ -75,22 +93,46 @@
       collectionsArea.appendChild(grid);
     }
 
-    async function groupByField(field){
+    // Create a map grouping by specified field name (fieldName may be array of fallbacks)
+    async function groupByFields(fieldNames){
       const papers = await loadPapers();
       const map = {};
       for(const p of papers){
-        const val = (p.collection || p[field] || 'Unknown') || 'Unknown';
-        if(Array.isArray(val)){
-          for(const v of val){ (map[v] = map[v] || []).push(p); }
+        let value = null;
+        if(Array.isArray(fieldNames)){
+          for(const f of fieldNames){
+            if(p[f]) { value = p[f]; break; }
+          }
         } else {
-          (map[val] = map[val] || []).push(p);
+          value = p[fieldNames];
+        }
+
+        if(!value){
+          // if there is no suitable field, try the fallback set
+          for(const ff of FALLBACK_FIELDS){
+            if(p[ff]) { value = p[ff]; break; }
+          }
+        }
+
+        const key = normalizeKey(value);
+        if(Array.isArray(value)){
+          for(const v of value){
+            const kk = normalizeKey(v);
+            (map[kk] = map[kk] || []).push(p);
+          }
+        } else {
+          (map[key] = map[key] || []).push(p);
         }
       }
       renderCollections(map);
     }
 
-    document.getElementById('groupBySubject').addEventListener('click', ()=> groupByField('subject'));
-    document.getElementById('groupByType').addEventListener('click', ()=> groupByField('type'));
+    document.getElementById('groupBySubject').addEventListener('click', ()=> groupByFields('subject'));
+    document.getElementById('groupByType').addEventListener('click', ()=> groupByFields('type'));
+    document.getElementById('groupBySystem').addEventListener('click', ()=> groupByFields('system'));
+    document.getElementById('groupByCategory').addEventListener('click', ()=> groupByFields('category'));
+    document.getElementById('groupByStream').addEventListener('click', ()=> groupByFields('stream'));
+
     document.getElementById('refreshBtn').addEventListener('click', async ()=>{
       collectionsArea.innerHTML = '<div style="padding:12px">Refreshing…</div>';
       const papers = await loadPapers();
@@ -98,25 +140,32 @@
       else collectionsArea.innerHTML = '<div style="padding:12px;color:#666">Use the buttons to group papers into collections.</div>';
     });
 
-    // initial load: prefer explicit collection fields, else auto group by type
+    // initial load: prefer explicit collection -> subject -> type -> system etc.
     (async ()=>{
       const papers = await loadPapers();
       if(papers.length === 0){
         collectionsArea.innerHTML = '<div style="padding:12px;color:#666">No papers found in papers/papers.json</div>';
         return;
       }
+
+      // First, if any explicit collection fields exist, use them
       const explicit = papers.filter(p => p.collection);
       if(explicit.length){
         const map = {};
         for(const p of explicit){
-          const col = p.collection || 'Unknown';
-          (map[col] = map[col] || []).push(p);
+          const colVal = p.collection || 'Unknown';
+          if(Array.isArray(colVal)){
+            for(const v of colVal){ (map[v] = map[v] || []).push(p); }
+          } else {
+            (map[normalizeKey(colVal)] = map[normalizeKey(colVal)] || []).push(p);
+          }
         }
         renderCollections(map);
-      } else {
-        // fallback: group by type automatically so user sees something
-        groupByField('type');
+        return;
       }
+
+      // Otherwise auto-group by the fallback order: subject -> type -> system -> category -> stream
+      groupByFields(['subject','type','system','category','stream']);
     })();
   </script>
 </body>
