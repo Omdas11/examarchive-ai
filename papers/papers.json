@@ -9,7 +9,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc101t-2020",
@@ -21,7 +22,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc101t-2021",
@@ -33,7 +35,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc101t-2022",
@@ -45,7 +48,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc101t-2023",
@@ -57,7 +61,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc101t-2024",
@@ -69,7 +74,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc101t-2025",
@@ -81,7 +87,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc101p-2019",
@@ -93,7 +100,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc101p-2020",
@@ -105,7 +113,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc101p-2021",
@@ -117,7 +126,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc101p-2022",
@@ -129,7 +139,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc101p-2023",
@@ -141,7 +152,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc101p-2024",
@@ -153,7 +165,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc101p-2025",
@@ -165,7 +178,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc102t-2019",
@@ -177,7 +191,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc102t-2020",
@@ -189,7 +204,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc102t-2021",
@@ -201,7 +217,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc102t-2022",
@@ -213,7 +230,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc102t-2023",
@@ -225,7 +243,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc102t-2024",
@@ -237,7 +256,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc102t-2025",
@@ -249,7 +269,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc102p-2019",
@@ -261,7 +282,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc102p-2020",
@@ -273,7 +295,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc102p-2021",
@@ -285,7 +308,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc102p-2022",
@@ -297,7 +321,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc102p-2023",
@@ -309,7 +334,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc102p-2024",
@@ -321,7 +347,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc102p-2025",
@@ -333,7 +360,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc201t-2019",
@@ -345,7 +373,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc201t-2020",
@@ -357,7 +386,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc201t-2021",
@@ -369,7 +399,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc201t-2022",
@@ -381,7 +412,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc201t-2023",
@@ -393,7 +425,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc201t-2024",
@@ -405,7 +438,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc201t-2025",
@@ -417,7 +451,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc201p-2019",
@@ -429,7 +464,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc201p-2020",
@@ -441,7 +477,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc201p-2021",
@@ -453,7 +490,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc201p-2022",
@@ -465,7 +503,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc201p-2023",
@@ -477,7 +516,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc201p-2024",
@@ -489,7 +529,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc201p-2025",
@@ -501,7 +542,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc202t-2019",
@@ -513,7 +555,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc202t-2020",
@@ -525,7 +568,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc202t-2021",
@@ -537,7 +581,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc202t-2022",
@@ -549,7 +594,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc202t-2023",
@@ -561,7 +607,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc202t-2024",
@@ -573,7 +620,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc202t-2025",
@@ -585,7 +633,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc202p-2019",
@@ -597,7 +646,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc202p-2020",
@@ -609,7 +659,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc202p-2021",
@@ -621,7 +672,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc202p-2022",
@@ -633,7 +685,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc202p-2023",
@@ -645,7 +698,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc202p-2024",
@@ -657,7 +711,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc202p-2025",
@@ -669,7 +724,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc301t-2019",
@@ -681,7 +737,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc301t-2020",
@@ -693,7 +750,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc301t-2021",
@@ -705,7 +763,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc301t-2022",
@@ -717,7 +776,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc301t-2023",
@@ -729,7 +789,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc301t-2024",
@@ -741,7 +802,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc301t-2025",
@@ -753,7 +815,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc301p-2019",
@@ -765,7 +828,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc301p-2020",
@@ -777,7 +841,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc301p-2021",
@@ -789,7 +854,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc301p-2022",
@@ -801,7 +867,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc301p-2023",
@@ -813,7 +880,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc301p-2024",
@@ -825,7 +893,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc301p-2025",
@@ -837,7 +906,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc302t-2019",
@@ -849,7 +919,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc302t-2020",
@@ -861,7 +932,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc302t-2021",
@@ -873,7 +945,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc302t-2022",
@@ -885,7 +958,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc302t-2023",
@@ -897,7 +971,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc302t-2024",
@@ -909,7 +984,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc302t-2025",
@@ -921,7 +997,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc302p-2019",
@@ -933,7 +1010,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc302p-2020",
@@ -945,7 +1023,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc302p-2021",
@@ -957,7 +1036,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc302p-2022",
@@ -969,7 +1049,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc302p-2023",
@@ -981,7 +1062,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc302p-2024",
@@ -993,7 +1075,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc302p-2025",
@@ -1005,7 +1088,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc303t-2019",
@@ -1017,7 +1101,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc303t-2020",
@@ -1029,7 +1114,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc303t-2021",
@@ -1041,7 +1127,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc303t-2022",
@@ -1053,7 +1140,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc303t-2023",
@@ -1065,7 +1153,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc303t-2024",
@@ -1077,7 +1166,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc303t-2025",
@@ -1089,7 +1179,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc303p-2019",
@@ -1101,7 +1192,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc303p-2020",
@@ -1113,7 +1205,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc303p-2021",
@@ -1125,7 +1218,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc303p-2022",
@@ -1137,7 +1231,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc303p-2023",
@@ -1149,7 +1244,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc303p-2024",
@@ -1161,7 +1257,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc303p-2025",
@@ -1173,7 +1270,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc401t-2019",
@@ -1185,7 +1283,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc401t-2020",
@@ -1197,7 +1296,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc401t-2021",
@@ -1209,7 +1309,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc401t-2022",
@@ -1221,7 +1322,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc401t-2023",
@@ -1233,7 +1335,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc401t-2024",
@@ -1245,7 +1348,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc401t-2025",
@@ -1257,7 +1361,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc401p-2019",
@@ -1269,7 +1374,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc401p-2020",
@@ -1281,7 +1387,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc401p-2021",
@@ -1293,7 +1400,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc401p-2022",
@@ -1305,7 +1413,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc401p-2023",
@@ -1317,7 +1426,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc401p-2024",
@@ -1329,7 +1439,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc401p-2025",
@@ -1341,7 +1452,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc402t-2019",
@@ -1353,7 +1465,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc402t-2020",
@@ -1365,7 +1478,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc402t-2021",
@@ -1377,7 +1491,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc402t-2022",
@@ -1389,7 +1504,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc402t-2023",
@@ -1401,7 +1517,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc402t-2024",
@@ -1413,7 +1530,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc402t-2025",
@@ -1425,7 +1543,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc402p-2019",
@@ -1437,7 +1556,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc402p-2020",
@@ -1449,7 +1569,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc402p-2021",
@@ -1461,7 +1582,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc402p-2022",
@@ -1473,7 +1595,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc402p-2023",
@@ -1485,7 +1608,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc402p-2024",
@@ -1497,7 +1621,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc402p-2025",
@@ -1509,7 +1634,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc403t-2019",
@@ -1521,7 +1647,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc403t-2020",
@@ -1533,7 +1660,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc403t-2021",
@@ -1545,7 +1673,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc403t-2022",
@@ -1557,7 +1686,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc403t-2023",
@@ -1569,7 +1699,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc403t-2024",
@@ -1581,7 +1712,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc403t-2025",
@@ -1593,7 +1725,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc403p-2019",
@@ -1605,7 +1738,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc403p-2020",
@@ -1617,7 +1751,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc403p-2021",
@@ -1629,7 +1764,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc403p-2022",
@@ -1641,7 +1777,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc403p-2023",
@@ -1653,7 +1790,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc403p-2024",
@@ -1665,7 +1803,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc403p-2025",
@@ -1677,7 +1816,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc501t-2019",
@@ -1689,7 +1829,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc501t-2020",
@@ -1701,7 +1842,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc501t-2021",
@@ -1713,7 +1855,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc501t-2022",
@@ -1725,7 +1868,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc501t-2023",
@@ -1737,7 +1881,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc501t-2024",
@@ -1749,7 +1894,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc501t-2025",
@@ -1761,7 +1907,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc501p-2019",
@@ -1773,7 +1920,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc501p-2020",
@@ -1785,7 +1933,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc501p-2021",
@@ -1797,7 +1946,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc501p-2022",
@@ -1809,7 +1959,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc501p-2023",
@@ -1821,7 +1972,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc501p-2024",
@@ -1833,7 +1985,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc501p-2025",
@@ -1845,7 +1998,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc502t-2019",
@@ -1857,7 +2011,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc502t-2020",
@@ -1869,7 +2024,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc502t-2021",
@@ -1881,7 +2037,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc502t-2022",
@@ -1893,7 +2050,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc502t-2023",
@@ -1905,7 +2063,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc502t-2024",
@@ -1917,7 +2076,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc502t-2025",
@@ -1929,7 +2089,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc502p-2019",
@@ -1941,7 +2102,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc502p-2020",
@@ -1953,7 +2115,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc502p-2021",
@@ -1965,7 +2128,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc502p-2022",
@@ -1977,7 +2141,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc502p-2023",
@@ -1989,7 +2154,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc502p-2024",
@@ -2001,7 +2167,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc502p-2025",
@@ -2013,7 +2180,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc601t-2019",
@@ -2025,7 +2193,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc601t-2020",
@@ -2037,7 +2206,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc601t-2021",
@@ -2049,7 +2219,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc601t-2022",
@@ -2061,7 +2232,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc601t-2023",
@@ -2073,7 +2245,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc601t-2024",
@@ -2085,7 +2258,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc601t-2025",
@@ -2097,7 +2271,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc601p-2019",
@@ -2109,7 +2284,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc601p-2020",
@@ -2121,7 +2297,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc601p-2021",
@@ -2133,7 +2310,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc601p-2022",
@@ -2145,7 +2323,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc601p-2023",
@@ -2157,7 +2336,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc601p-2024",
@@ -2169,7 +2349,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc601p-2025",
@@ -2181,7 +2362,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc602t-2019",
@@ -2193,7 +2375,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc602t-2020",
@@ -2205,7 +2388,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc602t-2021",
@@ -2217,7 +2401,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc602t-2022",
@@ -2229,7 +2414,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc602t-2023",
@@ -2241,7 +2427,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc602t-2024",
@@ -2253,7 +2440,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc602t-2025",
@@ -2265,7 +2453,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshcc602p-2019",
@@ -2277,7 +2466,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshcc602p-2020",
@@ -2289,7 +2479,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshcc602p-2021",
@@ -2301,7 +2492,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshcc602p-2022",
@@ -2313,7 +2505,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshcc602p-2023",
@@ -2325,7 +2518,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshcc602p-2024",
@@ -2337,7 +2531,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshcc602p-2025",
@@ -2349,7 +2544,8 @@
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse501t-a-2019",
@@ -2361,7 +2557,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse501t-a-2020",
@@ -2373,7 +2570,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse501t-a-2021",
@@ -2385,7 +2583,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse501t-a-2022",
@@ -2397,7 +2596,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse501t-a-2023",
@@ -2409,7 +2609,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse501t-a-2024",
@@ -2421,7 +2622,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse501t-a-2025",
@@ -2433,7 +2635,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse501t-b-2019",
@@ -2445,7 +2648,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse501t-b-2020",
@@ -2457,7 +2661,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse501t-b-2021",
@@ -2469,7 +2674,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse501t-b-2022",
@@ -2481,7 +2687,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse501t-b-2023",
@@ -2493,7 +2700,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse501t-b-2024",
@@ -2505,7 +2713,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse501t-b-2025",
@@ -2517,7 +2726,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse502t-a-2019",
@@ -2529,7 +2739,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse502t-a-2020",
@@ -2541,7 +2752,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse502t-a-2021",
@@ -2553,7 +2765,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse502t-a-2022",
@@ -2565,7 +2778,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse502t-a-2023",
@@ -2577,7 +2791,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse502t-a-2024",
@@ -2589,7 +2804,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse502t-a-2025",
@@ -2601,7 +2817,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse502t-b-2019",
@@ -2613,7 +2830,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse502t-b-2020",
@@ -2625,7 +2843,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse502t-b-2021",
@@ -2637,7 +2856,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse502t-b-2022",
@@ -2649,7 +2869,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse502t-b-2023",
@@ -2661,7 +2882,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse502t-b-2024",
@@ -2673,7 +2895,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse502t-b-2025",
@@ -2685,7 +2908,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse601t-a-2019",
@@ -2697,7 +2921,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse601t-a-2020",
@@ -2709,7 +2934,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse601t-a-2021",
@@ -2721,7 +2947,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse601t-a-2022",
@@ -2733,7 +2960,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse601t-a-2023",
@@ -2745,7 +2973,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse601t-a-2024",
@@ -2757,7 +2986,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse601t-a-2025",
@@ -2769,7 +2999,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse601t-b-2019",
@@ -2781,7 +3012,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse601t-b-2020",
@@ -2793,7 +3025,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse601t-b-2021",
@@ -2805,7 +3038,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse601t-b-2022",
@@ -2817,7 +3051,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse601t-b-2023",
@@ -2829,7 +3064,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse601t-b-2024",
@@ -2841,7 +3077,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse601t-b-2025",
@@ -2853,7 +3090,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse602t-a-2019",
@@ -2865,7 +3103,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse602t-a-2020",
@@ -2877,7 +3116,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse602t-a-2021",
@@ -2889,7 +3129,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse602t-a-2022",
@@ -2901,7 +3142,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse602t-a-2023",
@@ -2913,7 +3155,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse602t-a-2024",
@@ -2925,7 +3168,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse602t-a-2025",
@@ -2937,7 +3181,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phshdse602t-b-2019",
@@ -2949,7 +3194,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phshdse602t-b-2020",
@@ -2961,7 +3207,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phshdse602t-b-2021",
@@ -2973,7 +3220,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phshdse602t-b-2022",
@@ -2985,7 +3233,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phshdse602t-b-2023",
@@ -2997,7 +3246,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phshdse602t-b-2024",
@@ -3009,7 +3259,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phshdse602t-b-2025",
@@ -3021,7 +3272,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phsdse501t-2019",
@@ -3033,7 +3285,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phsdse501t-2020",
@@ -3045,7 +3298,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phsdse501t-2021",
@@ -3057,7 +3311,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phsdse501t-2022",
@@ -3069,7 +3324,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phsdse501t-2023",
@@ -3081,7 +3337,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phsdse501t-2024",
@@ -3093,7 +3350,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phsdse501t-2025",
@@ -3105,7 +3363,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phsdse501t-a-2019",
@@ -3117,7 +3376,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phsdse501t-a-2020",
@@ -3129,7 +3389,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phsdse501t-a-2021",
@@ -3141,7 +3402,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phsdse501t-a-2022",
@@ -3153,7 +3415,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phsdse501t-a-2023",
@@ -3165,7 +3428,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phsdse501t-a-2024",
@@ -3177,7 +3441,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phsdse501t-a-2025",
@@ -3189,7 +3454,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phsdse501t-b-2019",
@@ -3201,7 +3467,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phsdse501t-b-2020",
@@ -3213,7 +3480,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phsdse501t-b-2021",
@@ -3225,7 +3493,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phsdse501t-b-2022",
@@ -3237,7 +3506,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phsdse501t-b-2023",
@@ -3249,7 +3519,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phsdse501t-b-2024",
@@ -3261,7 +3532,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phsdse501t-b-2025",
@@ -3273,7 +3545,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phsdse601t-a-2019",
@@ -3285,7 +3558,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phsdse601t-a-2020",
@@ -3297,7 +3571,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phsdse601t-a-2021",
@@ -3309,7 +3584,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phsdse601t-a-2022",
@@ -3321,7 +3597,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phsdse601t-a-2023",
@@ -3333,7 +3610,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phsdse601t-a-2024",
@@ -3345,7 +3623,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phsdse601t-a-2025",
@@ -3357,7 +3636,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phsdse601t-b-2019",
@@ -3369,7 +3649,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phsdse601t-b-2020",
@@ -3381,7 +3662,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phsdse601t-b-2021",
@@ -3393,7 +3675,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phsdse601t-b-2022",
@@ -3405,7 +3688,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phsdse601t-b-2023",
@@ -3417,7 +3701,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phsdse601t-b-2024",
@@ -3429,7 +3714,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phsdse601t-b-2025",
@@ -3441,7 +3727,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phsdse601t-c-2019",
@@ -3453,7 +3740,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "phsdse601t-c-2020",
@@ -3465,7 +3753,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "phsdse601t-c-2021",
@@ -3477,7 +3766,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "phsdse601t-c-2022",
@@ -3489,7 +3779,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "phsdse601t-c-2023",
@@ -3501,7 +3792,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phsdse601t-c-2024",
@@ -3513,7 +3805,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phsdse601t-c-2025",
@@ -3525,7 +3818,8 @@
     "university": "Assam University",
     "category": "DSE",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "physec301t-2019",
@@ -3537,7 +3831,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "physec301t-2020",
@@ -3549,7 +3844,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "physec301t-2021",
@@ -3561,7 +3857,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "physec301t-2022",
@@ -3573,7 +3870,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "physec301t-2023",
@@ -3585,7 +3883,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "physec301t-2024",
@@ -3597,7 +3896,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "physec301t-2025",
@@ -3609,7 +3909,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "physec401t-2019",
@@ -3621,7 +3922,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2019
+    "year": 2019,
+    "available": false
   },
   {
     "id": "physec401t-2020",
@@ -3633,7 +3935,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2020
+    "year": 2020,
+    "available": false
   },
   {
     "id": "physec401t-2021",
@@ -3645,7 +3948,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2021
+    "year": 2021,
+    "available": false
   },
   {
     "id": "physec401t-2022",
@@ -3657,7 +3961,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2022
+    "year": 2022,
+    "available": false
   },
   {
     "id": "physec401t-2023",
@@ -3669,7 +3974,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "physec401t-2024",
@@ -3681,7 +3987,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "physec401t-2025",
@@ -3693,7 +4000,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "CBCS",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc101t-2023",
@@ -3705,7 +4013,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc101t-2024",
@@ -3717,7 +4026,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc101t-2025",
@@ -3729,7 +4039,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc101t-2026",
@@ -3741,7 +4052,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc102t-2023",
@@ -3753,7 +4065,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc102t-2024",
@@ -3765,7 +4078,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc102t-2025",
@@ -3777,7 +4091,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc102t-2026",
@@ -3789,7 +4104,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc151t-2023",
@@ -3801,7 +4117,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc151t-2024",
@@ -3813,7 +4130,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc151t-2025",
@@ -3825,7 +4143,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc151t-2026",
@@ -3837,7 +4156,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc152p-2023",
@@ -3849,7 +4169,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc152p-2024",
@@ -3861,7 +4182,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc152p-2025",
@@ -3873,7 +4195,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc152p-2026",
@@ -3885,7 +4208,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc201t-2023",
@@ -3897,7 +4221,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc201t-2024",
@@ -3909,7 +4234,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc201t-2025",
@@ -3921,7 +4247,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc201t-2026",
@@ -3933,7 +4260,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc202t-2023",
@@ -3945,7 +4273,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc202t-2024",
@@ -3957,7 +4286,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc202t-2025",
@@ -3969,7 +4299,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc202t-2026",
@@ -3981,7 +4312,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc251t-2023",
@@ -3993,7 +4325,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc251t-2024",
@@ -4005,7 +4338,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc251t-2025",
@@ -4017,7 +4351,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc251t-2026",
@@ -4029,7 +4364,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc252t-2023",
@@ -4041,7 +4377,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc252t-2024",
@@ -4053,7 +4390,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc252t-2025",
@@ -4065,7 +4403,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc252t-2026",
@@ -4077,7 +4416,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc253p-2023",
@@ -4089,7 +4429,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc253p-2024",
@@ -4101,7 +4442,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc253p-2025",
@@ -4113,7 +4455,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc253p-2026",
@@ -4125,7 +4468,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc301t-2023",
@@ -4137,7 +4481,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc301t-2024",
@@ -4149,7 +4494,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc301t-2025",
@@ -4161,7 +4507,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc301t-2026",
@@ -4173,7 +4520,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc302t-2023",
@@ -4185,7 +4533,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc302t-2024",
@@ -4197,7 +4546,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc302t-2025",
@@ -4209,7 +4559,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc302t-2026",
@@ -4221,7 +4572,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc303p-2023",
@@ -4233,7 +4585,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc303p-2024",
@@ -4245,7 +4598,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc303p-2025",
@@ -4257,7 +4611,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc303p-2026",
@@ -4269,7 +4624,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc351t-2023",
@@ -4281,7 +4637,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc351t-2024",
@@ -4293,7 +4650,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc351t-2025",
@@ -4305,7 +4663,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc351t-2026",
@@ -4317,7 +4676,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc352t-2023",
@@ -4329,7 +4689,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc352t-2024",
@@ -4341,7 +4702,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc352t-2025",
@@ -4353,7 +4715,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc352t-2026",
@@ -4365,7 +4728,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc353t-2023",
@@ -4377,7 +4741,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc353t-2024",
@@ -4389,7 +4754,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc353t-2025",
@@ -4401,7 +4767,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc353t-2026",
@@ -4413,7 +4780,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc354p-2023",
@@ -4425,7 +4793,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc354p-2024",
@@ -4437,7 +4806,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc354p-2025",
@@ -4449,7 +4819,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc354p-2026",
@@ -4461,7 +4832,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc401t-2023",
@@ -4473,7 +4845,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc401t-2024",
@@ -4485,7 +4858,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc401t-2025",
@@ -4497,7 +4871,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc401t-2026",
@@ -4509,7 +4884,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc402t-2023",
@@ -4521,7 +4897,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc402t-2024",
@@ -4533,7 +4910,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc402t-2025",
@@ -4545,7 +4923,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc402t-2026",
@@ -4557,7 +4936,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc403t-2023",
@@ -4569,7 +4949,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc403t-2024",
@@ -4581,7 +4962,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc403t-2025",
@@ -4593,7 +4975,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc403t-2026",
@@ -4605,7 +4988,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc404p-2023",
@@ -4617,7 +5001,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc404p-2024",
@@ -4629,7 +5014,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc404p-2025",
@@ -4641,7 +5027,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc404p-2026",
@@ -4653,7 +5040,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc451t-2023",
@@ -4665,7 +5053,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc451t-2024",
@@ -4677,7 +5066,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc451t-2025",
@@ -4689,7 +5079,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc451t-2026",
@@ -4701,7 +5092,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc452t-2023",
@@ -4713,7 +5105,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc452t-2024",
@@ -4725,7 +5118,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc452t-2025",
@@ -4737,7 +5131,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc452t-2026",
@@ -4749,7 +5144,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc453a-t-2023",
@@ -4761,7 +5157,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc453a-t-2024",
@@ -4773,7 +5170,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc453a-t-2025",
@@ -4785,7 +5183,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc453a-t-2026",
@@ -4797,7 +5196,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc453b-t-2023",
@@ -4809,7 +5209,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc453b-t-2024",
@@ -4821,7 +5222,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc453b-t-2025",
@@ -4833,7 +5235,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc453b-t-2026",
@@ -4845,7 +5248,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phydsc454t-2023",
@@ -4857,7 +5261,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phydsc454t-2024",
@@ -4869,7 +5274,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phydsc454t-2025",
@@ -4881,7 +5287,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phydsc454t-2026",
@@ -4893,7 +5300,8 @@
     "university": "Assam University",
     "category": "DSC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "physec-101-2023",
@@ -4905,7 +5313,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "physec-101-2024",
@@ -4917,7 +5326,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "physec-101-2025",
@@ -4929,7 +5339,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "physec-101-2026",
@@ -4941,7 +5352,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "physec-151-2023",
@@ -4953,7 +5365,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "physec-151-2024",
@@ -4965,7 +5378,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "physec-151-2025",
@@ -4977,7 +5391,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "physec-151-2026",
@@ -4989,7 +5404,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "physec-201-2023",
@@ -5001,7 +5417,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "physec-201-2024",
@@ -5013,7 +5430,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "physec-201-2025",
@@ -5025,7 +5443,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "physec-201-2026",
@@ -5037,7 +5456,8 @@
     "university": "Assam University",
     "category": "SEC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phyidc101t-2023",
@@ -5049,7 +5469,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phyidc101t-2024",
@@ -5061,7 +5482,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phyidc101t-2025",
@@ -5073,7 +5495,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phyidc101t-2026",
@@ -5085,7 +5508,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phyidc151t-2023",
@@ -5097,7 +5521,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phyidc151t-2024",
@@ -5109,7 +5534,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phyidc151t-2025",
@@ -5121,7 +5547,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phyidc151t-2026",
@@ -5133,7 +5560,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   },
   {
     "id": "phyidc201t-2023",
@@ -5145,7 +5573,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2023
+    "year": 2023,
+    "available": false
   },
   {
     "id": "phyidc201t-2024",
@@ -5157,7 +5586,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2024
+    "year": 2024,
+    "available": false
   },
   {
     "id": "phyidc201t-2025",
@@ -5169,7 +5599,8 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2025
+    "year": 2025,
+    "available": false
   },
   {
     "id": "phyidc201t-2026",
@@ -5181,6 +5612,7 @@
     "university": "Assam University",
     "category": "IDC",
     "system": "NEP",
-    "year": 2026
+    "year": 2026,
+    "available": false
   }
 ]
