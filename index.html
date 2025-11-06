@@ -41,7 +41,7 @@
   <main class="container" style="padding:28px 0;">
     <section class="ea-card" style="display:flex;gap:20px;align-items:center;">
       <div style="flex:0 0 120px;">
-        <div style="width:120px;height:120px;border-radius:12px;background:linear-gradient(180deg,#fff,#fff);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(15,20,25,0.04);">
+        <div style="width:120px;height:120px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(15,20,25,0.04);">
           <div style="width:84px;height:84px;background:var(--ea-red);color:#fff;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:800;">EA</div>
         </div>
       </div>
@@ -78,12 +78,10 @@
   </footer>
 
   <script>
-    // mark active link in nav (works for all pages)
+    // mark active nav link
     document.querySelectorAll('.ea-nav a').forEach(a=>{
-      try {
-        const href = a.getAttribute('href');
-        if(location.pathname.endsWith(href) || location.pathname === '/' && href === 'index.html') a.classList.add('active');
-      } catch(e){}
+      const href = a.getAttribute('href');
+      if(location.pathname.endsWith(href) || (location.pathname === '/' && href === 'index.html')) a.classList.add('active');
     });
   </script>
 </body>
