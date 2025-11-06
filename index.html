@@ -1,103 +1,43 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ExamArchive — Home</title>
-  <link rel="stylesheet" href="styles/common.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ExamArchive</title>
+  <link rel="stylesheet" href="./style/common.css">
 </head>
 <body>
-  <!-- HEADER -->
-  <!-- header.html (include or paste into top of pages) -->
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="brand">
-      <img src="assets/logo-square.png" alt="ExamArchive logo" class="logo">
-      <div class="brand-text">
-        <div class="site-title">ExamArchive</div>
-        <div class="site-sub">Past Papers • Notes • Collections</div>
+  <header class="ea-site-header">
+    <div class="ea-header-inner">
+      <div class="ea-brand">
+        <div class="ea-logo">EA</div>
+        <div>
+          <div class="ea-site-title">ExamArchive</div>
+          <div class="ea-site-sub">Past Papers • Notes • Collections</div>
+        </div>
       </div>
+
+      <button id="ea-nav-toggle" class="ea-nav-toggle" aria-label="Toggle navigation">
+        <span class="ea-hamburger"></span>
+      </button>
+
+      <nav id="ea-main-nav" class="ea-main-nav" aria-label="Main navigation">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="browse.html">Browse</a>
+        <a href="upload.html">Upload</a>
+        <a href="about.html">About</a>
+      </nav>
     </div>
+  </header>
 
-    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">
-      <span class="hamburger"></span>
-    </button>
-
-    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-      <a href="index.html">Home</a>
-      <a href="browse.html">Browse</a>
-      <a href="upload.html">Upload</a>
-      <a href="about.html">About</a>
-    </nav>
-  </div>
-</header>
-
-  <!-- MAIN -->
-  <main class="container" style="padding:28px 0;">
-    <section class="ea-card" style="display:flex;gap:20px;align-items:center;">
-      <div style="flex:0 0 120px;">
-        <div style="width:120px;height:120px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(15,20,25,0.04);">
-          <div style="width:84px;height:84px;background:var(--ea-red);color:#fff;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:800;">EA</div>
-        </div>
-      </div>
-
-      <div>
-        <h1 style="margin:0 0 8px;">ExamArchive — Past Papers & Solutions</h1>
-        <p style="margin:0;color:var(--ea-muted);">A community collection of past exam papers for quick reference and download. Browse by subject, year, university.</p>
-        <div style="margin-top:14px;">
-          <a class="ea-btn" href="browse.html">Browse papers</a>
-          <a class="ea-btn" href="upload.html" style="background:#333;margin-left:8px;">Upload a paper</a>
-        </div>
-      </div>
-    </section>
-
-    <section style="margin-top:22px;">
-      <h2>Quick links</h2>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;">
-        <a class="ea-card" href="browse.html" style="text-decoration:none;color:inherit;min-width:180px;">Browse all papers</a>
-        <a class="ea-card" href="upload.html" style="text-decoration:none;color:inherit;min-width:180px;">Upload a new paper</a>
-        <a class="ea-card" href="about.html" style="text-decoration:none;color:inherit;min-width:180px;">About & contact</a>
-      </div>
-    </section>
+  <main>
+    <div class="container">
+      <h1>Welcome to ExamArchive</h1>
+      <p>Search and browse past exam papers — small, fast, and community-driven.</p>
+      <p style="margin-top:12px"><a class="btn" href="browse.html">Browse Papers</a></p>
+    </div>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="ea-footer">
-    <div class="ea-footer__links container">
-      <a href="index.html">Home</a>
-      <a href="browse.html">Browse</a>
-      <a href="upload.html">Upload</a>
-      <a href="about.html">About</a>
-    </div>
-    <div class="container"><p>© 2025 ExamArchive. Built with ❤️ by Om Das</p></div>
-  </footer>
-
-  <script>
-    // mark active nav link
-    document.querySelectorAll('.ea-nav a').forEach(a=>{
-      const href = a.getAttribute('href');
-      if(location.pathname.endsWith(href) || (location.pathname === '/' && href === 'index.html')) a.classList.add('active');
-    });
-  </script>
-<!-- Put this <script> at the end of body (or in a common JS file) -->
-<script>
-  (function(){
-    const btn = document.getElementById('nav-toggle');
-    const nav = document.getElementById('main-nav');
-    btn.addEventListener('click', ()=> {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', !expanded);
-      nav.classList.toggle('open');
-    });
-
-    // Close nav when clicking outside (mobile)
-    document.addEventListener('click', (e)=>{
-      if (!nav.contains(e.target) && !btn.contains(e.target)) {
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-  })();
-</script>
+  <script src="./js/main.js"></script>
 </body>
 </html>
