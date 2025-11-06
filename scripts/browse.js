@@ -1,5 +1,10 @@
+// Enhanced browse.js - checks relative path AND raw.githubusercontent fallback
 (function(){
-  const DATA_URL = 'papers/papers.json';
+  const OWNER = 'Omdas11';
+  const REPO = 'examarchive-ai';
+  const BRANCH = 'main';
+  const DATA_URL = 'papers/papers.json'; // adjust if needed
+  const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
   const content = document.getElementById('contentArea');
   const searchInput = document.getElementById('searchInput');
   const yearSelect = document.getElementById('yearSelect');
@@ -11,56 +16,65 @@
   let availCache = {};
   const MAX_CONCURRENT_CHECKS = 6;
 
-  function debounce(fn, wait=250){
-    let t;
-    return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), wait); };
-  }
-
+  function debounce(fn, wait=250){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), wait); }; }
   function loadAvailCache(){
     for(const k in sessionStorage){
-      if(k.startsWith('ea_avail:')){
-        availCache[k.replace('ea_avail:','')] = sessionStorage.getItem(k) === '1';
-      }
+      if(k.startsWith('ea_avail:')) availCache[k.replace('ea_avail:','')] = sessionStorage.getItem(k) === '1';
     }
   }
-
   loadAvailCache();
 
+  // concurrency limiter
   function pLimit(max){
-    const queue = [];
-    let active = 0;
-    const next = () => {
-      if(active >= max || queue.length === 0) return;
-      active++;
-      const {fn, resolve, reject} = queue.shift();
-      fn().then(resolve).catch(reject).finally(()=>{ active--; next(); });
-    };
-    return (fn) => new Promise((resolve,reject) => {
-      queue.push({fn, resolve, reject});
-      next();
-    });
+    const queue=[]; let active=0;
+    const next = ()=>{ if(active >= max || queue.length===0) return; active++; const {fn, resolve, reject} = queue.shift(); fn().then(resolve).catch(reject).finally(()=>{ active--; next(); }); };
+    return (fn) => new Promise((resolve,reject)=>{ queue.push({fn, resolve, reject}); next(); });
   }
   const limit = pLimit(MAX_CONCURRENT_CHECKS);
 
-  async function checkAvailable(url){
-    if(!url) return false;
-    if(availCache.hasOwnProperty(url)) return availCache[url];
-    const res = await limit(async () => {
-      try{
-        const r = await fetch(url, { method:'HEAD' });
-        return r.ok;
-      }catch(e){
-        try{
-          const r2 = await fetch(url);
-          return r2.ok;
-        }catch(e2){
-          return false;
-        }
+  async function checkUrl(url){
+    try{
+      const r = await fetch(url, { method:'HEAD' });
+      if(r && r.ok) return true;
+      // some hosts don't respond to HEAD reliably — try GET
+      const r2 = await fetch(url);
+      return r2.ok;
+    }catch(e){
+      return false;
+    }
+  }
+
+  // Tries multiple candidate URLs: original, then raw.githubusercontent fallback
+  async function checkAvailable(filePath){
+    if(!filePath) return false;
+    if(availCache.hasOwnProperty(filePath)) return availCache[filePath];
+
+    const candidates = [];
+    // if filePath already absolute (starts with http), try as-is
+    if(/^(https?:)?\/\//.test(filePath)){
+      candidates.push(filePath);
+      // if it's a github blob URL, convert to raw
+      if(filePath.includes('github.com') && filePath.includes('/blob/')){
+        candidates.push(filePath.replace('github.com', 'raw.githubusercontent.com').replace('/blob/','/'));
       }
-    });
-    availCache[url] = res;
-    try{ sessionStorage.setItem('ea_avail:' + url, res ? '1' : '0'); }catch(e){}
-    return res;
+    } else {
+      // relative path: first try relative, then RAW github URL
+      candidates.push(filePath);
+      candidates.push(RAW_BASE + filePath.replace(/^\//,''));
+    }
+
+    // Run checks with concurrency limits
+    for(const c of candidates){
+      const ok = await limit(()=>checkUrl(c));
+      if(ok){
+        availCache[filePath] = true;
+        try{ sessionStorage.setItem('ea_avail:' + filePath, '1'); }catch(e){}
+        return true;
+      }
+    }
+    availCache[filePath] = false;
+    try{ sessionStorage.setItem('ea_avail:' + filePath, '0'); }catch(e){}
+    return false;
   }
 
   async function init(){
@@ -108,19 +122,13 @@
     if(view === 'grid'){
       toggleViewBtn.textContent = 'Table view';
       toggleViewBtn.setAttribute('aria-pressed','false');
-      const grid = document.createElement('div');
-      grid.className = 'grid';
+      const grid = document.createElement('div'); grid.className='grid';
       for(const p of list){
-        const card = document.createElement('div');
-        card.className = 'card';
-        const meta = document.createElement('div'); meta.className = 'meta';
-        meta.textContent = `${p.id || ''} · ${p.type || ''} · ${p.year || ''} · ${p.university || ''}`;
-        const title = document.createElement('div'); title.className = 'title';
-        title.textContent = `${p.title || p.id || 'Untitled'} ${p.year? `(${p.year})` : ''}`;
-        const badgeWrap = document.createElement('div');
-        badgeWrap.style.marginTop = '8px';
-        const actions = document.createElement('div'); actions.className = 'actions';
-
+        const card = document.createElement('div'); card.className='card';
+        const meta = document.createElement('div'); meta.className='meta'; meta.textContent = `${p.id || ''} · ${p.type || ''} · ${p.year || ''} · ${p.university || ''}`;
+        const title = document.createElement('div'); title.className='title'; title.textContent = `${p.title || p.id || 'Untitled'} ${p.year? `(${p.year})` : ''}`;
+        const badgeWrap = document.createElement('div'); badgeWrap.style.marginTop='8px';
+        const actions = document.createElement('div'); actions.className='actions';
         const previewBtn = document.createElement('button'); previewBtn.className='btn'; previewBtn.textContent='Preview';
         const dlBtn = document.createElement('button'); dlBtn.className='btn'; dlBtn.textContent='Download';
 
@@ -137,8 +145,7 @@
             if(ok){
               const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available';
               badgeWrap.appendChild(b);
-              previewBtn.disabled = false;
-              dlBtn.disabled = false;
+              previewBtn.disabled = false; dlBtn.disabled = false;
             } else {
               const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found';
               badgeWrap.appendChild(m);
@@ -149,13 +156,8 @@
         previewBtn.addEventListener('click', ()=> { if(p.file) window.open(p.file,'_blank'); });
         dlBtn.addEventListener('click', ()=> { if(p.file) location.href = p.file; });
 
-        actions.appendChild(previewBtn);
-        actions.appendChild(dlBtn);
-
-        card.appendChild(meta);
-        card.appendChild(title);
-        card.appendChild(badgeWrap);
-        card.appendChild(actions);
+        actions.appendChild(previewBtn); actions.appendChild(dlBtn);
+        card.appendChild(meta); card.appendChild(title); card.appendChild(badgeWrap); card.appendChild(actions);
         grid.appendChild(card);
       }
       content.appendChild(grid);
@@ -163,7 +165,7 @@
       toggleViewBtn.textContent = 'Grid view';
       toggleViewBtn.setAttribute('aria-pressed','true');
       const wrap = document.createElement('div'); wrap.className='table-wrap';
-      const table = document.createElement('table'); table.className = 'table';
+      const table = document.createElement('table'); table.className='table';
       const thead = document.createElement('thead');
       thead.innerHTML = `<tr><th>Code</th><th>Title</th><th>Year</th><th>University</th><th>Type</th><th>Availability</th><th>Actions</th></tr>`;
       table.appendChild(thead);
@@ -176,22 +178,17 @@
         const yearTd = document.createElement('td'); yearTd.textContent = p.year || '';
         const uniTd = document.createElement('td'); uniTd.textContent = p.university || '';
         const typeTd = document.createElement('td'); typeTd.textContent = p.type || '';
-
         const availTd = document.createElement('td');
         if(!p.file){
-          const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found';
-          availTd.appendChild(m);
+          const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found'; availTd.appendChild(m);
         } else {
-          const checking = document.createElement('span'); checking.className='badge-missing'; checking.textContent='Checking…';
-          availTd.appendChild(checking);
+          const checking = document.createElement('span'); checking.className='badge-missing'; checking.textContent='Checking…'; availTd.appendChild(checking);
           checkAvailable(p.file).then(ok=>{
             availTd.innerHTML='';
             if(ok){
-              const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available';
-              availTd.appendChild(b);
+              const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available'; availTd.appendChild(b);
             } else {
-              const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found';
-              availTd.appendChild(m);
+              const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found'; availTd.appendChild(m);
             }
           }).catch(()=>{ availTd.innerHTML = `<span class="badge-missing">Not found</span>`; });
         }
@@ -202,23 +199,13 @@
         if(!p.file){ previewBtn.disabled=true; dlBtn.disabled=true; }
         previewBtn.onclick = ()=> p.file && window.open(p.file,'_blank');
         dlBtn.onclick = ()=> p.file && (location.href = p.file);
-        actionsTd.appendChild(previewBtn);
-        actionsTd.appendChild(dlBtn);
+        actionsTd.appendChild(previewBtn); actionsTd.appendChild(dlBtn);
 
-        tr.appendChild(codeTd);
-        tr.appendChild(titleTd);
-        tr.appendChild(yearTd);
-        tr.appendChild(uniTd);
-        tr.appendChild(typeTd);
-        tr.appendChild(availTd);
-        tr.appendChild(actionsTd);
-
+        tr.appendChild(codeTd); tr.appendChild(titleTd); tr.appendChild(yearTd); tr.appendChild(uniTd); tr.appendChild(typeTd); tr.appendChild(availTd); tr.appendChild(actionsTd);
         tbody.appendChild(tr);
       }
 
-      table.appendChild(tbody);
-      wrap.appendChild(table);
-      content.appendChild(wrap);
+      table.appendChild(tbody); wrap.appendChild(table); content.appendChild(wrap);
     }
   }
 
@@ -239,5 +226,4 @@
   typeSelect.addEventListener('change', ()=> render());
 
   init();
-
 })();
