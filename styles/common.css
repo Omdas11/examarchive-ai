@@ -1,110 +1,104 @@
-/* ==========================
-   common.css
-   Shared Header + Footer
-   ========================== */
+/* ===== safe common.css - scoped header/footer only ===== */
 
+/* Palette (override in page-specific CSS if needed) */
 :root {
-  --primary-color: #222;      /* Header background */
-  --accent-color: #ff3b3b;    /* Red accent (your preferred color) */
-  --text-color: #fff;         /* Header + footer text */
-  --hover-bg: #333;           /* Hover background */
-  --footer-bg: #f1f1f1;       /* Footer background */
-  --footer-text: #555;        /* Footer text color */
-  --link-hover: #ff3b3b;      /* Link hover color */
+  --ea-primary: #222;        /* header background */
+  --ea-accent: #ff3b3b;      /* accent (your red) */
+  --ea-text: #ffffff;        /* header text */
+  --ea-hover-bg: #333;       /* header hover bg */
+  --ea-footer-bg: #f7f7f7;   /* footer background */
+  --ea-footer-text: #444;    /* footer text */
 }
 
-/* Reset and font */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* ===== HEADER ===== */
-header {
-  background: var(--primary-color);
-  color: var(--text-color);
+/* --- Header (scoped) --- */
+.site-header {
+  background: var(--ea-primary);
+  color: var(--ea-text);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 40px;
+  padding: 12px 32px;
   position: sticky;
   top: 0;
   z-index: 1000;
+  /* do NOT set global font here so page fonts remain intact */
 }
 
-header .logo {
-  font-size: 1.6rem;
+/* logo area */
+.site-header .logo {
+  font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.6px;
 }
 
-nav ul {
+/* nav */
+.site-header nav ul {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
 }
 
-nav ul li a {
+.site-header nav a {
+  color: var(--ea-text);
   text-decoration: none;
-  color: var(--text-color);
-  font-weight: 500;
-  transition: 0.3s;
   padding: 6px 10px;
   border-radius: 6px;
-}
-
-nav ul li a:hover,
-nav ul li a.active {
-  background: var(--hover-bg);
-  color: var(--accent-color);
-}
-
-/* ===== FOOTER ===== */
-footer {
-  background: var(--footer-bg);
-  color: var(--footer-text);
-  text-align: center;
-  padding: 20px 10px;
-  margin-top: 40px;
-  border-top: 1px solid #ddd;
-}
-
-footer .footer-links {
-  margin-bottom: 10px;
-}
-
-footer .footer-links a {
-  color: var(--footer-text);
-  text-decoration: none;
-  margin: 0 10px;
   font-weight: 500;
-  transition: color 0.3s;
+  display: inline-block;
+  transition: background 0.18s, color 0.18s;
 }
 
-footer .footer-links a:hover {
-  color: var(--link-hover);
+.site-header nav a:hover,
+.site-header nav a.active {
+  background: var(--ea-hover-bg);
+  color: var(--ea-accent);
 }
 
-footer p {
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-/* ===== RESPONSIVE ===== */
+/* Make header stack neatly on small screens, but don't alter page flows much */
 @media (max-width: 768px) {
-  header {
+  .site-header {
     flex-direction: column;
-    padding: 16px;
+    gap: 8px;
+    padding: 12px 16px;
   }
-
-  nav ul {
+  .site-header nav ul {
     flex-wrap: wrap;
     justify-content: center;
   }
-
-  footer {
-    padding: 16px;
-  }
 }
+
+/* --- Footer (scoped) --- */
+.site-footer {
+  background: var(--ea-footer-bg);
+  color: var(--ea-footer-text);
+  text-align: center;
+  padding: 20px 14px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  margin-top: 40px;
+  font-size: 0.95rem;
+}
+
+.site-footer .footer-links {
+  margin-bottom: 8px;
+}
+
+.site-footer .footer-links a {
+  color: var(--ea-footer-text);
+  text-decoration: none;
+  margin: 0 8px;
+  font-weight: 500;
+  transition: color 0.18s;
+}
+
+.site-footer .footer-links a:hover {
+  color: var(--ea-accent);
+}
+
+/* minimal helper so footer doesn't cover page content if you use position fixed later */
+.site-footer--spacer {
+  height: auto;
+}
+
+/* Nothing else — no resets, no font-family declarations, no * selectors */
