@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,user-scalable=yes" />
+  <title>Diagnose ExamArchive</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <style>body{padding:12px;background:#fafafa}</style>
+</head>
+<body>
+  <header style="margin-bottom:12px">
+    <nav class="navbar">
+      <a class="logo" href="index.html">ExamArchive — Diagnose</a>
+      <ul class="nav-links"><li><a href="browse.html">Browse</a></li></ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Quick diagnostics</h2>
+    <p style="color:#666">This page shows first 50 entries from <code>papers/papers.json</code> and tests candidate URLs (relative & raw.githubusercontent). Use incognito to avoid cached results.</p>
+
+    <div style="margin-bottom:10px">
+      <button id="runBtn" class="btn primary">Run diagnostics</button>
+      <button id="clearBtn" class="btn">Clear session cache</button>
+    </div>
+
+    <div id="out"></div>
+  </main>
+
+<script>
+const OUT = document.getElementById('out');
+const DATA_URL = 'papers/papers.json';
+const OWNER = 'Omdas11';
+const REPO = 'examarchive-ai';
+const BRANCH = 'main';
+const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
+
+function el(html){ const d = document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
+
+async function fetchWithTimeout(url, opts={}, ms=5000){
+  const controller = new AbortController();
+  const id = setTimeout(()=> controller.abort(), ms);
+  try{
+    const r = await fetch(url, Object.assign({}, opts, { signal: controller.signal }));
+    clearTimeout(id);
+    return r;
+  }catch(e){ clearTimeout(id); throw e; }
+}
+
+function candidates(fp){
+  const c=[];
+  if(!fp) return c;
+  if(/^(https?:)?\/\//.test(fp)){ c.push(fp); if(fp.includes('github.com') && fp.includes('/blob/')) c.push(fp.replace('github.com','raw.githubusercontent.com').replace('/blob/','/')); }
+  else { c.push(fp); c.push(RAW_BASE + fp.replace(/^\//,'')); }
+  return c;
+}
+
+async function testUrl(url){
+  try{
+    let r = await fetchWithTimeout(url, { method:'HEAD' }, 4500).catch(()=>null);
+    if(r && r.ok) return {ok:true, url, method:'HEAD'};
+    r = await fetchWithTimeout(url, { method:'GET' }, 4500).catch(()=>null);
+    if(r && r.ok) return {ok:true, url, method:'GET'};
+    if(r) return {ok:false, status:r.status, url};
+    return {ok:false, url, reason:'no-response'};
+  }catch(err){
+    return {ok:false, url, error:err.message || String(err)};
+  }
+}
+
+async function run(){
+  OUT.innerHTML = '<div style="padding:12px;background:#fff;border-radius:8px">Loading papers.json…</div>';
+  try{
+    const r = await fetch(DATA_URL);
+    const papers = await r.json();
+    OUT.innerHTML = '';
+    const N = Math.min(50, papers.length);
+    for(let i=0;i<N;i++){
+      const p = papers[i];
+      const fp = (p.file||'').trim();
+      const box = el(`<div style="background:#fff;padding:10px;border-radius:8px;margin-bottom:10px">
+        <div style="font-weight:700">${i+1}. ${p.id||'(no-id)'} — ${p.title||''}</div>
+        <div style="color:#666;margin-top:6px">file: <code>${fp||'(empty)'}</code></div>
+        <div id="res-${i}" style="margin-top:8px;color:#333">testing…</div>
+      </div>`);
+      OUT.appendChild(box);
+      if(!fp){ document.getElementById('res-'+i).innerText = 'No file field'; continue; }
+      const cand = candidates(fp);
+      let ok=false; let last=null;
+      for(const c of cand){
+        document.getElementById('res-'+i).innerText = 'Trying: ' + c;
+        const rtest = await testUrl(c);
+        last=rtest;
+        if(rtest.ok){ document.getElementById('res-'+i).innerHTML = '<span class="badge-available">Available</span> — ' + c; ok=true; break; }
+        else {
+          document.getElementById('res-'+i).innerHTML = 'Tried: ' + c + ' → ' + (rtest.error||rtest.reason||('status '+rtest.status));
+        }
+      }
+      if(!ok){ document.getElementById('res-'+i).innerHTML += '<div style="color:#999;margin-top:6px">Last: ' + (last && (last.error||last.reason||('status '+last.status))) + '</div>'; }
+    }
+  }catch(err){
+    OUT.innerHTML = '<div style="color:#900">Failed to load papers.json: ' + (err.message||err) + '</div>';
+  }
+}
+
+document.getElementById('runBtn').addEventListener('click', ()=> run());
+document.getElementById('clearBtn').addEventListener('click', ()=> { try{ Object.keys(sessionStorage).forEach(k=>{ if(k.startsWith('ea_avail:')) sessionStorage.removeItem(k); }); alert('Cleared session cache'); }catch(e){ alert('Clear failed: '+e); } });
+
+</script>
+</body>
+</html>
