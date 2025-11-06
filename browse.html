@@ -8,34 +8,29 @@
 </head>
 <body>
   <!-- HEADER -->
-  <header class="ea-header">
-    <div class="ea-header__left">
-      <div class="ea-logo">
-        <span class="ea-logo__box">EA</span>
-        <div class="ea-title">
-          <div class="ea-title__name">ExamArchive</div>
-          <div class="ea-title__sub">Old question papers — community</div>
-        </div>
+  <!-- header.html (include or paste into top of pages) -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <img src="assets/logo-square.png" alt="ExamArchive logo" class="logo">
+      <div class="brand-text">
+        <div class="site-title">ExamArchive</div>
+        <div class="site-sub">Past Papers • Notes • Collections</div>
       </div>
     </div>
 
-    <div class="ea-header__right">
-      <div class="ea-user">
-        <span class="ea-user__avatar">G</span>
-        <div class="ea-user__meta">
-          <div class="ea-user__name">Guest</div>
-          <div class="ea-user__role">User</div>
-        </div>
-      </div>
+    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">
+      <span class="hamburger"></span>
+    </button>
 
-      <nav class="ea-nav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="browse.html">Browse</a>
-        <a href="upload.html">Upload</a>
-        <a href="about.html">About</a>
-      </nav>
-    </div>
-  </header>
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="browse.html">Browse</a>
+      <a href="upload.html">Upload</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
 
   <!-- MAIN -->
   <main class="container" style="padding:28px 0;">
