@@ -1,179 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>ExamArchive — Browse</title>
-  <style>
-    :root{
-      --accent:#d32f2f; --header:#0f1113; --bg:#fbfbfd; --card:#fff; --footer:#f3f3f5; --text:#222;
-    }
-    *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--text);margin:0}
-    /* header (index-like) */
-    header{background:var(--header);padding:12px 18px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:14px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand a{color:#fff;text-decoration:none;font-weight:700;font-size:18px}
-    nav a{color:#fff;text-decoration:none;margin-right:12px;font-weight:600}
-    .wrap{max-width:1100px;margin:18px auto;padding:0 18px}
-    .search-area{display:flex;gap:10px;margin:14px 0;align-items:center}
-    .search-area input{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd;background:#fff}
-    .search-area button{padding:10px 14px;border-radius:8px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .card{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
-    .meta{font-size:13px;color:#666;margin-bottom:6px}
-    .title{font-weight:700;margin-bottom:8px}
-    .btn{display:inline-block;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
-    .btn-view{background:linear-gradient(90deg,var(--accent),#ff6659);color:#fff}
-    .btn-download{border:1px solid #ddd;color:var(--accent);background:#fff;margin-left:8px}
-    footer{max-width:1100px;margin:28px auto;padding:18px;background:var(--footer);text-align:center;color:#666}
-    .small{font-size:13px}
-    .notice{padding:10px;border-radius:8px;background:#fff6f6;border:1px solid #ffd6d6;color:#7a1a1a}
-    .hidden{display:none}
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Browse papers — ExamArchive</title>
+  <link rel="stylesheet" href="styles/common.css">
 </head>
 <body>
   <header>
-    <div class="brand">
-      <a href="./index.html">ExamArchive</a>
-      <nav>
-        <a href="./browse.html">Browse</a>
-        <a href="./collections.html">Collection</a>
-        <a href="./upload.html">Upload</a>
-        <a href="./about.html">About</a>
-      </nav>
-    </div>
-    <!-- optional small helper on header -->
-    <div style="color:#dcdcdc;font-size:13px">CBSC Papers</div>
+    <nav class="navbar">
+      <a class="logo" href="index.html">ExamArchive</a>
+      <ul class="nav-links">
+        <li><a href="browse.html" class="active">Browse</a></li>
+        <li><a href="collection.html">Collection</a></li>
+        <li><a href="upload.html">Upload</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main class="wrap">
-    <h1>Browse papers</h1>
-    <p class="small">Searching from <code>papers.json</code>. Use the input + Search button (or press Enter).</p>
+  <main class="container" id="app">
+    <h1 style="margin:6px 0 10px;font-size:1.2rem">Browse papers</h1>
+    <p style="margin:0 0 12px;color:#666;font-size:0.92rem">Searching from papers.json. Use the input + Search button (or press Enter).</p>
 
-    <div class="search-area">
-      <input id="q" placeholder="Search by title, course code, year, subject..." />
-      <select id="yearFilter"><option value="">All years</option></select>
-      <select id="typeFilter"><option value="">All types</option><option>HCC</option><option>SEC</option><option>General</option></select>
-      <button id="searchBtn">Search</button>
+    <div class="controls" role="region" aria-label="search and filters">
+      <input id="searchInput" class="input full" type="search" placeholder="Search by title, course code, year, subject..." aria-label="Search papers">
+      <select id="yearSelect" class="input small" aria-label="Filter by year"></select>
+      <select id="typeSelect" class="input small" aria-label="Filter by type">
+        <option value="">All types</option>
+      </select>
+      <button id="toggleView" class="btn small toggle-btn" aria-pressed="false">Table view</button>
     </div>
 
-    <div id="list" class="grid"></div>
-
-    <div id="error" class="notice hidden" style="margin-top:14px"></div>
-    <div style="margin-top:10px" class="small">Tip: If nothing appears, check path: <code>./papers/papers.json</code> or <code>./papers/index.json</code> or <code>./papers.json</code></div>
+    <div id="contentArea">
+      <div id="loading" style="padding:14px;background:#fff;border-radius:8px">Loading papers…</div>
+    </div>
   </main>
 
-  <footer>
-    <div>Made with ❤️ · ExamArchive</div>
-  </footer>
-
-  <script>
-    // Try multiple common paths for your JSON so it's forgiving
-    const TRY_PATHS = [
-      './papers/papers.json',
-      './papers/index.json',
-      './papers.json'
-    ];
-
-    const listEl = document.getElementById('list');
-    const errorEl = document.getElementById('error');
-    const qEl = document.getElementById('q');
-    const yEl = document.getElementById('yearFilter');
-    const tEl = document.getElementById('typeFilter');
-    const searchBtn = document.getElementById('searchBtn');
-
-    let PAPERS = [];
-
-    // Attempt to fetch JSON from the list of possible paths
-    async function fetchPapers(){
-      for(const p of TRY_PATHS){
-        try {
-          const res = await fetch(p, { cache: 'no-store' });
-          if(!res.ok) { console.warn('fetch not ok for', p, res.status); continue; }
-          const data = await res.json();
-          const arr = Array.isArray(data) ? data : (data.papers || []);
-          console.log('Loaded papers from', p, arr.length, 'items');
-          return arr;
-        } catch (err) {
-          console.warn('failed fetch', p, err);
-        }
-      }
-      throw new Error('Could not load papers.json from any known path: ' + TRY_PATHS.join(', '));
-    }
-
-    function fillYearOptions(arr){
-      const years = Array.from(new Set(arr.map(p=>{
-        const m = (p.meta||'').match(/\b(19|20)\d{2}\b/) || (p.title||'').match(/\b(19|20)\d{2}\b/) || (p.file||'').match(/\b(19|20)\d{2}\b/);
-        return m ? m[0] : null;
-      }).filter(Boolean)));
-      years.sort((a,b)=>b-a);
-      years.forEach(y=>{
-        const opt = document.createElement('option'); opt.value = y; opt.textContent = y; yEl.appendChild(opt);
-      });
-    }
-
-    function render(items){
-      if(!items || items.length === 0){
-        listEl.innerHTML = '<div class="small">No papers found.</div>'; return;
-      }
-      listEl.innerHTML = items.map(p => `
-        <article class="card">
-          <div class="meta">${escapeHtml(p.meta||'')}</div>
-          <div class="title">${escapeHtml(p.title||p.file||'Untitled')}</div>
-          <div style="margin-top:10px">
-            <a class="btn btn-view" href="${encodeURI(p.file)}" target="_blank" rel="noopener">Preview</a>
-            <a class="btn btn-download" href="${encodeURI(p.file)}" download>Download</a>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    function doFilter(){
-      const term = qEl.value.trim().toLowerCase();
-      const yr = yEl.value;
-      const type = tEl.value;
-      const out = PAPERS.filter(p=>{
-        if(yr && !( (p.meta||'') + ' ' + (p.title||'') + ' ' + (p.file||'') ).includes(yr)) return false;
-        if(type && !(p.meta||'').includes(type)) return false;
-        if(!term) return true;
-        const hay = ((p.title||'') + ' ' + (p.meta||'') + ' ' + (p.file||'')).toLowerCase();
-        return hay.includes(term);
-      });
-      render(out);
-    }
-
-    searchBtn.addEventListener('click', doFilter);
-    qEl.addEventListener('keydown', function(e){
-      if(e.key === 'Enter') doFilter();
-    });
-    yEl.addEventListener('change', doFilter);
-    tEl.addEventListener('change', doFilter);
-
-    // If URL contains ?q=... prefill search
-    (function applyQuery(){
-      const q = new URLSearchParams(location.search).get('q');
-      if(q) qEl.value = q;
-    })();
-
-    // boot
-    (async function init(){
-      try {
-        PAPERS = await fetchPapers();
-        fillYearOptions(PAPERS);
-        // initial render (applies query param if present)
-        doFilter();
-      } catch (err) {
-        console.error(err);
-        errorEl.classList.remove('hidden');
-        errorEl.textContent = 'Error loading papers JSON. See console for details.';
-      }
-    })();
-
-    function escapeHtml(str){
-      if(!str) return '';
-      return String(str).replace(/[&<>"'`=\/]/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'})[s]);
-    }
-  </script>
+  <script src="scripts/browse.js" defer></script>
 </body>
 </html>
