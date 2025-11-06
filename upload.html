@@ -1,188 +1,203 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ExamArchive — Upload</title>
-<style>
-:root{
-  --bg:#fafafa; --card:#fff; --muted:#6b6b6b; --accent:#c62828; --header-dark:#e9eeb;
-  --footer-gray:#f0f1f3; --radius:14px; --max-width:980px; --pad:18px;
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#111;line-height:1.45}
-header.fullbar{width:100%;background:var(--header-dark)}
-.header-inner{max-width:var(--max-width);margin:0 auto;padding:12px var(--pad);display:flex;gap:12px;align-items:center}
-.brand{display:flex;gap:10px;align-items:center}
-.logo{width:44px;height:44px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
-.site-title .title{font-weight:700;font-size:clamp(0.95rem,1.6vw,1.1rem)}
-.site-title .subtitle{font-size:0.78rem;color:var(--muted)}
-.header-right{margin-left:auto;display:flex;gap:12px;align-items:center}
-.login-pill{display:flex;gap:8px;align-items:center;cursor:pointer;border-radius:999px;padding:6px 10px;background:transparent}
-.login-avatar{width:28px;height:28px;border-radius:50%;background:#fff;color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700}
-.nav-links{display:flex;gap:14px;align-items:center;font-weight:600}
-.nav-links a{color:inherit;text-decoration:none;padding:6px 8px;border-radius:8px}
-.nav-links a.active{background:rgba(0,0,0,0.06)}
-.site-wrap{max-width:var(--max-width);margin:0 auto;padding:22px var(--pad)}
-.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 8px 20px rgba(12,12,12,0.04);margin-bottom:12px}
-.form-row{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-label{font-weight:600}
-input[type="text"], input[type="email"], select, textarea { width:100%; padding:10px; border:1px solid #ccc; border-radius:8px; font-size:1rem }
-input[type="file"]{border:none;padding:6px}
-textarea{min-height:120px;resize:vertical}
-.btn{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-.btn-outline{background:transparent;border:1px solid #ccc;padding:8px 12px;border-radius:8px;cursor:pointer}
-footer.site-footer{background:var(--footer-gray);padding:28px var(--pad);margin-top:18px}
-.footer-inner{max-width:var(--max-width);margin:0 auto;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
-.footer-column{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(12,12,12,0.04);flex:1 1 220px}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;z-index:100}
-.modal{background:var(--card);border-radius:14px;padding:20px;width:90%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,0.3)}
-.modal h3{margin:0 0 8px}
-.modal input{width:100%;margin-top:6px;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:1rem}
-.modal-actions{margin-top:18px;display:flex;justify-content:flex-end;gap:10px}
-@media(max-width:520px){.header-inner{flex-wrap:wrap}.nav-links{flex-wrap:wrap}.footer-column{flex:1 1 100%}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Upload papers — ExamArchive</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <style>
+    .note{color:#666;font-size:0.95rem;margin-top:8px}
+    .json-output{white-space:pre-wrap;background:#fff;padding:10px;border-radius:8px;margin-top:10px;border:1px dashed #eee; font-size:0.86rem}
+    .small-muted{font-size:0.82rem;color:#666}
+  </style>
 </head>
 <body>
+  <header>
+    <nav class="navbar">
+      <a class="logo" href="index.html">ExamArchive</a>
+      <ul class="nav-links">
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="collection.html">Collection</a></li>
+        <li><a href="upload.html" class="active">Upload</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<header class="fullbar" role="banner">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo">EA</div>
-      <div class="site-title">
-        <div class="title">ExamArchive</div>
-        <div class="subtitle">Old question papers — community</div>
+  <main class="container">
+    <h1>Upload / Add paper</h1>
+
+    <p class="note">Choose one of the options below. ⚠️ GitHub Pages (static hosting) does not accept direct file uploads via a website — use GitHub web UI to upload PDF files to the <code>papers/</code> folder or use the GitHub API (token required).</p>
+
+    <!-- Option A: generate JSON entry -->
+    <section style="margin-top:12px;background:#fff;padding:12px;border-radius:8px">
+      <h2 style="margin:0 0 8px">A — Generate JSON entry (copy → paste into papers/papers.json)</h2>
+
+      <label style="display:block;margin-bottom:8px">
+        Course code (id)
+        <input id="g_id" class="input" placeholder="PHSHCC101T" />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        Title
+        <input id="g_title" class="input" placeholder="Mathematical Physics - I" />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        Year
+        <input id="g_year" class="input" placeholder="2025" />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        Type (CBCS / NEP etc.)
+        <input id="g_type" class="input" placeholder="CBCS" />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        University
+        <input id="g_uni" class="input" placeholder="Assam University" />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        File (relative path or raw GitHub URL)
+        <input id="g_file" class="input" placeholder="papers/2025/PHSHCC-101T.pdf" />
+        <div class="small-muted">If you upload the PDF to the repo under <code>papers/2025/</code>, use the relative path above.</div>
+      </label>
+
+      <div style="margin-top:8px">
+        <button id="genJson" class="btn primary">Generate JSON</button>
+        <button id="copyJson" class="btn" style="display:none;margin-left:8px">Copy to clipboard</button>
       </div>
-    </div>
 
-    <div class="header-right">
-      <div id="loginPill" class="login-pill" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="modalBackdrop">
-        <div class="login-avatar">G</div>
-        <div style="line-height:1">
-          <div style="font-weight:700">Guest</div>
-          <div style="font-size:0.75rem;color:var(--muted)">Visitor</div>
-        </div>
+      <div id="jsonOut" class="json-output" style="display:none"></div>
+    </section>
+
+    <!-- Option B: GitHub Web UI instructions -->
+    <section style="margin-top:12px;background:#fff;padding:12px;border-radius:8px">
+      <h2 style="margin:0 0 8px">B — Upload PDF using GitHub web UI (recommended on mobile)</h2>
+      <ol style="padding-left:18px;color:#333">
+        <li>Open your repo on GitHub: <code>https://github.com/Omdas11/examarchive-ai</code></li>
+        <li>Click <strong>Add file → Upload files</strong>, pick the PDF from your phone and upload under <code>papers/2025/</code> (create the folder in the UI if needed).</li>
+        <li>Commit the change. After the file is in the repo, copy its relative path (e.g. <code>papers/2025/PHSHCC-101T.pdf</code>) and paste into the JSON entry (Option A) or update your `papers.json`.</li>
+      </ol>
+    </section>
+
+    <!-- Option C: Commit file + update JSON via GitHub API (advanced, token required) -->
+    <section style="margin-top:12px;background:#fff;padding:12px;border-radius:8px">
+      <h2 style="margin:0 0 8px">C — (Optional) Direct commit to GitHub via API</h2>
+      <p class="small-muted">This option uploads the file and/or updates `papers.json` using the GitHub API. It requires a Personal Access Token (with `repo` scope) that you paste into the form. <strong>Do not share your token</strong>. Use only if you understand tokens.</p>
+
+      <label style="display:block;margin-bottom:8px">
+        GitHub token (paste temporarily)
+        <input id="gh_token" class="input" placeholder="ghp_xxx..." />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        File to upload (choose file from device)
+        <input id="gh_file" type="file" style="width:100%" />
+      </label>
+
+      <label style="display:block;margin-bottom:8px">
+        Commit message
+        <input id="gh_msg" class="input" placeholder="Add PHSHCC-101T.pdf" />
+      </label>
+
+      <div style="margin-top:8px">
+        <button id="ghUpload" class="btn primary">Upload file to GitHub (advanced)</button>
       </div>
 
-      <nav class="nav-links" aria-label="main nav">
-        <a href="index.html">Home</a>
-        <a href="browse.html">Browse</a>
-        <a href="collections.html">Collections</a>
-        <a href="upload.html" class="active">Upload</a>
-        <a href="about.html">About</a>
-      </nav>
-    </div>
-  </div>
-</header>
+      <div id="ghStatus" style="margin-top:10px;color:#666"></div>
 
-<main>
-  <div class="site-wrap">
-    <h1 style="margin-top:0">Upload a paper</h1>
-    <p style="color:var(--muted)">Please provide basic details and attach the file (PDF preferred). Submissions go to Formspree.</p>
+      <div class="note" style="margin-top:8px">If you want this, press the button and follow prompts — I can provide the small JS that calls GitHub's `PUT /repos/:owner/:repo/contents/:path` endpoint to create the file. Only use if you are comfortable pasting a token in the browser.</div>
+    </section>
 
-    <div class="card">
-      <!-- Formspree endpoint + multipart for file upload -->
-      <form id="uploadForm" action="https://formspree.io/f/xnnokrez" method="POST" enctype="multipart/form-data">
-        <div class="form-row">
-          <label for="subject">Subject / Paper title</label>
-          <input id="subject" name="subject" type="text" placeholder="Physics — Semester exam 2022" required>
+  </main>
 
-          <label for="year">Year</label>
-          <input id="year" name="year" type="text" placeholder="2022" required>
+  <script>
+    // Generate JSON helper
+    document.getElementById('genJson').addEventListener('click', ()=>{
+      const id = document.getElementById('g_id').value.trim();
+      const title = document.getElementById('g_title').value.trim();
+      const year = parseInt(document.getElementById('g_year').value.trim() || '0', 10) || '';
+      const type = document.getElementById('g_type').value.trim();
+      const uni = document.getElementById('g_uni').value.trim();
+      const file = document.getElementById('g_file').value.trim();
 
-          <label for="college">College / Institute</label>
-          <input id="college" name="college" type="text" placeholder="Your college name" required>
+      if(!id || !title){ alert('Please fill at least id and title'); return; }
 
-          <label for="uploader">Your name or username</label>
-          <input id="uploader" name="uploader" type="text" placeholder="e.g. omdas11">
+      const entry = {
+        id: id,
+        year: year,
+        type: type,
+        paper_type: "",
+        title: title,
+        university: uni,
+        file: file
+      };
+      const out = JSON.stringify(entry, null, 2);
+      const outEl = document.getElementById('jsonOut');
+      outEl.style.display = 'block';
+      outEl.textContent = out;
+      document.getElementById('copyJson').style.display = 'inline-block';
+    });
 
-          <label for="file">Attach file (PDF preferred)</label>
-          <input id="file" name="attachment" type="file" accept=".pdf,.jpg,.png,.doc,.docx" required>
+    document.getElementById('copyJson').addEventListener('click', async ()=>{
+      const txt = document.getElementById('jsonOut').textContent;
+      try{
+        await navigator.clipboard.writeText(txt);
+        alert('Copied JSON to clipboard — paste into papers/papers.json');
+      }catch(e){
+        alert('Copy failed — select and copy manually.');
+      }
+    });
 
-          <label for="notes">Notes (optional)</label>
-          <textarea id="notes" name="notes" placeholder="Any extra info (paper type, semester, marks)"></textarea>
+    // (Optional) simple GitHub commit code: provided but disabled by default for safety.
+    document.getElementById('ghUpload').addEventListener('click', async ()=>{
+      const token = document.getElementById('gh_token').value.trim();
+      const fileInput = document.getElementById('gh_file');
+      const msg = document.getElementById('gh_msg').value.trim() || 'Add file via web';
+      const status = document.getElementById('ghStatus');
 
-          <!-- Hidden fields for Formspree behaviour: redirect after submit (optional) -->
-          <input type="hidden" name="_subject" value="New paper upload — ExamArchive">
-          <!-- Optional: set redirect (adjust to your site) -->
-          <input type="hidden" name="_next" value="https://omdas11.github.io/examarchive-ai/">
+      if(!token){ alert('Paste your GitHub personal access token (only if you know what it is).'); return; }
+      if(!fileInput.files.length){ alert('Choose a file to upload'); return; }
 
-          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
-            <button type="reset" class="btn-outline">Reset</button>
-            <button type="submit" class="btn">Submit</button>
-          </div>
-        </div>
-      </form>
-    </div>
+      const file = fileInput.files[0];
+      const path = 'papers/' + (new Date().getFullYear()) + '/' + file.name;
 
-    <p style="color:var(--muted);margin-top:8px"><strong>Note:</strong> Uploaded files will be sent to Formspree. If you need server-side storage, I can help add an uploader that saves to GitHub/GCS/S3 later.</p>
-  </div>
-</main>
+      status.textContent = 'Reading file...';
+      const arr = await file.arrayBuffer();
+      const b64 = btoa(String.fromCharCode(...new Uint8Array(arr)));
 
-<footer class="site-footer" role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-column"><h4>About</h4><p style="color:var(--muted)">—</p></div>
-    <div class="footer-column"><h4>Sources</h4><p>Community contributions, archived notices, volunteer uploads.</p></div>
-    <div class="footer-column">
-      <h4>Important links</h4>
-      <div class="footer-links">
-        <a href="upload.html">Upload paper</a><br>
-        <a href="browse.html">Browse papers</a><br>
-        <a href="collections.html">Collections</a>
-      </div>
-      <p style="margin-top:8px;color:var(--muted)">Contact: youremail@example.com</p>
-    </div>
-  </div>
-  <div style="max-width:var(--max-width);margin:0 auto;padding:10px var(--pad);text-align:center;color:var(--muted);border-top:1px solid #ddd">© ExamArchive — Community run</div>
-</footer>
+      status.textContent = 'Uploading to GitHub...';
+      // Create file via GitHub Contents API
+      const owner = 'Omdas11';
+      const repo = 'examarchive-ai';
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
 
-<!-- Login Modal -->
-<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-    <h3 id="loginTitle">Sign in</h3>
-    <form id="loginForm" onsubmit="event.preventDefault(); alert('Login placeholder — integrate auth')">
-      <label for="email">Email</label>
-      <input id="email" type="email" placeholder="you@example.com" required>
-      <label for="pwd">Password</label>
-      <input id="pwd" type="password" placeholder="Enter password" required>
-      <div class="modal-actions">
-        <button type="button" id="cancelBtn" class="btn-outline">Cancel</button>
-        <button type="submit" class="btn">Login</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-(function(){
-  const loginPill = document.querySelector('#loginPill');
-  const backdrop = document.querySelector('#modalBackdrop');
-  const cancelBtn = document.querySelector('#cancelBtn');
-
-  function openModal(){ backdrop.style.display='flex'; backdrop.setAttribute('aria-hidden','false'); cancelBtn.focus(); }
-  function closeModal(){ backdrop.style.display='none'; backdrop.setAttribute('aria-hidden','true'); loginPill.focus(); }
-
-  loginPill.addEventListener('click', openModal);
-  loginPill.addEventListener('keydown', e => { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openModal(); }});
-  cancelBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', e => { if(e.target === backdrop) closeModal(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-
-  // Optional: simple client-side validation/feedback before submitting to Formspree
-  const uploadForm = document.getElementById('uploadForm');
-  uploadForm.addEventListener('submit', function(e){
-    // example: ensure a file is chosen
-    const fileInput = document.getElementById('file');
-    if(!fileInput.files || fileInput.files.length === 0){
-      e.preventDefault();
-      alert('Please attach a file before submitting.');
-      return;
-    }
-    // allow default submit to Formspree
-  });
-})();
-</script>
-
+      try{
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            Authorization: 'token ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: msg,
+            content: b64,
+            branch: 'main'
+          })
+        });
+        const j = await res.json();
+        if(res.ok){
+          status.textContent = 'Uploaded! File path: ' + path + '. Now add JSON entry for this file (use section A).';
+        } else {
+          status.textContent = 'Upload failed: ' + (j.message || res.status);
+          console.error(j);
+        }
+      }catch(e){
+        status.textContent = 'Upload error: ' + e.message;
+      }
+    });
+  </script>
 </body>
 </html>
