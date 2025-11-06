@@ -1,65 +1,259 @@
 <!doctype html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Browse — ExamArchive</title>
-  <link rel="stylesheet" href="./style/common.css">
+  <!-- Use the shared site stylesheet (common.css) -->
+  <link rel="stylesheet" href="/style/common.css">
+  <style>
+    /* Minimal helper styles that won't conflict with common.css */
+    .controls { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; }
+    .controls input[type="search"]{padding:0.5rem 0.6rem; min-width:220px}
+    .controls select, .controls button{padding:0.46rem 0.6rem}
+    .view-toggle{display:flex;gap:0.25rem}
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+    .card{border:1px solid #e2e2e2;padding:0.7rem;border-radius:8px;display:flex;flex-direction:column;gap:0.4rem}
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:0.55rem 0.6rem;border-bottom:1px solid #eee;text-align:left}
+    .badge{padding:0.18rem 0.5rem;border-radius:999px;font-size:0.82rem}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center}
+    .modal{background:white;padding:1rem;border-radius:8px;max-width:420px;width:94%}
+    @media (max-width:600px){ .controls input[type="search"]{min-width:140px} }
+  </style>
 </head>
 <body>
-  <header class="ea-site-header">
-    <div class="ea-header-inner">
-      <div class="ea-brand">
-        <div class="ea-logo">EA</div>
-        <div>
-          <div class="ea-site-title">ExamArchive</div>
-          <div class="ea-site-sub">Past Papers • Notes • Collections</div>
-        </div>
-      </div>
-
-      <button id="ea-nav-toggle" class="ea-nav-toggle" aria-label="Toggle navigation">
-        <span class="ea-hamburger"></span>
-      </button>
-
-      <nav id="ea-main-nav" class="ea-main-nav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="browse.html" aria-current="page">Browse</a>
-        <a href="upload.html">Upload</a>
-        <a href="about.html">About</a>
+  <!-- NOTE: This header markup should match the header you use on index.html -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">ExamArchive</a>
+      <nav class="main-nav">
+        <a href="/">Home</a>
+        <a class="active" href="/browse.html">Browse</a>
+        <a href="/collection.html">Collection</a>
+        <a href="/about.html">About</a>
+        <a href="/upload.html">Upload</a>
       </nav>
     </div>
-  </header>
-
-  <main>
-    <div class="container">
-      <h1>Browse Papers</h1>
-
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 0;align-items:center">
-        <input id="searchInput" type="search" placeholder="Search by subject, filename, year or code" style="padding:10px;border-radius:8px;border:1px solid #eaeaea;min-width:200px">
-        <select id="sortSelect" style="padding:10px;border-radius:8px;border:1px solid #eaeaea">
-          <option value="year-desc" selected>Newest first (Year ↓)</option>
-          <option value="year-asc">Oldest first (Year ↑)</option>
-          <option value="name-asc">Name A → Z</option>
-          <option value="name-desc">Name Z → A</option>
-        </select>
-        <select id="availabilitySelect" style="padding:10px;border-radius:8px;border:1px solid #eaeaea">
-          <option value="all">All</option>
-          <option value="available">Available only</option>
-          <option value="not-available">Not uploaded</option>
-        </select>
-
-        <div id="yearChips" style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap"></div>
+  </header>  <main class="container" style="padding:1.25rem 0 4rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:0.85rem">
+      <h1 style="margin:0">Browse Papers</h1>
+      <div style="display:flex;gap:0.5rem;align-items:center">
+        <button id="openProgramModal" class="btn">Switch Program</button>
+        <div class="view-toggle">
+          <button id="gridViewBtn" class="btn">Grid</button>
+          <button id="tableViewBtn" class="btn">Table</button>
+        </div>
       </div>
+    </div><!-- Controls: Search + Filters (adjacent) -->
+<div class="controls" style="margin-bottom:1rem">
+  <input id="searchInput" type="search" placeholder="Search by paper code, name or year" aria-label="Search papers">
 
-      <section id="papersList" aria-live="polite"></section>
+  <select id="yearFilter">
+    <option value="">All years</option>
+  </select>
 
-      <div style="text-align:center;margin-top:14px">
-        <button id="loadMoreBtn" style="padding:10px 14px;border-radius:8px;border:1px solid #eaeaea;background:#fff;cursor:pointer">Load more</button>
+  <select id="availabilityFilter">
+    <option value="">All</option>
+    <option value="true">Available</option>
+    <option value="false">Not available</option>
+  </select>
+
+  <select id="programFilter">
+    <option value="">All programs</option>
+    <option value="CBCS">CBCS</option>
+    <option value="FYUG">FYUG</option>
+  </select>
+
+  <button id="clearFilters" class="btn">Clear</button>
+</div>
+
+<!-- Data containers -->
+<div id="gridContainer" class="cards-grid" hidden></div>
+
+<div id="tableContainer" class="table-wrap" hidden>
+  <table id="papersTable" aria-describedby="papers-table">
+    <thead>
+      <tr>
+        <th>SL. No.</th>
+        <th>Paper Code</th>
+        <th>Paper Name</th>
+        <th>Year</th>
+        <th>Program</th>
+        <th>Availability</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<p id="statusMsg" style="margin-top:0.8rem;color:#666"></p>
+
+  </main>  <!-- Modal: Switch between CBCS and FYUG -->  <div id="programModal" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h3 style="margin-top:0">Choose Program</h3>
+      <p style="margin:0.3rem 0 0.8rem;color:#555">Select which program you want to browse (this will filter the list).</p>
+      <div style="display:flex;gap:0.5rem">
+        <button data-prog="CBCS" class="btn chooseProg">CBCS</button>
+        <button data-prog="FYUG" class="btn chooseProg">FYUG</button>
+        <button id="progModalAll" class="btn">All</button>
+      </div>
+      <div style="text-align:right;margin-top:0.6rem">
+        <button id="closeProgramModal" class="btn">Close</button>
       </div>
     </div>
-  </main>
+  </div>  <script>
+    // Settings and DOM refs
+    const papersJsonPath = '/papers/papers.json';
+    const gridContainer = document.getElementById('gridContainer');
+    const tableContainer = document.getElementById('tableContainer');
+    const papersTableBody = document.querySelector('#papersTable tbody');
+    const statusMsg = document.getElementById('statusMsg');
 
-  <script src="./js/main.js"></script>
-  <script src="./js/browse.js"></script>
-</body>
+    const searchInput = document.getElementById('searchInput');
+    const yearFilter = document.getElementById('yearFilter');
+    const availabilityFilter = document.getElementById('availabilityFilter');
+    const programFilter = document.getElementById('programFilter');
+    const clearFiltersBtn = document.getElementById('clearFilters');
+
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const tableViewBtn = document.getElementById('tableViewBtn');
+
+    const programModal = document.getElementById('programModal');
+    const openProgramModal = document.getElementById('openProgramModal');
+    const closeProgramModal = document.getElementById('closeProgramModal');
+
+    let papers = [];
+    let view = localStorage.getItem('browseView') || 'table';
+    let selectedProgram = localStorage.getItem('selectedProgram') || '';
+
+    // Initialize UI state
+    function setView(v){ view = v; localStorage.setItem('browseView', v);
+      if(v==='grid'){ gridContainer.hidden=false; tableContainer.hidden=true } else { gridContainer.hidden=true; tableContainer.hidden=false }
+    }
+
+    gridViewBtn.addEventListener('click',()=>setView('grid'));
+    tableViewBtn.addEventListener('click',()=>setView('table'));
+
+    // Modal handlers
+    openProgramModal.addEventListener('click',()=> programModal.hidden=false);
+    closeProgramModal.addEventListener('click',()=> programModal.hidden=true);
+    document.getElementById('progModalAll').addEventListener('click',()=>{ selectedProgram=''; localStorage.removeItem('selectedProgram'); programFilter.value=''; programModal.hidden=true; render(); });
+    document.querySelectorAll('.chooseProg').forEach(btn=>btn.addEventListener('click',e=>{ selectedProgram = e.target.dataset.prog; localStorage.setItem('selectedProgram', selectedProgram); programFilter.value = selectedProgram; programModal.hidden=true; render(); }));
+
+    // Fetch data
+    async function loadPapers(){
+      try{
+        const res = await fetch(papersJsonPath + '?_=' + Date.now());
+        if(!res.ok) throw new Error('Failed to load papers.json — status ' + res.status);
+        papers = await res.json();
+        // Normalize and index
+        papers = papers.map((p, idx)=>({
+          _id: idx+1,
+          code: p.code || p.paperCode || p.paper_code || p.file || 'UNKNOWN',
+          name: p.name || p.title || p.paperName || p.paper_name || p.title || '',
+          year: p.year || p.date || '',
+          program: p.program || p.type || p.scheme || '',
+          available: p.available === true || p.availability === true || p.available === 'true' || p.available === 'yes' || false,
+          url: p.url || p.path || (p.file ? '/papers/' + p.file : ''),
+        }));
+
+        populateYearFilter();
+        if(selectedProgram) programFilter.value = selectedProgram;
+        setView(view);
+        render();
+      }catch(err){ statusMsg.textContent = 'Error: ' + err.message; }
+    }
+
+    // Populate year dropdown
+    function populateYearFilter(){
+      const years = Array.from(new Set(papers.map(p=>p.year).filter(Boolean))).sort((a,b)=>b-a);
+      yearFilter.innerHTML = '<option value="">All years</option>' + years.map(y=>`<option value="${y}">${y}</option>`).join('');
+    }
+
+    // Filtering logic
+    function applyFilters(){
+      const q = (searchInput.value || '').trim().toLowerCase();
+      const y = yearFilter.value;
+      const av = availabilityFilter.value;
+      const prog = programFilter.value || selectedProgram || '';
+
+      return papers.filter(p=>{
+        if(prog && p.program.toLowerCase() !== prog.toLowerCase()) return false;
+        if(y && String(p.year) !== String(y)) return false;
+        if(av !== '' && String(p.available) !== String(av)) return false;
+        if(!q) return true;
+        return [p.code, p.name, String(p.year), p.program].join(' ').toLowerCase().includes(q);
+      });
+    }
+
+    // Render grid
+    function renderGrid(items){
+      gridContainer.innerHTML = '';
+      if(items.length===0) { gridContainer.innerHTML = '<p>No papers found.</p>'; return }
+      items.forEach((p, idx)=>{
+        const card = document.createElement('div'); card.className='card';
+        card.innerHTML = `
+          <div style="font-weight:600">${escapeHtml(p.code)}</div>
+          <div style="font-size:0.95rem">${escapeHtml(p.name)}</div>
+          <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center">
+            <small>${escapeHtml(p.year)} • ${escapeHtml(p.program)}</small>
+            <div style="display:flex;gap:0.35rem">
+              <a ${p.url?`href="${p.url}" target="_blank"`:'href="#" tabindex="-1"'} class="btn">Preview</a>
+              <a ${p.url?`href="${p.url}" download`:'href="#" tabindex="-1"'} class="btn">Download</a>
+            </div>
+          </div>
+        `;
+        gridContainer.appendChild(card);
+      });
+    }
+
+    // Render table
+    function renderTable(items){
+      papersTableBody.innerHTML = '';
+      if(items.length===0) { papersTableBody.innerHTML = '<tr><td colspan="7">No papers found.</td></tr>'; return }
+      items.forEach((p, idx)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${idx+1}</td>
+          <td>${escapeHtml(p.code)}</td>
+          <td>${escapeHtml(p.name)}</td>
+          <td>${escapeHtml(p.year)}</td>
+          <td>${escapeHtml(p.program)}</td>
+          <td>${p.available?'<span class="badge" style="background:#e6ffed;color:#046a18">Available</span>':'<span class="badge" style="background:#fff3f2;color:#9b1c1c">Not available</span>'}</td>
+          <td>
+            <a ${p.url?`href="${p.url}" target="_blank"`:'href="#" tabindex="-1"'} class="btn">Preview</a>
+            <a ${p.url?`href="${p.url}" download`:'href="#" tabindex="-1"'} class="btn">Download</a>
+          </td>
+        `;
+        papersTableBody.appendChild(tr);
+      });
+    }
+
+    function render(){
+      const items = applyFilters();
+      statusMsg.textContent = `Showing ${items.length} of ${papers.length} papers`;
+      if(view==='grid') renderGrid(items); else renderTable(items);
+    }
+
+    // Utility
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;" })[c]); }
+
+    // Events
+    [searchInput, yearFilter, availabilityFilter, programFilter].forEach(el=>el.addEventListener('input', ()=> render()));
+    clearFiltersBtn.addEventListener('click', ()=>{ searchInput.value=''; yearFilter.value=''; availabilityFilter.value=''; programFilter.value=''; selectedProgram=''; localStorage.removeItem('selectedProgram'); render();});
+
+    // Init
+    (function init(){
+      // set initial UI view
+      setView(view);
+      // reflect selectedProgram if present
+      if(selectedProgram) programFilter.value = selectedProgram;
+      loadPapers();
+    })();
+
+  </script></body>
 </html>
