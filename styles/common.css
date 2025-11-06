@@ -1,100 +1,87 @@
-/* common.css — SAFE & SCOPED
-   Only styles elements using .ea-header / .ea-footer and a few helpers.
-   No global resets, no font-family, no generic selectors.
-*/
-
-/* Theme variables */
+/* style/common.css — minimal shared styles */
 :root{
-  --ea-red: #ff3b3b;
-  --ea-text: #111;
-  --ea-muted: #666;
-  --ea-bg: #fff;
-  --ea-border: rgba(0,0,0,0.04);
-  --ea-card-shadow: 0 10px 30px rgba(15,20,25,0.04);
-  --ea-radius: 10px;
+  --accent:#c41e1e;
+  --muted:#666;
+  --bg:#fafafa;
+  --max:1100px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* ===== Header (ONLY applies when element has class "ea-header") ===== */
-.ea-header{
-  background: var(--ea-bg);
-  color: var(--ea-text);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:12px 18px;
-  border-bottom:1px solid var(--ea-border);
-  box-shadow:var(--ea-card-shadow);
-  position:sticky;
-  top:0;
-  z-index:1000;
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:#111;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-/* Only affect direct children to avoid accidental capture */
-.ea-header > .ea-header__left,
-.ea-header > .ea-header__right {
-  display:flex;
-  align-items:center;
-  gap:12px;
+.container{max-width:var(--max);margin:0 auto;padding:0 16px}
+
+/* header */
+.ea-site-header{
+  background:#fff;
+  position:sticky;top:0;left:0;right:0;
+  z-index:9999;
+  box-shadow:0 1px 0 rgba(0,0,0,0.05);
+}
+.ea-header-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;height:64px;
+  max-width:var(--max);margin:0 auto;padding:0 16px;
 }
 
-/* Red square EA badge (only if nested under .ea-header) */
-.ea-header .ea-logo__box{
-  width:46px;height:46px;display:inline-flex;align-items:center;justify-content:center;
-  background:var(--ea-red);color:#fff;border-radius:8px;font-weight:800;font-size:0.98rem;
-  letter-spacing:0.6px; box-shadow:0 8px 20px rgba(255,59,59,0.10);
+/* brand: text-square logo + name to the right */
+.ea-brand{display:flex;align-items:center;gap:10px}
+.ea-logo {
+  width:44px;height:44px;border-radius:6px;
+  display:inline-grid;place-items:center;font-weight:700;
+  background:linear-gradient(180deg,#fff,#fff);color:var(--accent);
+  border:2px solid rgba(0,0,0,0.04);
+  font-size:0.95rem;
+  letter-spacing:0.6px;
+}
+.ea-site-title{font-weight:700;font-size:1.05rem}
+.ea-site-sub{font-size:0.75rem;color:var(--muted);margin-top:2px}
+
+/* nav */
+.ea-main-nav{display:flex;gap:16px;align-items:center}
+.ea-main-nav a{
+  text-decoration:none;color:#222;padding:8px 10px;border-radius:8px;font-weight:600;
+}
+.ea-main-nav a:hover{color:var(--accent);background:rgba(196,30,30,0.06)}
+
+/* hamburger */
+.ea-nav-toggle{display:none;background:none;border:0;padding:8px;cursor:pointer}
+.ea-hamburger, .ea-hamburger::before, .ea-hamburger::after{
+  width:22px;height:2px;background:#222;display:block;border-radius:2px;position:relative;
+}
+.ea-hamburger::before,.ea-hamburger::after{content:"";position:absolute;left:0}
+.ea-hamburger::before{top:-7px} .ea-hamburger::after{top:7px}
+
+/* responsive */
+@media (max-width:780px){
+  .ea-header-inner{height:56px}
+  .ea-main-nav{
+    position:absolute;top:56px;right:12px;background:#fff;border-radius:10px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.10);padding:8px;display:none;
+    flex-direction:column;min-width:170px;z-index:99999;
+  }
+  .ea-main-nav.open{display:flex !important}
+  .ea-nav-toggle{display:inline-flex}
+  .ea-main-nav a{padding:10px 14px;width:100%}
 }
 
-/* Title next to badge */
-.ea-header .ea-title__name{ font-weight:700; color:var(--ea-text); font-size:1rem; }
-.ea-header .ea-title__sub { font-size:0.78rem; color:var(--ea-muted); margin-top:2px; }
+/* main content */
+main{max-width:var(--max);margin:20px auto;padding:0 16px}
+h1{font-size:1.4rem;margin-bottom:8px}
+p{color:var(--muted);line-height:1.5}
 
-/* User pill (scoped) */
-.ea-header .ea-user{
-  display:flex;align-items:center;gap:10px;background:#f6f6f6;padding:8px 10px;border-radius:28px;
-}
-.ea-header .ea-user__avatar{
-  width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
-  background:#fff;border:1px solid rgba(0,0,0,0.06);color:#b23b3b;font-weight:700;
-}
-.ea-header .ea-user__name{ font-weight:600; color:var(--ea-text); font-size:0.95rem; }
-.ea-header .ea-user__role{ font-size:0.72rem; color:var(--ea-muted); }
+/* cards, lists (basic) */
+.card{background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
 
-/* Nav links (scoped) */
-.ea-header .ea-nav{ display:flex; gap:14px; align-items:center; }
-.ea-header .ea-nav a{
-  text-decoration:none; color:var(--ea-text); padding:6px 10px; border-radius:8px; font-weight:600; display:inline-block;
+/* minimal buttons */
+.btn{
+  display:inline-block;padding:8px 12px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;
 }
-.ea-header .ea-nav a:hover{ background: rgba(255,59,59,0.06); color:var(--ea-red); transform: translateY(-1px); }
-.ea-header .ea-nav a.active{ background: rgba(255,59,59,0.08); color:var(--ea-red); }
-
-/* ===== Footer (ONLY applies when element has class "ea-footer") ===== */
-.ea-footer{
-  background: var(--ea-bg);
-  color: var(--ea-muted);
-  padding: 20px 16px;
-  border-top: 1px solid var(--ea-border);
-  margin-top: 36px;
-  font-size: 0.95rem;
-}
-.ea-footer .ea-footer__links a{ color: var(--ea-red); text-decoration:none; font-weight:700; margin-right:12px; }
-
-/* ===== Small helpers (non-invasive) ===== */
-.container{ width:100%; max-width:1100px; margin-left:auto; margin-right:auto; padding-left:16px; padding-right:16px; }
-.ea-card{ background:#fff; border-radius:var(--ea-radius); box-shadow:var(--ea-card-shadow); padding:16px; border:1px solid rgba(0,0,0,0.02); }
-.ea-btn{ background:var(--ea-red); color:#fff; padding:8px 12px; border-radius:8px; font-weight:600; display:inline-block; text-decoration:none; }
-
-/* ===== Responsive tweaks (scoped) ===== */
-@media (max-width:880px){
-  .ea-header .ea-title__sub { display:none; }
-  .ea-header .ea-nav a { display:none; } /* hide nav on small screens */
-}
-@media (max-width:520px){
-  .ea-header .ea-logo__box { width:40px; height:40px; font-size:0.92rem; }
-  .ea-header .ea-user__name { display:none; }
-}
-
-/* NOTES:
- - This file only styles elements when they include .ea-header or .ea-footer.
- - It intentionally avoids styling naked header, nav, a, or other global selectors.
-*/
