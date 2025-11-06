@@ -1,104 +1,14 @@
-/* common.css — ultra-safe single-file for all pages
-   Scoped: only affects .ea-header / .ea-footer etc.
+/* SAFE STUB common.css
+   This file intentionally does almost nothing so your page styles remain untouched.
+   Paste this entire file content to neutralize previous rules.
 */
 
-/* Theme variables */
+/* Theme variables only (safe) */
 :root{
   --ea-red: #ff3b3b;
   --ea-text: #111;
   --ea-muted: #666;
   --ea-bg: #fff;
-  --ea-card-shadow: 0 10px 30px rgba(15,20,25,0.04);
-  --ea-border: rgba(0,0,0,0.04);
-  --ea-radius: 10px;
 }
 
-/* HEADER (only when .ea-header exists) */
-.ea-header {
-  background: var(--ea-bg);
-  color: var(--ea-text);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--ea-border);
-  box-shadow: var(--ea-card-shadow);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-.ea-header > .ea-header__left,
-.ea-header > .ea-header__right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.ea-header .ea-logo__box {
-  width: 46px;
-  height: 46px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ea-red);
-  color: #fff;
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.98rem;
-  letter-spacing: 0.6px;
-  box-shadow: 0 8px 20px rgba(255,59,59,0.10);
-}
-.ea-header .ea-title__name { font-weight: 700; color: var(--ea-text); font-size: 1rem; }
-.ea-header .ea-title__sub  { font-size: 0.78rem; color: var(--ea-muted); margin-top: 2px; }
-
-.ea-header .ea-user {
-  display:flex; align-items:center; gap:10px; background:#f6f6f6; padding:8px 10px; border-radius:28px;
-}
-.ea-header .ea-user__avatar{
-  width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
-  background:#fff;border:1px solid rgba(0,0,0,0.06);color:#b23b3b;font-weight:700;
-}
-.ea-header .ea-user__name{ font-weight:600; color:var(--ea-text); font-size:0.95rem; }
-.ea-header .ea-user__role{ font-size:0.72rem; color:var(--ea-muted); }
-
-.ea-header .ea-nav{ display:flex; gap:14px; align-items:center; }
-.ea-header .ea-nav a{
-  text-decoration:none; color:var(--ea-text); padding:6px 10px; border-radius:8px; font-weight:600; display:inline-block;
-}
-.ea-header .ea-nav a:hover{ background: rgba(255,59,59,0.06); color:var(--ea-red); transform: translateY(-1px); }
-.ea-header .ea-nav a.active{ background: rgba(255,59,59,0.08); color:var(--ea-red); }
-
-/* FOOTER (only when .ea-footer exists) */
-.ea-footer{
-  background: var(--ea-bg);
-  color: var(--ea-muted);
-  padding: 20px 16px;
-  border-top: 1px solid var(--ea-border);
-  margin-top: 36px;
-  font-size: 0.95rem;
-}
-.ea-footer .ea-footer__links a{ color: var(--ea-red); text-decoration:none; font-weight:700; margin-right:12px; }
-
-/* small card */
-.ea-card{
-  background: #fff;
-  border-radius: var(--ea-radius);
-  box-shadow: var(--ea-card-shadow);
-  padding: 16px;
-  border: 1px solid rgba(0,0,0,0.02);
-}
-
-/* utilities */
-.container{ width:100%; max-width:1100px; margin-left:auto; margin-right:auto; padding-left:16px; padding-right:16px; }
-.ea-btn{ background:var(--ea-red); color:#fff; padding:8px 12px; border-radius:8px; font-weight:600; display:inline-block; text-decoration:none; }
-.ea-input{ padding:10px 12px; border-radius:10px; border:1px solid rgba(0,0,0,0.06); }
-
-/* responsive tweaks */
-@media (max-width:880px) {
-  .ea-header .ea-title__sub { display:none; }
-  .ea-header .ea-nav a { display:none; }
-}
-@media (max-width:520px) {
-  .ea-header .ea-logo__box { width:40px; height:40px; font-size:0.92rem; }
-  .ea-header .ea-user__name { display:none; }
-}
+/* Intentionally minimal; no global selectors, no header/nav rules. */
