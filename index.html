@@ -5,6 +5,49 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ExamArchive — Home</title>
   <link rel="stylesheet" href="common.css">
+<!-- Paste this in the <head> of each HTML file (temporary immediate fix) -->
+<style>
+/* Immediate inline header styles — very specific & safe */
+html body header.ea-header,
+html body .ea-header {
+  background: #ffffff !important;
+  color: #111 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 12px 18px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+  box-shadow: 0 10px 30px rgba(15,20,25,0.04) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+
+/* children */
+html body .ea-header > .ea-header__left,
+html body .ea-header > .ea-header__right {
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+}
+
+/* red EA box */
+html body .ea-header .ea-logo__box{
+  width:46px;height:46px;display:inline-flex;align-items:center;justify-content:center;
+  background:#ff3b3b;color:#fff;border-radius:8px;font-weight:800;font-size:0.98rem !important;
+  letter-spacing:0.6px; box-shadow:0 8px 20px rgba(255,59,59,0.10);
+}
+
+/* other small parts */
+html body .ea-header .ea-title__name{ font-weight:700; color:#111; font-size:1rem; }
+html body .ea-header .ea-title__sub { font-size:0.78rem; color:#666; margin-top:2px; }
+html body .ea-header .ea-user { display:flex; align-items:center; gap:10px; background:#f6f6f6; padding:8px 10px; border-radius:28px; }
+html body .ea-header .ea-user__avatar { width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid rgba(0,0,0,0.06);color:#b23b3b;font-weight:700; }
+html body .ea-header .ea-nav{ display:flex; gap:14px; align-items:center; }
+html body .ea-header .ea-nav a { text-decoration:none; color:#111; padding:6px 10px; border-radius:8px; font-weight:600; display:inline-block; }
+html body .ea-header .ea-nav a:hover { background: rgba(255,59,59,0.06); color:#ff3b3b; transform: translateY(-1px); }
+</style>
 </head>
 <body>
   <!-- HEADER -->
