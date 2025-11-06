@@ -3,57 +3,115 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Browse papers — ExamArchive</title>
-  <link rel="stylesheet" href="styles/common.css">
+  <title>ExamArchive — Browse Papers</title>
+  <link rel="stylesheet" href="common.css">
 </head>
 <body>
+  <!-- HEADER -->
   <header class="ea-header">
-  <div class="ea-header__left">
-    <div class="ea-logo">
-      <span class="ea-logo__box">EA</span>
-      <div class="ea-title">
-        <div class="ea-title__name">ExamArchive</div>
-        <div class="ea-title__sub">Old question papers — community</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ea-header__right">
-    <div class="ea-user">
-      <span class="ea-user__avatar">G</span>
-      <div class="ea-user__meta">
-        <div class="ea-user__name">Guest</div>
-        <div class="ea-user__role">User</div>
+    <div class="ea-header__left">
+      <div class="ea-logo">
+        <span class="ea-logo__box">EA</span>
+        <div class="ea-title">
+          <div class="ea-title__name">ExamArchive</div>
+          <div class="ea-title__sub">Old question papers — community</div>
+        </div>
       </div>
     </div>
 
-    <nav class="ea-nav" aria-label="Main navigation">
+    <div class="ea-header__right">
+      <div class="ea-user">
+        <span class="ea-user__avatar">G</span>
+        <div class="ea-user__meta">
+          <div class="ea-user__name">Guest</div>
+          <div class="ea-user__role">User</div>
+        </div>
+      </div>
+
+      <nav class="ea-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="browse.html">Browse</a>
+        <a href="upload.html">Upload</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container" style="padding:28px 0;">
+    <h1 style="margin-bottom:12px;">Browse papers</h1>
+    <div id="papers-wrap" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+      <!-- cards will render here -->
+    </div>
+
+    <div id="browse-msg" style="margin-top:18px;color:var(--ea-muted)"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="ea-footer">
+    <div class="ea-footer__links container">
       <a href="index.html">Home</a>
       <a href="browse.html">Browse</a>
       <a href="upload.html">Upload</a>
       <a href="about.html">About</a>
-    </nav>
-  </div>
-</header>
-
-  <main class="container" id="app">
-    <h1 style="margin:6px 0 10px;font-size:1.2rem">Browse papers</h1>
-    <p style="margin:0 0 12px;color:#666;font-size:0.92rem">Searching from papers.json. Use the input + Search button (or press Enter).</p>
-
-    <div class="controls" role="region" aria-label="search and filters">
-      <input id="searchInput" class="input full" type="search" placeholder="Search by title, course code, year, subject..." aria-label="Search papers">
-      <select id="yearSelect" class="input small" aria-label="Filter by year"></select>
-      <select id="typeSelect" class="input small" aria-label="Filter by type">
-        <option value="">All types</option>
-      </select>
-      <button id="toggleView" class="btn small toggle-btn" aria-pressed="false">Table view</button>
     </div>
+    <div class="container"><p>© 2025 ExamArchive. Built with ❤️ by Om Das</p></div>
+  </footer>
 
-    <div id="contentArea">
-      <div id="loading" style="padding:14px;background:#fff;border-radius:8px">Loading papers…</div>
-    </div>
-  </main>
+  <script>
+    // mark active nav
+    document.querySelectorAll('.ea-nav a').forEach(a=>{
+      const href = a.getAttribute('href');
+      if(location.pathname.endsWith(href)) a.classList.add('active');
+    });
 
-  <script src="scripts/browse.js" defer></script>
+    // Fetch papers & render cards
+    function createCard(item){
+      const card = document.createElement('a');
+      card.className = 'ea-card';
+      card.style.display = 'block';
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
+      card.href = item.url || ('papers/' + item.file);
+      card.target = '_blank';
+      card.innerHTML = `
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="width:64px;height:64px;border-radius:10px;background:#fafafa;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.03);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" stroke="#ccc" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div style="font-weight:700;">${item.title || item.file || 'Untitled'}</div>
+            <div style="font-size:0.86rem;color:var(--ea-muted);margin-top:6px;">
+              ${item.year ? item.year + ' • ' : ''}${item.university ? item.university : ''} ${item.subject ? ' • ' + item.subject : ''}
+            </div>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    async function loadPapers(){
+      const wrap = document.getElementById('papers-wrap');
+      const msg = document.getElementById('browse-msg');
+      try{
+        const res = await fetch('papers/papers.json', {cache: 'no-store'});
+        if(!res.ok) throw new Error('Failed to load');
+        const data = await res.json();
+        if(!Array.isArray(data) || data.length === 0){
+          msg.textContent = 'No papers found yet.';
+          return;
+        }
+        data.forEach(item=>{
+          // item should include at least "file" or "url" and "title"
+          const card = createCard(item);
+          wrap.appendChild(card);
+        });
+      }catch(err){
+        msg.textContent = 'Could not fetch papers (check papers/papers.json).';
+        console.error(err);
+      }
+    }
+    loadPapers();
+  </script>
 </body>
 </html>
