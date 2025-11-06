@@ -406,27 +406,27 @@
     "id": "phshcc201t-2022",
     "title": "PHSHCC201T — Electricity and Magnetism (2022)",
     "meta": "PHSHCC201T · CBCS · HCC · 2022 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2022-PHSHCC201T.pdf",
+    "file": "papers/CBSC/Science/HCC/Physics/2022-PHSHCC-201T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2022,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc201t-2023",
     "title": "PHSHCC201T — Electricity and Magnetism (2023)",
     "meta": "PHSHCC201T · CBCS · HCC · 2023 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2023-PHSHCC201T.pdf",
+    "file": "papers/CBSC/Science/HCC/Physics/2023-PHSHCC-201T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2023,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc201t-2024",
