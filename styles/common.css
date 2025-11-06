@@ -1,104 +1,131 @@
-/* ===== safe common.css - scoped header/footer only ===== */
-
-/* Palette (override in page-specific CSS if needed) */
-:root {
-  --ea-primary: #222;        /* header background */
-  --ea-accent: #ff3b3b;      /* accent (your red) */
-  --ea-text: #ffffff;        /* header text */
-  --ea-hover-bg: #333;       /* header hover bg */
-  --ea-footer-bg: #f7f7f7;   /* footer background */
-  --ea-footer-text: #444;    /* footer text */
+:root{
+  --header-bg:#0b0b0b;
+  --header-text:#fff;
+  --accent:#d33;
+  --base-font:14px;
+  --radius:8px;
+  --muted:#6b6b6b;
+  --card-bg:#fff;
+  --page-bg:#f7f7f7;
 }
 
-/* --- Header (scoped) --- */
-.site-header {
-  background: var(--ea-primary);
-  color: var(--ea-text);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 32px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  /* do NOT set global font here so page fonts remain intact */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--page-bg);
+  color:#111;
+  font-size:var(--base-font);
+  line-height:1.3;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* logo area */
-.site-header .logo {
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 0.6px;
+/* Header */
+header{
+  background:var(--header-bg);
+  color:var(--header-text);
+  padding:10px 16px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  box-shadow:0 1px 2px rgba(0,0,0,0.15);
+}
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  max-width:1100px;
+  margin:0 auto;
+}
+.logo{
+  font-weight:700;
+  font-size:1.05rem;
+  color:var(--header-text);
+  text-decoration:none;
+}
+.nav-links{
+  list-style:none;
+  display:flex;
+  gap:12px;
+  padding:0;
+  margin:0;
+}
+.nav-links a{
+  color:var(--header-text);
+  text-decoration:none;
+  font-weight:600;
+  transition:color .15s;
+}
+.nav-links a:hover{ color:var(--accent); }
+.nav-links a.active{ color:var(--accent); text-decoration:underline; }
+
+.container{max-width:1100px;margin:12px auto;padding:0 12px}
+
+/* Controls */
+.controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:10px;
+}
+.input, select, button{
+  border-radius:8px;
+  padding:8px 10px;
+  border:1px solid #ddd;
+  font-size:0.95rem;
+  background:#fff;
 }
 
-/* nav */
-.site-header nav ul {
-  list-style: none;
-  display: flex;
-  gap: 18px;
-  margin: 0;
-  padding: 0;
+.controls input[type="search"]{width:100%;box-shadow:none}
+.controls .small{flex:0 0 auto; min-width:86px}
+
+.toggle-btn{background:#fff;border:1px solid #ddd; cursor:pointer}
+
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap:12px;
+}
+.card{
+  background:var(--card-bg);
+  padding:10px;
+  border-radius:var(--radius);
+  box-shadow:0 2px 0 rgba(0,0,0,0.04);
+  min-height:110px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.card .meta{font-size:0.78rem;color:var(--muted);margin-bottom:6px}
+.card .title{font-weight:700;font-size:0.98rem;margin-bottom:6px}
+.card .actions{display:flex;gap:8px;margin-top:8px}
+.btn{
+  padding:6px 10px;border-radius:8px;border:1px solid #e6e6e6;background:#fff;cursor:pointer;font-weight:600;font-size:0.88rem;
+}
+.btn.primary{background:var(--accent);color:#fff;border:none}
+.btn[disabled]{opacity:0.5;cursor:not-allowed}
+
+.badge-available{
+  display:inline-block;padding:4px 8px;border-radius:999px;background:#eaf7ee;color:#0a7a2a;font-weight:700;font-size:0.75rem;
+}
+.badge-missing{
+  display:inline-block;padding:4px 8px;border-radius:999px;border:1px dashed #cfcfcf;color:var(--muted);font-weight:700;font-size:0.75rem;
 }
 
-.site-header nav a {
-  color: var(--ea-text);
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-weight: 500;
-  display: inline-block;
-  transition: background 0.18s, color 0.18s;
-}
+/* Table */
+.table-wrap{overflow:auto;background:transparent;border-radius:8px;padding-bottom:8px}
+.table{width:100%;border-collapse:collapse;background:transparent}
+.table th, .table td{padding:10px 8px;text-align:left;border-bottom:1px solid #eee;font-size:0.92rem}
+.table th{font-weight:700;white-space:nowrap}
+.table tr:hover{background:rgba(0,0,0,0.02)}
 
-.site-header nav a:hover,
-.site-header nav a.active {
-  background: var(--ea-hover-bg);
-  color: var(--ea-accent);
+@media (max-width:520px){
+  .grid{grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap:10px}
+  .card .title{font-size:0.9rem}
+  .controls{gap:6px}
+  .nav-links a{display:none}
 }
-
-/* Make header stack neatly on small screens, but don't alter page flows much */
-@media (max-width: 768px) {
-  .site-header {
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px 16px;
-  }
-  .site-header nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
-/* --- Footer (scoped) --- */
-.site-footer {
-  background: var(--ea-footer-bg);
-  color: var(--ea-footer-text);
-  text-align: center;
-  padding: 20px 14px;
-  border-top: 1px solid rgba(0,0,0,0.06);
-  margin-top: 40px;
-  font-size: 0.95rem;
-}
-
-.site-footer .footer-links {
-  margin-bottom: 8px;
-}
-
-.site-footer .footer-links a {
-  color: var(--ea-footer-text);
-  text-decoration: none;
-  margin: 0 8px;
-  font-weight: 500;
-  transition: color 0.18s;
-}
-
-.site-footer .footer-links a:hover {
-  color: var(--ea-accent);
-}
-
-/* minimal helper so footer doesn't cover page content if you use position fixed later */
-.site-footer--spacer {
-  height: auto;
-}
-
-/* Nothing else — no resets, no font-family declarations, no * selectors */
