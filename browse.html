@@ -41,7 +41,7 @@
   <main class="container" style="padding:28px 0;">
     <h1 style="margin-bottom:12px;">Browse papers</h1>
     <div id="papers-wrap" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
-      <!-- cards will render here -->
+      <!-- cards rendered by script -->
     </div>
 
     <div id="browse-msg" style="margin-top:18px;color:var(--ea-muted)"></div>
@@ -59,52 +59,46 @@
   </footer>
 
   <script>
-    // mark active nav
+    // mark active
     document.querySelectorAll('.ea-nav a').forEach(a=>{
       const href = a.getAttribute('href');
       if(location.pathname.endsWith(href)) a.classList.add('active');
     });
 
-    // Fetch papers & render cards
-    function createCard(item){
-      const card = document.createElement('a');
-      card.className = 'ea-card';
-      card.style.display = 'block';
-      card.style.textDecoration = 'none';
-      card.style.color = 'inherit';
-      card.href = item.url || ('papers/' + item.file);
-      card.target = '_blank';
-      card.innerHTML = `
-        <div style="display:flex;gap:12px;align-items:center;">
-          <div style="width:64px;height:64px;border-radius:10px;background:#fafafa;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.03);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" stroke="#ccc" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div style="flex:1;">
-            <div style="font-weight:700;">${item.title || item.file || 'Untitled'}</div>
-            <div style="font-size:0.86rem;color:var(--ea-muted);margin-top:6px;">
-              ${item.year ? item.year + ' • ' : ''}${item.university ? item.university : ''} ${item.subject ? ' • ' + item.subject : ''}
-            </div>
-          </div>
-        </div>
-      `;
-      return card;
-    }
-
+    // load papers.json (path: papers/papers.json)
     async function loadPapers(){
       const wrap = document.getElementById('papers-wrap');
       const msg = document.getElementById('browse-msg');
       try{
-        const res = await fetch('papers/papers.json', {cache: 'no-store'});
-        if(!res.ok) throw new Error('Failed to load');
+        const res = await fetch('papers/papers.json', {cache:'no-store'});
+        if(!res.ok) throw new Error('Failed to fetch');
         const data = await res.json();
         if(!Array.isArray(data) || data.length === 0){
           msg.textContent = 'No papers found yet.';
           return;
         }
         data.forEach(item=>{
-          // item should include at least "file" or "url" and "title"
-          const card = createCard(item);
-          wrap.appendChild(card);
+          const a = document.createElement('a');
+          a.className = 'ea-card';
+          a.href = item.url || ('papers/' + item.file);
+          a.target = '_blank';
+          a.style.display = 'block';
+          a.style.textDecoration = 'none';
+          a.style.color = 'inherit';
+          a.innerHTML = `
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div style="width:64px;height:64px;border-radius:10px;background:#fafafa;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.03);">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" stroke="#ccc" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-weight:700;">${item.title || item.file || 'Untitled'}</div>
+                <div style="font-size:0.86rem;color:var(--ea-muted);margin-top:6px;">
+                  ${item.year ? item.year + ' • ' : ''}${item.university ? item.university : ''} ${item.subject ? ' • ' + item.subject : ''}
+                </div>
+              </div>
+            </div>
+          `;
+          wrap.appendChild(a);
         });
       }catch(err){
         msg.textContent = 'Could not fetch papers (check papers/papers.json).';
