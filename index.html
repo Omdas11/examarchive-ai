@@ -4,49 +4,87 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ExamArchive — Home</title>
-  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="common.css">
 </head>
 <body>
+  <!-- HEADER -->
   <header class="ea-header">
-  <div class="ea-header__left">
-    <div class="ea-logo">
-      <span class="ea-logo__box">EA</span>
-      <div class="ea-title">
-        <div class="ea-title__name">ExamArchive</div>
-        <div class="ea-title__sub">Old question papers — community</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ea-header__right">
-    <div class="ea-user">
-      <span class="ea-user__avatar">G</span>
-      <div class="ea-user__meta">
-        <div class="ea-user__name">Guest</div>
-        <div class="ea-user__role">User</div>
+    <div class="ea-header__left">
+      <div class="ea-logo">
+        <span class="ea-logo__box">EA</span>
+        <div class="ea-title">
+          <div class="ea-title__name">ExamArchive</div>
+          <div class="ea-title__sub">Old question papers — community</div>
+        </div>
       </div>
     </div>
 
-    <nav class="ea-nav" aria-label="Main navigation">
+    <div class="ea-header__right">
+      <div class="ea-user">
+        <span class="ea-user__avatar">G</span>
+        <div class="ea-user__meta">
+          <div class="ea-user__name">Guest</div>
+          <div class="ea-user__role">User</div>
+        </div>
+      </div>
+
+      <nav class="ea-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="browse.html">Browse</a>
+        <a href="upload.html">Upload</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container" style="padding:28px 0;">
+    <section class="ea-card" style="display:flex;gap:20px;align-items:center;">
+      <div style="flex:0 0 120px;">
+        <div style="width:120px;height:120px;border-radius:12px;background:linear-gradient(180deg,#fff,#fff);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(15,20,25,0.04);">
+          <div style="width:84px;height:84px;background:var(--ea-red);color:#fff;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:800;">EA</div>
+        </div>
+      </div>
+
+      <div>
+        <h1 style="margin:0 0 8px;">ExamArchive — Past Papers & Solutions</h1>
+        <p style="margin:0;color:var(--ea-muted);">A community collection of past exam papers for quick reference and download. Browse by subject, year, university.</p>
+        <div style="margin-top:14px;">
+          <a class="ea-btn" href="browse.html">Browse papers</a>
+          <a class="ea-btn" href="upload.html" style="background:#333;margin-left:8px;">Upload a paper</a>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:22px;">
+      <h2>Quick links</h2>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;">
+        <a class="ea-card" href="browse.html" style="text-decoration:none;color:inherit;min-width:180px;">Browse all papers</a>
+        <a class="ea-card" href="upload.html" style="text-decoration:none;color:inherit;min-width:180px;">Upload a new paper</a>
+        <a class="ea-card" href="about.html" style="text-decoration:none;color:inherit;min-width:180px;">About & contact</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="ea-footer">
+    <div class="ea-footer__links container">
       <a href="index.html">Home</a>
       <a href="browse.html">Browse</a>
       <a href="upload.html">Upload</a>
       <a href="about.html">About</a>
-    </nav>
-  </div>
-</header>
+    </div>
+    <div class="container"><p>© 2025 ExamArchive. Built with ❤️ by Om Das</p></div>
+  </footer>
 
-  <main class="container">
-    <h1 style="margin:6px 0 12px">Welcome to ExamArchive</h1>
-    <p style="color:#666">A simple homepage. Replace with your full homepage content.</p>
-
-    <section style="margin-top:18px;background:#fff;padding:12px;border-radius:8px">
-      <h2 style="margin:0 0 8px">Quick links</h2>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <a class="btn" href="browse.html">Browse papers</a>
-        <a class="btn" href="collection.html">Collections</a>
-      </div>
-    </section>
-  </main>
+  <script>
+    // mark active link in nav (works for all pages)
+    document.querySelectorAll('.ea-nav a').forEach(a=>{
+      try {
+        const href = a.getAttribute('href');
+        if(location.pathname.endsWith(href) || location.pathname === '/' && href === 'index.html') a.classList.add('active');
+      } catch(e){}
+    });
+  </script>
 </body>
 </html>
