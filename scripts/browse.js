@@ -1,9 +1,9 @@
-// Enhanced browse.js - checks relative path AND raw.githubusercontent fallback
+// scripts/browse.js (robust - includes timeouts + raw.githubusercontent fallback)
 (function(){
   const OWNER = 'Omdas11';
   const REPO = 'examarchive-ai';
   const BRANCH = 'main';
-  const DATA_URL = 'papers/papers.json'; // adjust if needed
+  const DATA_URL = 'papers/papers.json';
   const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
   const content = document.getElementById('contentArea');
   const searchInput = document.getElementById('searchInput');
@@ -15,68 +15,95 @@
   let view = sessionStorage.getItem('ea_view') || 'grid';
   let availCache = {};
   const MAX_CONCURRENT_CHECKS = 6;
+  const TIMEOUT_MS = 6000; // 6 seconds per try
 
-  function debounce(fn, wait=250){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), wait); }; }
-  function loadAvailCache(){
-    for(const k in sessionStorage){
-      if(k.startsWith('ea_avail:')) availCache[k.replace('ea_avail:','')] = sessionStorage.getItem(k) === '1';
-    }
+  function debug(...args){ console.debug('[browse]', ...args); }
+  function debounce(fn, wait=250){ let t; return (...a)=>{ clearTimeout(t); t = setTimeout(()=>fn(...a), wait); }; }
+
+  // load cached availability
+  for(const k in sessionStorage){
+    if(k.startsWith('ea_avail:')) availCache[k.replace('ea_avail:','')] = sessionStorage.getItem(k) === '1';
   }
-  loadAvailCache();
 
   // concurrency limiter
   function pLimit(max){
     const queue=[]; let active=0;
-    const next = ()=>{ if(active >= max || queue.length===0) return; active++; const {fn, resolve, reject} = queue.shift(); fn().then(resolve).catch(reject).finally(()=>{ active--; next(); }); };
-    return (fn) => new Promise((resolve,reject)=>{ queue.push({fn, resolve, reject}); next(); });
+    const next = ()=>{ if(active>=max || queue.length===0) return; active++; const {fn, resolve, reject} = queue.shift(); fn().then(resolve).catch(reject).finally(()=>{ active--; next(); }); };
+    return (fn) => new Promise((resolve,reject)=>{ queue.push({fn,resolve,reject}); next(); });
   }
   const limit = pLimit(MAX_CONCURRENT_CHECKS);
 
-  async function checkUrl(url){
+  function fetchWithTimeout(url, opts={}, timeout=TIMEOUT_MS){
+    return new Promise((resolve, reject)=>{
+      const ac = new AbortController();
+      const id = setTimeout(()=> { ac.abort(); reject(new Error('timeout')); }, timeout);
+      fetch(url, Object.assign({}, opts, { signal: ac.signal })).then(r=>{
+        clearTimeout(id);
+        resolve(r);
+      }).catch(err=>{
+        clearTimeout(id);
+        reject(err);
+      });
+    });
+  }
+
+  async function tryUrl(url){
     try{
-      const r = await fetch(url, { method:'HEAD' });
+      // First try HEAD (some hosts ignore HEAD; will fall back to GET)
+      let r = await fetchWithTimeout(url, { method:'HEAD' }, TIMEOUT_MS).catch(()=>null);
       if(r && r.ok) return true;
-      // some hosts don't respond to HEAD reliably — try GET
-      const r2 = await fetch(url);
-      return r2.ok;
+      // fallback to GET
+      r = await fetchWithTimeout(url, { method:'GET' }, TIMEOUT_MS).catch(()=>null);
+      if(r && r.ok) return true;
+      return false;
     }catch(e){
       return false;
     }
   }
 
-  // Tries multiple candidate URLs: original, then raw.githubusercontent fallback
+  // For a given filePath try candidates sequentially (but limit concurrency overall)
   async function checkAvailable(filePath){
     if(!filePath) return false;
+    // if JSON had available flag (precomputed), honor that
+    try{
+      const found = papers.find(p => p.file && p.file === filePath);
+      if(found && (found.available === true)) { availCache[filePath] = true; sessionStorage.setItem('ea_avail:'+filePath, '1'); return true; }
+      if(found && (found.available === false)) { availCache[filePath] = false; sessionStorage.setItem('ea_avail:'+filePath, '0'); return false; }
+    }catch(e){ /* ignore */ }
+
     if(availCache.hasOwnProperty(filePath)) return availCache[filePath];
 
     const candidates = [];
-    // if filePath already absolute (starts with http), try as-is
     if(/^(https?:)?\/\//.test(filePath)){
       candidates.push(filePath);
-      // if it's a github blob URL, convert to raw
       if(filePath.includes('github.com') && filePath.includes('/blob/')){
         candidates.push(filePath.replace('github.com', 'raw.githubusercontent.com').replace('/blob/','/'));
       }
+      // if it's a raw.githubusercontent already, it is covered
     } else {
-      // relative path: first try relative, then RAW github URL
+      // relative path: try relative and raw.githubusercontent
       candidates.push(filePath);
       candidates.push(RAW_BASE + filePath.replace(/^\//,''));
     }
 
-    // Run checks with concurrency limits
+    debug('Checking candidates for', filePath, candidates);
     for(const c of candidates){
-      const ok = await limit(()=>checkUrl(c));
+      // limit concurrency of network checks
+      const ok = await limit(()=> tryUrl(c) );
+      debug('Tried', c, '=>', ok);
       if(ok){
         availCache[filePath] = true;
-        try{ sessionStorage.setItem('ea_avail:' + filePath, '1'); }catch(e){}
+        try{ sessionStorage.setItem('ea_avail:'+filePath, '1'); }catch(e){}
         return true;
       }
     }
+
     availCache[filePath] = false;
-    try{ sessionStorage.setItem('ea_avail:' + filePath, '0'); }catch(e){}
+    try{ sessionStorage.setItem('ea_avail:'+filePath, '0'); }catch(e){}
     return false;
   }
 
+  // Rendering logic (same behavior but robust)
   async function init(){
     try{
       const r = await fetch(DATA_URL);
@@ -132,7 +159,12 @@
         const previewBtn = document.createElement('button'); previewBtn.className='btn'; previewBtn.textContent='Preview';
         const dlBtn = document.createElement('button'); dlBtn.className='btn'; dlBtn.textContent='Download';
 
-        if(!p.file){
+        // short-circuit if JSON explicitly set available=true
+        if(p.available === true){
+          const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available';
+          badgeWrap.appendChild(b);
+          previewBtn.disabled = false; dlBtn.disabled = false;
+        } else if(!p.file){
           const missing = document.createElement('span'); missing.className='badge-missing'; missing.textContent='Not found';
           badgeWrap.appendChild(missing);
           previewBtn.disabled = true; dlBtn.disabled = true;
@@ -140,6 +172,7 @@
           const checking = document.createElement('span'); checking.className='badge-missing'; checking.textContent='Checking…';
           badgeWrap.appendChild(checking);
           previewBtn.disabled = true; dlBtn.disabled = true;
+          // async availability check
           checkAvailable(p.file).then(ok=>{
             badgeWrap.innerHTML = '';
             if(ok){
@@ -179,7 +212,10 @@
         const uniTd = document.createElement('td'); uniTd.textContent = p.university || '';
         const typeTd = document.createElement('td'); typeTd.textContent = p.type || '';
         const availTd = document.createElement('td');
-        if(!p.file){
+
+        if(p.available === true){
+          const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available'; availTd.appendChild(b);
+        } else if(!p.file){
           const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found'; availTd.appendChild(m);
         } else {
           const checking = document.createElement('span'); checking.className='badge-missing'; checking.textContent='Checking…'; availTd.appendChild(checking);
@@ -196,7 +232,7 @@
         const actionsTd = document.createElement('td');
         const previewBtn = document.createElement('button'); previewBtn.className='btn'; previewBtn.textContent='Preview';
         const dlBtn = document.createElement('button'); dlBtn.className='btn'; dlBtn.textContent='Download';
-        if(!p.file){ previewBtn.disabled=true; dlBtn.disabled=true; }
+        if(!p.file && p.available !== true){ previewBtn.disabled=true; dlBtn.disabled=true; }
         previewBtn.onclick = ()=> p.file && window.open(p.file,'_blank');
         dlBtn.onclick = ()=> p.file && (location.href = p.file);
         actionsTd.appendChild(previewBtn); actionsTd.appendChild(dlBtn);
@@ -209,8 +245,9 @@
     }
   }
 
+  // pre-check first visible entries to speed-up UX
   function lazyCheckVisible(){
-    const toCheck = papers.slice(0, 18).map(p => p.file).filter(Boolean);
+    const toCheck = papers.slice(0, 24).map(p => p.file).filter(Boolean);
     toCheck.forEach(url => checkAvailable(url).catch(()=>{}));
   }
 
