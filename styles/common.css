@@ -1,187 +1,71 @@
-/* ============================
-   common.css — ExamArchive
-   Scoped shared header, footer, utilities
-   Non-destructive: no global resets / no font overrides
-   ============================ */
+/* ultra-safe common.css — ONLY affects .ea-header and .ea-footer */
 
-/* ---------- Theme variables ---------- */
+/* Theme vars (safe) */
 :root{
   --ea-red: #ff3b3b;
   --ea-text: #111;
   --ea-muted: #666;
-  --ea-bg: #ffffff;
+  --ea-bg: #fff;
   --ea-card-shadow: 0 10px 30px rgba(15,20,25,0.04);
   --ea-border: rgba(0,0,0,0.04);
-  --ea-radius: 10px;
 }
 
-/* =========================
-   HEADER (light style)
-   Use markup: <header class="ea-header">...</header>
-   ========================= */
-.ea-header{
+/* === HEADER (only if element has class "ea-header") === */
+.ea-header{ 
   background: var(--ea-bg);
   color: var(--ea-text);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--ea-border);
-  box-shadow: var(--ea-card-shadow);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 18px;
+  border-bottom:1px solid var(--ea-border);
+  box-shadow:var(--ea-card-shadow);
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
 
-/* left block: logo + title */
-.ea-header__left{ display:flex; align-items:center; gap: 12px; }
+/* Very specific child selectors so nothing else is matched */
+.ea-header > .ea-header__left,
+.ea-header > .ea-header__right { display:flex; align-items:center; gap:12px; }
 
-/* red square logo */
-.ea-logo__box{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:46px;
-  height:46px;
-  background: var(--ea-red);
-  color: #fff;
-  border-radius: 8px;
-  font-weight:800;
-  font-size:0.98rem;
-  letter-spacing:0.6px;
+/* red square logo only if nested under .ea-header */
+.ea-header .ea-logo__box{
+  width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center;
+  background:var(--ea-red); color:#fff; border-radius:8px; font-weight:800; font-size:0.98rem;
   box-shadow: 0 8px 20px rgba(255,59,59,0.10);
 }
 
-/* title text next to logo */
-.ea-title{
-  display:flex;
-  flex-direction:column;
-  line-height:1;
-}
-.ea-title__name{ font-weight:700; font-size:1rem; color:var(--ea-text); }
-.ea-title__sub{ font-size:0.78rem; color:var(--ea-muted); margin-top:2px; }
+/* title text only under ea-header */
+.ea-header .ea-title__name{ font-weight:700; color:var(--ea-text); font-size:1rem; }
+.ea-header .ea-title__sub{ font-size:0.78rem; color:var(--ea-muted); margin-top:2px; }
 
-/* right block: user pill + nav */
-.ea-header__right{ display:flex; align-items:center; gap:16px; }
+/* user pill and nav only inside ea-header */
+.ea-header .ea-user{ display:flex; align-items:center; gap:10px; background:#f6f6f6; padding:8px 10px; border-radius:28px; }
+.ea-header .ea-user__avatar{ width:36px;height:36px;border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:#fff; border:1px solid rgba(0,0,0,0.06); color:#b23b3b; font-weight:700; }
+.ea-header .ea-user__name{ font-weight:600; color:var(--ea-text); font-size:0.95rem; }
+.ea-header .ea-user__role{ font-size:0.72rem; color:var(--ea-muted); }
 
-/* user pill */
-.ea-user{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background: #f6f6f6;
-  padding:8px 10px;
-  border-radius:28px;
-  box-shadow: 0 6px 18px rgba(12,18,22,0.04);
+/* nav links — strictly scoped */
+.ea-header .ea-nav{ display:flex; gap:14px; align-items:center; }
+.ea-header .ea-nav a{
+  text-decoration:none; color:var(--ea-text); padding:6px 10px; border-radius:8px; font-weight:600; display:inline-block;
 }
-.ea-user__avatar{
-  width:36px; height:36px; border-radius:50%;
-  display:inline-flex; align-items:center; justify-content:center;
-  background:#fff; border:1px solid rgba(0,0,0,0.06);
-  font-weight:700; color:#b23b3b;
-}
-.ea-user__name{ font-weight:600; color:var(--ea-text); font-size:0.95rem; }
-.ea-user__role{ font-size:0.72rem; color:var(--ea-muted); margin-top:2px; }
+.ea-header .ea-nav a:hover{ background: rgba(255,59,59,0.06); color:var(--ea-red); transform:translateY(-1px); }
 
-/* navigation links (simple inline links) */
-.ea-nav{ display:flex; gap:14px; align-items:center; }
-.ea-nav a{
-  text-decoration:none;
-  color:var(--ea-text);
-  padding:6px 10px;
-  border-radius:8px;
-  font-weight:600;
-  transition: background .12s, color .12s, transform .08s;
-  display:inline-block;
-}
-.ea-nav a:hover{ background: rgba(255,59,59,0.06); color: var(--ea-red); transform: translateY(-1px); }
-.ea-nav a.active{ background: rgba(255,59,59,0.08); color: var(--ea-red); }
-
-/* =========================
-   FOOTER (light, matching)
-   Use markup: <footer class="ea-footer">...</footer>
-   ========================= */
+/* === FOOTER (only if element has class "ea-footer") === */
 .ea-footer{
-  background: var(--ea-bg);
-  color: var(--ea-muted);
-  padding: 20px 16px;
-  border-top: 1px solid var(--ea-border);
-  margin-top: 36px;
-  font-size: 0.95rem;
+  background:var(--ea-bg); color:var(--ea-muted); padding:20px 16px; border-top:1px solid var(--ea-border); margin-top:36px; font-size:0.95rem;
 }
-.ea-footer__links{ margin-bottom:8px; }
-.ea-footer__links a{
-  color: var(--ea-red);
-  text-decoration:none;
-  font-weight:700;
-  margin-right:12px;
-  transition: opacity .12s;
-}
-.ea-footer__links a:hover{ opacity:0.85; text-decoration: underline; }
-.ea-footer p{ margin-top:8px; color:var(--ea-muted); font-size:0.92rem; }
+.ea-footer .ea-footer__links a{ color:var(--ea-red); text-decoration:none; font-weight:700; margin-right:12px; }
 
-/* =========================
-   SMALL CARDS / PANELS
-   (to match the soft card look from screenshot)
-   ========================= */
-.ea-card{
-  background: #fff;
-  border-radius: var(--ea-radius);
-  box-shadow: var(--ea-card-shadow);
-  padding: 16px;
-  border: 1px solid rgba(0,0,0,0.02);
+/* small responsive tweaks scoped only to .ea-header */
+@media (max-width:880px){
+  .ea-header .ea-title__sub{ display:none; }
+  .ea-header .ea-nav a{ display:none; } /* hide nav on smaller screens */
 }
-
-/* small utility: red button */
-.ea-btn{
-  background: var(--ea-red);
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight:600;
-  text-decoration:none;
-  display:inline-block;
+@media (max-width:520px){
+  .ea-header .ea-logo__box{ width:40px;height:40px;font-size:0.92rem; }
+  .ea-header .ea-user__name{ display:none; }
 }
-
-/* =========================
-   LAYOUT HELPERS (non intrusive)
-   ========================= */
-.container{
-  width: 100%;
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-/* subtle rounded input style used in header search (if any) */
-.ea-input{
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid rgba(0,0,0,0.06);
-  outline:none;
-  font-size:0.95rem;
-}
-
-/* =========================
-   RESPONSIVE tweaks
-   ========================= */
-@media (max-width: 880px){
-  .ea-title__sub{ display:none; } /* hide sub title to save space */
-  .ea-nav a{ display:none; }      /* hide nav on smaller screens (replace with hamburger if desired) */
-}
-
-@media (max-width: 520px){
-  .ea-logo__box{ width:40px; height:40px; font-size:0.92rem; }
-  .ea-user__name{ display:none; } /* compact user pill */
-}
-
-/* =========================
-   NOTES:
-   - This file is intentionally scoped and safe.
-   - Remove any older rules that target global `header {}` or `.site-header` or `.ea-shared*` to avoid conflicts.
-   - Use `.ea-nav a.active` on the current link to highlight it.
-   ========================= */
