@@ -1,184 +1,175 @@
-// scripts/browse.js (production, mobile-first)
-(function(){
-  const OWNER = 'Omdas11';
-  const REPO = 'examarchive-ai';
-  const BRANCH = 'main';
-  const DATA_URL = 'papers/papers.json';
-  const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
-  const content = document.getElementById('contentArea');
-  const searchInput = document.getElementById('searchInput');
-  const yearSelect = document.getElementById('yearSelect');
-  const typeSelect = document.getElementById('typeSelect');
-  const toggleViewBtn = document.getElementById('toggleView');
+// browse.js - page behavior: fetch JSON, render table, program modal, preview/download
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Helpers
+  function filenameFromPath(path){
+    if(!path) return '';
+    return path.split('/').pop();
+  }
+  function yearFromText(text){
+    if(!text) return '';
+    const m = text.match(/\b(19|20)\d{2}\b/);
+    return m ? m[0] : '';
+  }
+  function codeFromTitle(title, fallbackFilename){
+    if(!title && !fallbackFilename) return '';
+    let t = (title || fallbackFilename || '').toString();
+    if(t.indexOf('—') !== -1) t = t.split('—')[0].trim();
+    if(t.indexOf(' - ') !== -1) t = t.split(' - ')[0].trim();
+    const codeMatch = t.match(/[A-Z]{2,}[A-Z0-9\-]*\d{2,}[A-Z0-9]*/);
+    if(codeMatch) return codeMatch[0].replace(/-+$/,'');
+    const fname = (fallbackFilename || '').replace(/\.[^.]+$/, '');
+    if(fname) return fname.split(/[\s_]+/)[0];
+    return '';
+  }
+
+  // DOM refs
+  const papersBody = document.getElementById('papersBody');
+  const totalCountEl = document.getElementById('totalCount');
+  const filterTextEl = document.getElementById('filterText');
+  const openFilterBtn = document.getElementById('openFilter');
+  const modal = document.getElementById('programModal');
 
   let papers = [];
-  let view = sessionStorage.getItem('ea_view') || 'grid';
-  let availCache = {};
-  const MAX_CONCURRENT_CHECKS = 6;
-  const TIMEOUT_MS = 6000;
+  let currentFilter = 'All';
 
-  function debounce(fn, wait=250){ let t; return (...a)=>{ clearTimeout(t); t = setTimeout(()=>fn(...a), wait); }; }
+  // Render table rows
+  function renderTable(list){
+    papersBody.innerHTML = '';
+    list.forEach((p, idx) => {
+      const path = p.path || p.file || p.filename || p.src || '';
+      const fname = filenameFromPath(path);
+      const year = p.year || yearFromText(p.title || fname) || '';
+      const code = codeFromTitle(p.title || p.display || '', fname);
+      const title = p.title ? (p.title.indexOf('—')!==-1 ? p.title.split('—').slice(1).join('—').trim() : p.title) : (p.name || '');
+      const available = (p.available === true) ? true : (p.available === false ? false : Boolean(p.availableText));
+      const availText = (p.available === true) ? 'Available' : (p.available === false ? 'Not available' : (p.availableText || 'Not available'));
+      const availClass = p.available === true ? 'available' : 'na';
 
-  // load cache
-  for(const k in sessionStorage){ if(k.startsWith('ea_avail:')) availCache[k.replace('ea_avail:','')] = sessionStorage.getItem(k) === '1'; }
-
-  function pLimit(max){
-    const q=[]; let a=0;
-    const next = ()=>{ if(a>=max||q.length===0) return; a++; const {fn,resolve,reject}=q.shift(); fn().then(resolve).catch(reject).finally(()=>{ a--; next(); }); };
-    return (fn)=> new Promise((resolve,reject)=>{ q.push({fn,resolve,reject}); next(); });
-  }
-  const limit = pLimit(MAX_CONCURRENT_CHECKS);
-
-  function fetchWithTimeout(url, opts={}, timeout=TIMEOUT_MS){
-    return new Promise((resolve,reject)=>{
-      const ac = new AbortController();
-      const id = setTimeout(()=> ac.abort(), timeout);
-      fetch(url, Object.assign({}, opts, { signal: ac.signal })).then(r=>{ clearTimeout(id); resolve(r); }).catch(err=>{ clearTimeout(id); reject(err); });
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="width:36px">${idx+1}</td>
+        <td class="filename" title="${fname}">${fname}</td>
+        <td class="code" title="${code}">${code}</td>
+        <td>${year || '-'}</td>
+        <td class="meta" title="${title}">${title || '-'}</td>
+        <td><span class="chip ${availClass}">${availText}</span></td>
+        <td style="text-align:right">
+          <div class="btns" style="justify-content:flex-end;">
+            <button class="btn preview" data-src="${path}">Preview</button>
+            <button class="btn download" data-src="${path}">Download</button>
+          </div>
+        </td>
+      `;
+      papersBody.appendChild(tr);
     });
+    totalCountEl.textContent = list.length;
   }
 
-  async function tryUrl(url){
-    try{
-      let r = await fetchWithTimeout(url, { method:'HEAD' }).catch(()=>null);
-      if(r && r.ok) return true;
-      r = await fetchWithTimeout(url, { method:'GET' }).catch(()=>null);
-      if(r && r.ok) return true;
+  // Filter logic
+  function applyFilter(program){
+    currentFilter = program;
+    filterTextEl.textContent = program;
+    const filtered = papers.filter(p => {
+      if(!program || program === 'All') return true;
+      function t(x){ return (x || '').toString().toLowerCase().includes(program.toLowerCase()); }
+      if(t(p.program) || t(p.path) || t(p.file) || t(p.filename) || (Array.isArray(p.tags) && t(p.tags.join(' ')))) return true;
+      if(t(p.title) || t(p.name)) return true;
       return false;
-    }catch(e){ return false; }
-  }
-
-  async function checkAvailable(filePath){
-    if(!filePath) return false;
-    if(availCache.hasOwnProperty(filePath)) return availCache[filePath];
-    // honor precomputed available flag in JSON
-    try{
-      const found = papers.find(p => p.file && p.file === filePath);
-      if(found && found.available === true){ availCache[filePath] = true; sessionStorage.setItem('ea_avail:'+filePath,'1'); return true; }
-      if(found && found.available === false){ availCache[filePath] = false; sessionStorage.setItem('ea_avail:'+filePath,'0'); return false; }
-    }catch(e){}
-    const candidates = [];
-    if(/^(https?:)?\/\//.test(filePath)){
-      candidates.push(filePath);
-      if(filePath.includes('github.com') && filePath.includes('/blob/')) candidates.push(filePath.replace('github.com','raw.githubusercontent.com').replace('/blob/','/'));
-    } else {
-      candidates.push(filePath);
-      candidates.push(RAW_BASE + filePath.replace(/^\//,''));
-    }
-    for(const c of candidates){
-      const ok = await limit(()=> tryUrl(c));
-      if(ok){ availCache[filePath] = true; try{ sessionStorage.setItem('ea_avail:'+filePath,'1'); }catch(e){}; return true; }
-    }
-    availCache[filePath] = false; try{ sessionStorage.setItem('ea_avail:'+filePath,'0'); }catch(e){}; return false;
-  }
-
-  async function init(){
-    try{
-      const r = await fetch(DATA_URL);
-      papers = await r.json();
-      if(!Array.isArray(papers)) papers = [];
-      populateFilters();
-      render();
-      lazyCheckVisible();
-    }catch(e){
-      content.innerHTML = `<div style="padding:14px;background:#fff;border-radius:8px;color:#900">Failed to load papers.json</div>`;
-      console.error(e);
-    }
-  }
-
-  function populateFilters(){
-    const years = Array.from(new Set(papers.map(p => p.year))).sort((a,b)=>b-a);
-    yearSelect.innerHTML = `<option value="">All years</option>` + years.map(y=>`<option value="${y}">${y}</option>`).join('');
-    const types = Array.from(new Set(papers.map(p => p.type || 'Unknown')));
-    typeSelect.innerHTML = `<option value="">All types</option>` + types.map(t=>`<option value="${t}">${t}</option>`).join('');
-  }
-
-  function getFiltered(){
-    const q = (searchInput.value || '').trim().toLowerCase();
-    const year = yearSelect.value;
-    const t = typeSelect.value;
-    return papers.filter(p=>{
-      if(year && String(p.year) !== year) return false;
-      if(t && (p.type || '') !== t) return false;
-      if(!q) return true;
-      const combined = `${p.id} ${p.title} ${p.university} ${p.subject || ''} ${p.year}`.toLowerCase();
-      return combined.includes(q);
     });
+    renderTable(filtered);
   }
 
-  async function render(){
-    content.innerHTML = '';
-    const list = getFiltered();
-    if(list.length === 0){ content.innerHTML = `<div style="padding:14px;background:#fff;border-radius:8px">No results</div>`; return; }
-    if(view === 'grid'){
-      toggleViewBtn.textContent = 'Table view'; toggleViewBtn.setAttribute('aria-pressed','false');
-      const grid = document.createElement('div'); grid.className='grid';
-      for(const p of list){
-        const card = document.createElement('div'); card.className='card';
-        const meta = document.createElement('div'); meta.className='meta'; meta.textContent = `${p.id || ''} · ${p.type || ''} · ${p.year || ''} · ${p.university || ''}`;
-        const title = document.createElement('div'); title.className='title'; title.textContent = `${p.title || p.id || 'Untitled'} ${p.year? `(${p.year})` : ''}`;
-        const badgeWrap = document.createElement('div'); badgeWrap.style.marginTop='8px';
-        const actions = document.createElement('div'); actions.className='actions';
-        const previewBtn = document.createElement('button'); previewBtn.className='btn'; previewBtn.textContent='Preview';
-        const dlBtn = document.createElement('button'); dlBtn.className='btn'; dlBtn.textContent='Download';
+  // Modal behavior
+  const tiles = document.querySelectorAll('.tile');
+  openFilterBtn.addEventListener('click', () => {
+    // mark current
+    tiles.forEach(t => t.classList.toggle('active', t.dataset.program === currentFilter));
+    modal.style.display = 'flex';
+  });
+  tiles.forEach(t => t.addEventListener('click', () => {
+    tiles.forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+  }));
+  // close buttons in modal (they have class .close)
+  modal.addEventListener('click', (e) => {
+    if(e.target === modal) modal.style.display = 'none';
+    if(e.target.classList.contains('close')) modal.style.display = 'none';
+  });
+  const applyBtn = document.getElementById('applyModal');
+  applyBtn.addEventListener('click', () => {
+    const active = document.querySelector('.tile.active');
+    const val = active ? active.dataset.program : 'All';
+    modal.style.display = 'none';
+    applyFilter(val);
+  });
 
-        if(p.available === true){
-          const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available';
-          badgeWrap.appendChild(b); previewBtn.disabled=false; dlBtn.disabled=false;
-        } else if(!p.file){
-          const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found';
-          badgeWrap.appendChild(m); previewBtn.disabled=true; dlBtn.disabled=true;
-        } else {
-          const checking = document.createElement('span'); checking.className='badge-missing'; checking.textContent='Checking…';
-          badgeWrap.appendChild(checking); previewBtn.disabled=true; dlBtn.disabled=true;
-          checkAvailable(p.file).then(ok=>{
-            badgeWrap.innerHTML='';
-            if(ok){ const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available'; badgeWrap.appendChild(b); previewBtn.disabled=false; dlBtn.disabled=false; }
-            else { const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found'; badgeWrap.appendChild(m); }
-          }).catch(()=>{ badgeWrap.innerHTML = `<span class="badge-missing">Not found</span>`; });
-        }
-
-        previewBtn.addEventListener('click', ()=> { if(p.file) window.open(p.file,'_blank'); });
-        dlBtn.addEventListener('click', ()=> { if(p.file) location.href = p.file; });
-
-        actions.appendChild(previewBtn); actions.appendChild(dlBtn);
-        card.appendChild(meta); card.appendChild(title); card.appendChild(badgeWrap); card.appendChild(actions);
-        grid.appendChild(card);
-      }
-      content.appendChild(grid);
-    } else {
-      toggleViewBtn.textContent = 'Grid view'; toggleViewBtn.setAttribute('aria-pressed','true');
-      const wrap = document.createElement('div'); wrap.className='table-wrap';
-      const table = document.createElement('table'); table.className='table';
-      const thead = document.createElement('thead'); thead.innerHTML = `<tr><th>Code</th><th>Title</th><th>Year</th><th>University</th><th>Type</th><th>Availability</th><th>Actions</th></tr>`;
-      table.appendChild(thead);
-      const tbody = document.createElement('tbody');
-      for(const p of list){
-        const tr = document.createElement('tr');
-        const codeTd = document.createElement('td'); codeTd.textContent = p.id || '';
-        const titleTd = document.createElement('td'); titleTd.textContent = p.title || '';
-        const yearTd = document.createElement('td'); yearTd.textContent = p.year || '';
-        const uniTd = document.createElement('td'); uniTd.textContent = p.university || '';
-        const typeTd = document.createElement('td'); typeTd.textContent = p.type || '';
-        const availTd = document.createElement('td');
-        if(p.available === true){ const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available'; availTd.appendChild(b); }
-        else if(!p.file){ const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found'; availTd.appendChild(m); }
-        else { const checking = document.createElement('span'); checking.className='badge-missing'; checking.textContent='Checking…'; availTd.appendChild(checking); checkAvailable(p.file).then(ok=>{ availTd.innerHTML=''; if(ok){ const b = document.createElement('span'); b.className='badge-available'; b.textContent='Available'; availTd.appendChild(b); } else { const m = document.createElement('span'); m.className='badge-missing'; m.textContent='Not found'; availTd.appendChild(m); } }).catch(()=>{ availTd.innerHTML = `<span class="badge-missing">Not found</span>`; }); }
-        const actionsTd = document.createElement('td'); const previewBtn = document.createElement('button'); previewBtn.className='btn'; previewBtn.textContent='Preview'; const dlBtn = document.createElement('button'); dlBtn.className='btn'; dlBtn.textContent='Download';
-        if(!p.file && p.available !== true){ previewBtn.disabled=true; dlBtn.disabled=true; }
-        previewBtn.onclick = ()=> p.file && window.open(p.file,'_blank');
-        dlBtn.onclick = ()=> p.file && (location.href = p.file);
-        actionsTd.appendChild(previewBtn); actionsTd.appendChild(dlBtn);
-        tr.appendChild(codeTd); tr.appendChild(titleTd); tr.appendChild(yearTd); tr.appendChild(uniTd); tr.appendChild(typeTd); tr.appendChild(availTd); tr.appendChild(actionsTd);
-        tbody.appendChild(tr);
-      }
-      table.appendChild(tbody); wrap.appendChild(table); content.appendChild(wrap);
+  // Preview / download delegation
+  document.body.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn');
+    if(!btn) return;
+    const src = btn.dataset.src || '#';
+    if(btn.classList.contains('download')){
+      const a = document.createElement('a');
+      a.href = src;
+      a.download = filenameFromPath(src) || '';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } else if(btn.classList.contains('preview')){
+      window.open(src, '_blank');
     }
+  });
+
+  // Try multiple paths to fetch papers.json (works for gh-pages also)
+  async function tryLoadJson(candidateUrls){
+    for(const url of candidateUrls){
+      try{
+        const r = await fetch(url, {cache: 'no-cache'});
+        if(!r.ok) continue;
+        const json = await r.json();
+        if(Array.isArray(json)) return json;
+        if(json && Array.isArray(json.papers)) return json.papers;
+      } catch(err){
+        // continue to next
+      }
+    }
+    return null;
   }
 
-  function lazyCheckVisible(){ const toCheck = papers.slice(0, 24).map(p => p.file).filter(Boolean); toCheck.forEach(url => checkAvailable(url).catch(()=>{})); }
+  async function loadPapers(){
+    const candidates = [
+      './papers/papers.json',
+      'papers/papers.json',
+      './papers.json',
+      'papers.json'
+    ];
 
-  toggleViewBtn.addEventListener('click', ()=>{ view = (view === 'grid') ? 'table' : 'grid'; sessionStorage.setItem('ea_view', view); render(); window.scrollTo({top:0, behavior:'smooth'}); });
-  searchInput.addEventListener('input', debounce(()=> render(), 250)); yearSelect.addEventListener('change', ()=> render()); typeSelect.addEventListener('change', ()=> render());
+    try {
+      const repoSegment = location.pathname.split('/').filter(Boolean)[0];
+      if(location.hostname && location.hostname.endsWith('github.io') && repoSegment){
+        candidates.push(`/${repoSegment}/papers/papers.json`);
+        candidates.push(`/${repoSegment}/papers.json`);
+      }
+    } catch(e){ /* ignore */ }
 
-  init();
-})();
+    const res = await tryLoadJson(candidates);
+    if(res && res.length){
+      papers = res;
+    } else {
+      // fallback sample - keeps table from being empty so you can verify layout
+      papers = [
+        { path: './papers/CBCS/Science/HCC/Physics/2021-PHSHCC102T.pdf', title: 'PHSHCC102T — Mechanics (2021)', available:false, program:'CBCS' },
+        { path: './papers/CBCS/Science/HCC/Physics/2022-PHSHCC102T.pdf', title: 'PHSHCC102T — Mechanics (2022)', available:false, program:'CBCS' },
+        { path: './papers/NEP/FYUG/Physics/2023-XYZ2001.pdf', title: 'XYZ2001 — Intro to Physics (2023)', available:true, program:'FYUG' },
+        { path: './papers/CBCS/Science/HCC/Physics/2022-PHSHCC201T.pdf', title: 'PHSHCC201T — Electricity and Magnetism (2022)', available:true, program:'CBCS' }
+      ];
+      console.warn('Could not fetch papers/papers.json; using fallback sample data.');
+    }
+    applyFilter(currentFilter);
+  }
+
+  // Initial load
+  loadPapers();
+
+}); // DOMContentLoaded
