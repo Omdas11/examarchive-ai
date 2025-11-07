@@ -1,33 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Browse | ExamArchive</title>
 
-  <!-- Shared site style -->
-  <link rel="stylesheet" href="style/common.css">
-  <!-- Browse page specific -->
-  <link rel="stylesheet" href="style/browse.css">
+  <!-- shared header/site css -->
+  <link rel="stylesheet" href="style/common.css" />
+  <!-- browse page styles -->
+  <link rel="stylesheet" href="style/browse.css" />
 </head>
 <body>
-  <header class="ea-site-header">
-    <div class="ea-header-inner">
-      <div class="ea-brand">
-        <div class="ea-logo">EA</div>
-        <div>
-          <div class="ea-site-title">ExamArchive</div>
-          <div class="ea-site-sub">Past Papers • Notes • Collections</div>
-        </div>
+  <!-- Header: matches other pages (use your exact header from index if different) -->
+  <header class="site-header" role="banner">
+    <div class="site-inner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div class="site-left" style="display:flex;align-items:center;gap:12px;">
+        <div class="logo">EA</div>
+        <div class="site-title">ExamArchive</div>
       </div>
 
-      <button id="ea-nav-toggle" class="ea-nav-toggle" aria-label="Toggle navigation">
-        <span class="ea-hamburger"></span>
-      </button>
-
-      <nav id="ea-main-nav" class="ea-main-nav" aria-label="Main navigation">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="browse.html">Browse</a>
+      <nav class="site-nav" aria-label="Main navigation" style="display:flex;gap:14px;">
+        <a href="index.html">Home</a>
+        <a href="browse.html" class="active">Browse</a>
         <a href="upload.html">Upload</a>
         <a href="about.html">About</a>
       </nav>
@@ -35,48 +29,38 @@
   </header>
 
   <main>
-    <div class="top-bar">
-      <button id="openFilter" class="btn preview">Choose Program</button>
-      <span>Showing: <strong id="filterText">All</strong></span>
-      <span class="total">Total: <strong id="totalCount">0</strong></span>
+    <div class="top-row">
+      <div class="controls">
+        <div class="segmented" role="tablist" aria-label="Program filter">
+          <button class="seg-btn active" data-program="All" aria-pressed="true">All</button>
+          <button class="seg-btn" data-program="CBCS" aria-pressed="false">CBCS</button>
+          <button class="seg-btn" data-program="FYUG" aria-pressed="false">FYUG</button>
+        </div>
+        <div class="meta">Showing: <strong id="filterText">All</strong></div>
+      </div>
+      <div class="meta">Total: <strong id="totalCount">0</strong></div>
     </div>
 
     <div class="card">
-      <table>
+      <table aria-describedby="papers">
         <thead>
           <tr>
-            <th>#</th>
+            <th style="width:36px">#</th>
             <th>File Name</th>
             <th>Code</th>
             <th>Year</th>
             <th>Title</th>
             <th>Availability</th>
-            <th style="text-align:right">Actions</th>
+            <th style="width:180px;text-align:right">Actions</th>
           </tr>
         </thead>
-        <tbody id="papersBody"></tbody>
+        <tbody id="papersBody">
+          <!-- injected rows -->
+        </tbody>
       </table>
     </div>
   </main>
 
-  <!-- Modal -->
-  <div id="programModal" class="modal-backdrop">
-    <div class="modal">
-      <h3>Choose Program</h3>
-      <p>Select which program to browse:</p>
-      <div class="tiles">
-        <div class="tile" data-program="CBCS">CBCS</div>
-        <div class="tile" data-program="FYUG">FYUG</div>
-        <div class="tile" data-program="All">All</div>
-      </div>
-      <div class="actions">
-        <button class="close">Close</button>
-        <button class="close red" id="applyModal">Apply</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- External JS -->
   <script src="scripts/browse.js"></script>
 </body>
 </html>
