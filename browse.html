@@ -3,302 +3,293 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Browse — ExamArchive</title>
-
-  <!-- Use the shared site stylesheet (relative path) -->
-  <link rel="stylesheet" href="style/common.css">
-
+  <title>Browse Papers — ExamArchive</title>
   <style>
-    /* Small local helpers that shouldn't conflict with common.css */
-    .container { max-width:1100px; margin:0 auto; padding:0 1rem; }
-    .controls { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom:1rem; }
-    .controls input[type="search"]{ padding:0.5rem; min-width:220px; }
-    .controls select, .controls button{ padding:0.45rem 0.6rem; }
-    .view-toggle{ display:flex; gap:0.25rem; }
-    .cards-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
-    .card{ border:1px solid #e6e6e6; padding:0.8rem; border-radius:8px; display:flex; flex-direction:column; gap:0.5rem; background:#fff; }
-    .table-wrap{ overflow:auto; background:#fff; border-radius:6px; border:1px solid #eee; }
-    table{ width:100%; border-collapse:collapse; }
-    th, td{ padding:0.6rem 0.75rem; border-bottom:1px solid #f0f0f0; text-align:left; font-size:0.95rem; }
-    th { background:transparent; font-weight:700; }
-    .badge{ padding:0.18rem 0.5rem; border-radius:999px; font-size:0.82rem; }
+    :root{
+      --red:#b71c1c;
+      --muted:#777;
+      --card:#fff;
+      --bg:#f2f3f5;
+      --accent:#e57373;
+      font-family: Inter, system-ui, Arial, sans-serif;
+    }
+    body{ margin:0; background:var(--bg); color:#222; }
+    header{
+      background:linear-gradient(90deg,var(--red),#d32f2f);
+      color:white; padding:14px 18px; display:flex; align-items:center; gap:12px;
+    }
+    header h1{ font-size:18px; margin:0; letter-spacing:0.2px; }
+    main{ padding:18px; max-width:1100px; margin:18px auto; }
+
+    /* Modal */
     .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; z-index:80; }
-    .modal{ background:#fff; padding:1rem; border-radius:10px; width:94%; max-width:420px; box-shadow:0 8px 30px rgba(0,0,0,0.2); }
-    .sr-only{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
-    @media (max-width:640px) { .controls input[type="search"]{ min-width:140px; } }
+    .modal{
+      background:var(--card); padding:18px; border-radius:10px; width:320px; box-shadow:0 10px 30px rgba(0,0,0,0.18);
+    }
+    .modal h3{ margin:0 0 8px 0; font-size:16px; }
+    .tiles{ display:flex; gap:8px; margin:10px 0 14px; }
+    .tile{
+      flex:1; padding:8px 10px; border-radius:8px; text-align:center; cursor:pointer;
+      border:1px solid #e6e6e6; background:#fff; user-select:none;
+    }
+    .tile.active{ background:var(--red); color:white; border-color:transparent; box-shadow:0 6px 20px rgba(183,28,28,0.18); transform:translateY(-2px); }
+    .modal .close{ display:inline-block; margin-top:8px; padding:6px 10px; border-radius:6px; background:#eee; cursor:pointer; float:right; }
+    .modal .close.red{ background:var(--red); color:#fff; }
+
+    /* Table */
+    .card{ background:var(--card); padding:12px; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,0.06); }
+    table{ width:100%; border-collapse:collapse; font-size:14px; }
+    thead th{ text-align:left; padding:10px 8px; color:var(--muted); font-size:12px; font-weight:600; border-bottom:1px solid #eee; }
+    tbody td{ padding:10px 8px; vertical-align:middle; border-bottom:1px solid #fafafa; }
+    tbody tr:hover{ background:#fbfbfb; }
+
+    .filename{ max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .code{ font-weight:700; font-family:monospace; color:#333; }
+    .meta { color:var(--muted); font-size:13px; }
+
+    /* Buttons */
+    .btns{ display:flex; gap:8px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:6px 10px; border-radius:8px; border:none; cursor:pointer; font-size:13px;
+      box-shadow:none;
+    }
+    .btn.preview{ background:#fff; border:1px solid #e0e0e0; }
+    .btn.download{ background:var(--red); color:#fff; border:1px solid rgba(0,0,0,0.05); }
+
+    /* availability chip */
+    .chip{ display:inline-block; padding:4px 8px; border-radius:16px; font-size:12px; }
+    .chip.available{ background:#e8f5e9; color:#2e7d32; border:1px solid #c8e6c9; }
+    .chip.na{ background:#fff3f3; color:#b71c1c; border:1px solid #ffdede; }
+
+    /* Responsive */
+    @media (max-width:700px){
+      main{ padding:12px; }
+      .filename{ max-width:150px; }
+      .tiles{ gap:6px; }
+    }
   </style>
 </head>
 <body>
-  <!-- Header (match your site header style) -->
-  <header class="site-header" style="border-bottom:1px solid #eee;">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 0;">
-      <a class="brand" href="index.html" style="font-weight:700;text-decoration:none;">ExamArchive</a>
-      <nav class="main-nav" aria-label="Main navigation" style="display:flex;gap:0.8rem;">
-        <a href="index.html">Home</a>
-        <a href="browse.html" aria-current="page">Browse</a>
-        <a href="about.html">About</a>
-        <a href="upload.html">Upload</a>
-      </nav>
-    </div>
+  <header>
+    <h1>ExamArchive — Browse Papers</h1>
   </header>
 
-  <main class="container" style="padding:1.25rem 0 4rem;">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:0.6rem;">
-      <h1 style="margin:0;font-size:2rem;">Browse Papers</h1>
-      <div style="display:flex;gap:0.5rem;align-items:center">
-        <button id="openProgramModal" class="btn">Switch Program</button>
-        <div class="view-toggle" role="toolbar" aria-label="View toggle">
-          <button id="gridViewBtn" class="btn">Grid</button>
-          <button id="tableViewBtn" class="btn">Table</button>
-        </div>
+  <main>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px;">
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button id="openFilter" class="btn preview" title="Choose program">Choose Program</button>
+        <div id="currentFilter" class="meta">Showing: <strong id="filterText">All</strong></div>
       </div>
+      <div class="meta">Total: <span id="totalCount">0</span></div>
     </div>
 
-    <!-- Controls: Search + Filters -->
-    <div class="controls" role="region" aria-label="Search and filters">
-      <input id="searchInput" type="search" placeholder="Search by paper code, name or year" aria-label="Search papers">
-
-      <select id="yearFilter" aria-label="Filter by year">
-        <option value="">All years</option>
-      </select>
-
-      <select id="availabilityFilter" aria-label="Filter by availability">
-        <option value="">All</option>
-        <option value="true">Available</option>
-        <option value="false">Not available</option>
-      </select>
-
-      <select id="programFilter" aria-label="Filter by program">
-        <option value="">All programs</option>
-        <option value="CBCS">CBCS</option>
-        <option value="FYUG">FYUG</option>
-      </select>
-
-      <button id="clearFilters" class="btn">Clear</button>
-    </div>
-
-    <!-- Grid view -->
-    <div id="gridContainer" class="cards-grid" hidden></div>
-
-    <!-- Table view -->
-    <div id="tableContainer" class="table-wrap" hidden>
-      <table id="papersTable" aria-describedby="papers-table">
+    <div class="card">
+      <table id="papersTable" aria-describedby="papers">
         <thead>
           <tr>
-            <th>SL. No.</th>
-            <th>Paper Code</th>
-            <th>Paper Name</th>
+            <th>#</th>
+            <th>File Name</th>
+            <th>Code</th>
+            <th>Year</th>
+            <th>Title</th>
             <th>Availability</th>
-            <th>Action</th>
+            <th style="width:160px;text-align:right">Actions</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="papersBody">
+          <!-- rows injected here -->
+        </tbody>
       </table>
     </div>
-
-    <p id="statusMsg" style="margin-top:0.8rem;color:#666"></p>
   </main>
 
-  <!-- Modal: Switch between CBCS and FYUG -->
-  <div id="programModal" class="modal-backdrop" hidden>
+  <!-- Modal -->
+  <div id="programModal" class="modal-backdrop" style="display:none;">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="progTitle">
-      <h3 id="progTitle" style="margin-top:0">Choose Program</h3>
-      <p style="margin:0.3rem 0 0.8rem;color:#555">Select which program you want to browse (this will filter the list).</p>
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-        <button data-prog="CBCS" class="btn chooseProg">CBCS</button>
-        <button data-prog="FYUG" class="btn chooseProg">FYUG</button>
-        <button id="progModalAll" class="btn">All</button>
+      <h3 id="progTitle">Choose Program</h3>
+      <div class="meta">Select which program you want to browse (this will filter the list).</div>
+      <div class="tiles" style="margin-top:12px;">
+        <div class="tile" data-program="CBCS">CBCS</div>
+        <div class="tile" data-program="FYUG">FYUG</div>
+        <div class="tile" data-program="All">All</div>
       </div>
-      <div style="text-align:right;margin-top:0.6rem">
-        <button id="closeProgramModal" class="btn">Close</button>
-      </div>
+      <div style="clear:both;"></div>
+      <button class="close" id="closeModal">Close</button>
+      <button class="close red" id="applyModal">Apply</button>
     </div>
   </div>
 
   <script>
-    // --- Config & DOM refs ---
-    const papersJsonPath = 'papers/papers.json'; // relative path (works on GitHub Pages project site)
-    const gridContainer = document.getElementById('gridContainer');
-    const tableContainer = document.getElementById('tableContainer');
-    const papersTableBody = document.querySelector('#papersTable tbody');
-    const statusMsg = document.getElementById('statusMsg');
-
-    const searchInput = document.getElementById('searchInput');
-    const yearFilter = document.getElementById('yearFilter');
-    const availabilityFilter = document.getElementById('availabilityFilter');
-    const programFilter = document.getElementById('programFilter');
-    const clearFiltersBtn = document.getElementById('clearFilters');
-
-    const gridViewBtn = document.getElementById('gridViewBtn');
-    const tableViewBtn = document.getElementById('tableViewBtn');
-
-    const programModal = document.getElementById('programModal');
-    const openProgramModal = document.getElementById('openProgramModal');
-    const closeProgramModal = document.getElementById('closeProgramModal');
-
-    let papers = [];
-    let view = localStorage.getItem('browseView') || 'table';
-    let selectedProgram = localStorage.getItem('selectedProgram') || '';
-
-    // --- Helpers ---
-    function setView(v){
-      view = v;
-      localStorage.setItem('browseView', v);
-      if(v === 'grid'){ gridContainer.hidden = false; tableContainer.hidden = true; }
-      else { gridContainer.hidden = true; tableContainer.hidden = false; }
+    // ---- Helper extraction functions ----
+    function filenameFromPath(path){
+      if(!path) return '';
+      // path may begin with ./ or / etc
+      return path.split('/').pop();
     }
 
-    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
+    function yearFromText(text){
+      if(!text) return '';
+      let m = text.match(/\b(19|20)\d{2}\b/);
+      return m ? m[0] : '';
+    }
 
-    // --- Modal handlers ---
-    openProgramModal.addEventListener('click', ()=> programModal.hidden = false);
-    closeProgramModal.addEventListener('click', ()=> programModal.hidden = true);
-    document.getElementById('progModalAll').addEventListener('click', ()=> {
-      selectedProgram = ''; localStorage.removeItem('selectedProgram');
-      programFilter.value = ''; programModal.hidden = true; render();
-    });
-    document.querySelectorAll('.chooseProg').forEach(btn => btn.addEventListener('click', e => {
-      selectedProgram = e.target.dataset.prog;
-      localStorage.setItem('selectedProgram', selectedProgram);
-      programFilter.value = selectedProgram;
-      programModal.hidden = true;
-      render();
-    }));
-
-    // Close modal by clicking backdrop
-    programModal.addEventListener('click', (e) => {
-      if (e.target === programModal) programModal.hidden = true;
-    });
-    // Close modal with ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !programModal.hidden) programModal.hidden = true;
-    });
-
-    // --- Fetch & normalize data ---
-    async function loadPapers(){
-      try {
-        const res = await fetch(papersJsonPath + '?_=' + Date.now());
-        if(!res.ok) throw new Error('Failed to load papers.json — status ' + res.status);
-        const raw = await res.json();
-
-        // Normalize items into a stable shape
-        papers = raw.map((p, idx) => {
-          const code = p.code || p.paperCode || p.paper_code || p.file || 'UNKNOWN';
-          const name = p.name || p.title || p.paperName || p.paper_name || '';
-          const year = p.year || p.date || '';
-          const program = (p.program || p.type || p.scheme || '').toString();
-          // compute normalized url and tolerate common typo in folder name
-          let rawUrl = (p.url || p.path) || (p.file ? ('papers/' + p.file) : '');
-          if (rawUrl && rawUrl.includes('/CBSC/')) {
-            rawUrl = rawUrl.replace(/\/CBSC\//g, '/CBCS/');
-          }
-          // if someone wrote 'CBSC' without slashes
-          if (rawUrl && rawUrl.includes('CBSC')) {
-            rawUrl = rawUrl.replace(/CBSC/g, 'CBCS');
-          }
-          // ensure relative-style path (do not forcibly add leading slash)
-          const available = (p.available === true || p.availability === true || String(p.available).toLowerCase() === 'true' || String(p.available).toLowerCase() === 'yes');
-          return {
-            _id: idx + 1,
-            code, name, year, program, available: !!available, url: rawUrl
-          };
-        });
-
-        populateYearFilter();
-        if(selectedProgram) programFilter.value = selectedProgram;
-        setView(view);
-        render();
-      } catch (err) {
-        statusMsg.textContent = 'Error: ' + err.message;
+    function codeFromTitle(title, fallbackFilename){
+      if(!title && !fallbackFilename) return '';
+      let t = title || fallbackFilename || '';
+      // If there's a long title like "PHSHCC102T — Mechanics (2021)" try to split at dash/em-dash
+      if(t.indexOf('—') !== -1) t = t.split('—')[0].trim();
+      if(t.indexOf(' - ') !== -1) t = t.split(' - ')[0].trim();
+      // try to find code pattern (caps + digits, e.g. PHSHCC102T or PHSHCC-102T)
+      let codeMatch = t.match(/[A-Z]{2,}[A-Z0-9\-]*\d{2,}[A-Z0-9]*/);
+      if(codeMatch) {
+        // cleanup stray hyphens
+        return codeMatch[0].replace(/-+$/,'');
       }
+      // fallback: take first word of filename without extension
+      let fname = (fallbackFilename || '').replace(/\.[^.]+$/, '');
+      if(fname) return fname.split(/[\s_]+/)[0];
+      return '';
     }
 
-    function populateYearFilter(){
-      const years = Array.from(new Set(papers.map(p=>p.year).filter(Boolean))).sort((a,b)=> (b - a));
-      yearFilter.innerHTML = '<option value="">All years</option>' + years.map(y=>`<option value="${y}">${y}</option>`).join('');
-    }
+    // ---- Table rendering ----
+    const papersBody = document.getElementById('papersBody');
+    const totalCountEl = document.getElementById('totalCount');
+    const filterTextEl = document.getElementById('filterText');
 
-    // --- Filtering & rendering ---
-    function applyFilters(){
-      const q = (searchInput.value || '').trim().toLowerCase();
-      const y = yearFilter.value;
-      const av = availabilityFilter.value;
-      const prog = programFilter.value || selectedProgram || '';
+    let papers = []; // will be loaded
+    let currentFilter = 'All';
 
-      return papers.filter(p => {
-        if(prog && String(p.program).toLowerCase() !== String(prog).toLowerCase()) return false;
-        if(y && String(p.year) !== String(y)) return false;
-        if(av !== '' && String(p.available) !== String(av)) return false;
-        if(!q) return true;
-        return [p.code, p.name, String(p.year), p.program].join(' ').toLowerCase().includes(q);
-      });
-    }
+    function renderTable(list){
+      papersBody.innerHTML = '';
+      list.forEach((p, idx) => {
+        const fname = filenameFromPath(p.path || p.file || p.filename || p.src || '');
+        const year = yearFromText(p.year || p.title || fname) || (p.year || '');
+        const code = codeFromTitle(p.title || p.display || p.name || '', fname);
+        const title = p.title ? (p.title.indexOf('—')!==-1 ? p.title.split('—').slice(1).join('—').trim() : p.title) : (p.title || p.name || '');
+        const availability = p.available ? 'available' : (p.available === false ? 'na' : (p.availableText || 'Not available'));
+        const availabilityClass = (p.available ? 'available' : 'na');
 
-    function renderGrid(items){
-      gridContainer.innerHTML = '';
-      if(items.length === 0){
-        gridContainer.innerHTML = '<p>No papers found.</p>'; return;
-      }
-      items.forEach(p => {
-        const card = document.createElement('div'); card.className = 'card';
-        card.innerHTML = `
-          <div style="font-weight:600">${escapeHtml(p.code)}</div>
-          <div style="font-size:0.95rem;color:#333">${escapeHtml(p.name)}</div>
-          <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center">
-            <small style="color:#666">${escapeHtml(p.year)} • ${escapeHtml(p.program)}</small>
-            <div style="display:flex;gap:0.35rem">
-              <a ${p.url?`href="${p.url}" target="_blank" rel="noopener"`:'href="#" tabindex="-1"'} class="btn">Preview</a>
-              <a ${p.url?`href="${p.url}" download`:'href="#" tabindex="-1"'} class="btn">Download</a>
-            </div>
-          </div>
-        `;
-        gridContainer.appendChild(card);
-      });
-    }
-
-    function renderTable(items){
-      papersTableBody.innerHTML = '';
-      if(items.length === 0){
-        papersTableBody.innerHTML = '<tr><td colspan="5">No papers found.</td></tr>'; return;
-      }
-      items.forEach((p, idx) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${escapeHtml(p.code)}</td>
-          <td>${escapeHtml(p.name)}</td>
-          <td>${p.available ? '<span class="badge" style="background:#e6ffed;color:#046a18">Available</span>' : '<span class="badge" style="background:#fff3f2;color:#9b1c1c">Not available</span>'}</td>
-          <td>
-            <a ${p.url?`href="${p.url}" target="_blank" rel="noopener"`:'href="#" tabindex="-1"'} class="btn">Preview</a>
-            <a ${p.url?`href="${p.url}" download`:'href="#" tabindex="-1"'} class="btn">Download</a>
+          <td style="width:36px">${idx+1}</td>
+          <td class="filename" title="${fname}">${fname}</td>
+          <td class="code" title="${code}">${code}</td>
+          <td>${year || '-'}</td>
+          <td class="meta" title="${title}">${title || '-'}</td>
+          <td><span class="chip ${availabilityClass}">${p.available ? 'Available' : (p.available === false ? 'Not available' : availability)}</span></td>
+          <td style="text-align:right">
+            <div class="btns" style="justify-content:flex-end;">
+              <button class="btn preview" data-src="${p.path || p.file || p.filename || ''}">Preview</button>
+              <button class="btn download" data-src="${p.path || p.file || p.filename || ''}">Download</button>
+            </div>
           </td>
         `;
-        papersTableBody.appendChild(tr);
+        papersBody.appendChild(tr);
       });
+      totalCountEl.textContent = list.length;
     }
 
-    function render(){
-      const items = applyFilters();
-      statusMsg.textContent = `Showing ${items.length} of ${papers.length} papers`;
-      if(view === 'grid') renderGrid(items); else renderTable(items);
+    // filter by program key in path or p.program field
+    function applyFilter(program){
+      currentFilter = program;
+      filterTextEl.textContent = program;
+      let filtered = papers.filter(p => {
+        if(!program || program === 'All') return true;
+        // try multiple places to detect program: p.program, p.path, p.tags
+        if(p.program && typeof p.program === 'string'){
+          if(p.program.toLowerCase().includes(program.toLowerCase())) return true;
+        }
+        if(p.path && p.path.toLowerCase().includes(program.toLowerCase())) return true;
+        if(p.file && p.file.toLowerCase().includes(program.toLowerCase())) return true;
+        if(p.tags && Array.isArray(p.tags) && p.tags.join(' ').toLowerCase().includes(program.toLowerCase())) return true;
+        return false;
+      });
+      renderTable(filtered);
     }
 
-    // --- Events ---
-    [searchInput, yearFilter, availabilityFilter, programFilter].forEach(el => el.addEventListener('input', render));
-    clearFiltersBtn.addEventListener('click', () => {
-      searchInput.value = ''; yearFilter.value = ''; availabilityFilter.value = ''; programFilter.value = '';
-      selectedProgram = ''; localStorage.removeItem('selectedProgram'); render();
+    // ---- Modal behavior ----
+    const modal = document.getElementById('programModal');
+    const openFilterBtn = document.getElementById('openFilter');
+    const closeModalBtn = document.getElementById('closeModal');
+    const applyModalBtn = document.getElementById('applyModal');
+    const tiles = document.querySelectorAll('.tile');
+
+    openFilterBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+      // set current active tile
+      tiles.forEach(t => {
+        t.classList.toggle('active', t.dataset.program === currentFilter);
+      });
     });
 
-    gridViewBtn.addEventListener('click', () => setView('grid'));
-    tableViewBtn.addEventListener('click', () => setView('table'));
+    tiles.forEach(t => {
+      t.addEventListener('click', () => {
+        // swapable tile: toggle active class on click and ensure only one active
+        tiles.forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
 
-    // --- Init ---
-    (function init(){
-      setView(view);
-      if(selectedProgram) programFilter.value = selectedProgram;
-      loadPapers();
-    })();
+    closeModalBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // clicking outside modal closes it
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal) modal.style.display = 'none';
+    });
+
+    applyModalBtn.addEventListener('click', () => {
+      const active = document.querySelector('.tile.active');
+      const val = active ? active.dataset.program : 'All';
+      modal.style.display = 'none';
+      applyFilter(val);
+    });
+
+    // ---- Button delegation for preview/download ----
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn');
+      if(!btn) return;
+      const src = btn.dataset.src || '#';
+      if(btn.classList.contains('download')){
+        // force download
+        const a = document.createElement('a');
+        a.href = src;
+        a.download = filenameFromPath(src) || '';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else if(btn.classList.contains('preview')){
+        // open in new tab
+        window.open(src, '_blank');
+      }
+    });
+
+    // ---- Load papers.json (with fallback sample) ----
+    async function loadPapers(){
+      try{
+        const resp = await fetch('papers/papers.json');
+        if(!resp.ok) throw new Error('not ok');
+        const data = await resp.json();
+        // accept either an array or object with property papers
+        papers = Array.isArray(data) ? data : (Array.isArray(data.papers) ? data.papers : []);
+      } catch(err){
+        // fallback sample data (so page shows how it will look)
+        console.warn('Could not fetch papers/papers.json — using sample data.', err);
+        papers = [
+          { path: './papers/CBCS/Science/HCC/Physics/2021-PHSHCC102T.pdf', title: 'PHSHCC102T — Mechanics (2021)', available:false, program:'CBCS' },
+          { path: './papers/CBCS/Science/HCC/Physics/2022-PHSHCC102T.pdf', title: 'PHSHCC102T — Mechanics (2022)', available:false, program:'CBCS' },
+          { path: './papers/NEP/FYUG/Physics/2023-XYZ2001.pdf', title: 'XYZ2001 — Intro to Physics (2023)', available:true, program:'FYUG' },
+          { path: './papers/CBCS/Science/HCC/Physics/2022-PHSHCC201T.pdf', title: 'PHSHCC201T — Electricity and Magnetism (2022)', available:true, program:'CBCS' }
+        ];
+      }
+      applyFilter(currentFilter);
+    }
+
+    // initialize
+    loadPapers();
+
   </script>
 </body>
 </html>
