@@ -339,5 +339,23 @@ a:focus, button:focus, input:focus{
   .page-title{ font-size:1.12rem; }
 }
 
+/* Login / animal layout helpers */
+.login-panel { display:flex; gap:1.2rem; align-items:center; }
+.animal-box { flex:0 0 200px; display:flex; align-items:center; justify-content:center; }
+.form-box { flex:1; }
+
+/* responsive: stack on small screens */
+@media (max-width:860px){
+  .login-panel { flex-direction:column; align-items:center; }
+  .animal-box { order: -1; margin-bottom: 0.5rem; }
+}
+
+/* blink effect (quick cover/uncover) */
+.ea-animal.ea-blink svg { filter:brightness(0.98); }
+.ea-animal.ea-typing svg { transform: translateY(2px); transition: transform 120ms ease; }
+
+/* fallback when animations disabled */
+.ea-anim-disabled .ea-animal { opacity: 0.98; transform:none; }
+
 /* ---------- Debugging helpers (comment out if not needed) ---------- */
 /* .site-header { outline: 1px solid rgba(0,0,255,0.03); } */
