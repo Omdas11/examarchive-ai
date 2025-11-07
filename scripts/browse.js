@@ -1,39 +1,32 @@
-// browse.js - page behavior: fetch JSON, render table, program modal, preview/download
+// scripts/browse.js
 document.addEventListener('DOMContentLoaded', () => {
-
-  // Helpers
-  function filenameFromPath(path){
-    if(!path) return '';
-    return path.split('/').pop();
-  }
-  function yearFromText(text){
-    if(!text) return '';
-    const m = text.match(/\b(19|20)\d{2}\b/);
-    return m ? m[0] : '';
-  }
+  // HELPERS
+  const q = s => document.querySelector(s);
+  const qa = s => Array.from(document.querySelectorAll(s));
+  function filenameFromPath(path){ if(!path) return ''; return path.split('/').pop(); }
+  function yearFromText(text){ if(!text) return ''; const m = text.match(/\b(19|20)\d{2}\b/); return m ? m[0] : ''; }
   function codeFromTitle(title, fallbackFilename){
-    if(!title && !fallbackFilename) return '';
     let t = (title || fallbackFilename || '').toString();
     if(t.indexOf('—') !== -1) t = t.split('—')[0].trim();
     if(t.indexOf(' - ') !== -1) t = t.split(' - ')[0].trim();
     const codeMatch = t.match(/[A-Z]{2,}[A-Z0-9\-]*\d{2,}[A-Z0-9]*/);
     if(codeMatch) return codeMatch[0].replace(/-+$/,'');
     const fname = (fallbackFilename || '').replace(/\.[^.]+$/, '');
-    if(fname) return fname.split(/[\s_]+/)[0];
-    return '';
+    return fname ? fname.split(/[\s_]+/)[0] : '';
   }
 
-  // DOM refs
-  const papersBody = document.getElementById('papersBody');
-  const totalCountEl = document.getElementById('totalCount');
-  const filterTextEl = document.getElementById('filterText');
-  const openFilterBtn = document.getElementById('openFilter');
-  const modal = document.getElementById('programModal');
+  // DOM
+  const papersBody = q('#papersBody');
+  const totalCountEl = q('#totalCount');
+  const filterTextEl = q('#filterText');
+  const openFilterBtn = q('#openFilter');
+  const modal = q('#programModal');
+  const tiles = qa('.tile');
 
   let papers = [];
   let currentFilter = 'All';
 
-  // Render table rows
+  // RENDER
   function renderTable(list){
     papersBody.innerHTML = '';
     list.forEach((p, idx) => {
@@ -42,8 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const year = p.year || yearFromText(p.title || fname) || '';
       const code = codeFromTitle(p.title || p.display || '', fname);
       const title = p.title ? (p.title.indexOf('—')!==-1 ? p.title.split('—').slice(1).join('—').trim() : p.title) : (p.name || '');
-      const available = (p.available === true) ? true : (p.available === false ? false : Boolean(p.availableText));
-      const availText = (p.available === true) ? 'Available' : (p.available === false ? 'Not available' : (p.availableText || 'Not available'));
+      const avail = p.available === true ? 'Available' : (p.available === false ? 'Not available' : (p.availableText || 'Not available'));
       const availClass = p.available === true ? 'available' : 'na';
 
       const tr = document.createElement('tr');
@@ -53,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="code" title="${code}">${code}</td>
         <td>${year || '-'}</td>
         <td class="meta" title="${title}">${title || '-'}</td>
-        <td><span class="chip ${availClass}">${availText}</span></td>
+        <td><span class="chip ${availClass}">${avail}</span></td>
         <td style="text-align:right">
           <div class="btns" style="justify-content:flex-end;">
             <button class="btn preview" data-src="${path}">Preview</button>
@@ -66,45 +58,42 @@ document.addEventListener('DOMContentLoaded', () => {
     totalCountEl.textContent = list.length;
   }
 
-  // Filter logic
+  // FILTER
   function applyFilter(program){
     currentFilter = program;
     filterTextEl.textContent = program;
     const filtered = papers.filter(p => {
       if(!program || program === 'All') return true;
-      function t(x){ return (x || '').toString().toLowerCase().includes(program.toLowerCase()); }
-      if(t(p.program) || t(p.path) || t(p.file) || t(p.filename) || (Array.isArray(p.tags) && t(p.tags.join(' ')))) return true;
-      if(t(p.title) || t(p.name)) return true;
+      const test = s => (s || '').toString().toLowerCase().includes(program.toLowerCase());
+      if(test(p.program) || test(p.path) || test(p.file) || test(p.filename)) return true;
+      if(Array.isArray(p.tags) && test(p.tags.join(' '))) return true;
+      if(test(p.title) || test(p.name)) return true;
       return false;
     });
     renderTable(filtered);
   }
 
-  // Modal behavior
-  const tiles = document.querySelectorAll('.tile');
-  openFilterBtn.addEventListener('click', () => {
-    // mark current
+  // MODAL behavior
+  openFilterBtn && openFilterBtn.addEventListener('click', () => {
     tiles.forEach(t => t.classList.toggle('active', t.dataset.program === currentFilter));
-    modal.style.display = 'flex';
+    if(modal) modal.style.display = 'flex';
   });
-  tiles.forEach(t => t.addEventListener('click', () => {
-    tiles.forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-  }));
-  // close buttons in modal (they have class .close)
-  modal.addEventListener('click', (e) => {
-    if(e.target === modal) modal.style.display = 'none';
-    if(e.target.classList.contains('close')) modal.style.display = 'none';
-  });
-  const applyBtn = document.getElementById('applyModal');
-  applyBtn.addEventListener('click', () => {
+  tiles.forEach(t => t.addEventListener('click', () => { tiles.forEach(x => x.classList.remove('active')); t.classList.add('active'); }));
+  // close when click outside or close buttons
+  if(modal){
+    modal.addEventListener('click', (ev) => {
+      if(ev.target === modal || ev.target.classList.contains('close')) modal.style.display = 'none';
+    });
+  }
+  const applyBtn = q('#applyModal');
+  applyBtn && applyBtn.addEventListener('click', () => {
     const active = document.querySelector('.tile.active');
     const val = active ? active.dataset.program : 'All';
-    modal.style.display = 'none';
+    modal && (modal.style.display = 'none');
     applyFilter(val);
   });
 
-  // Preview / download delegation
+  // Preview / Download delegation
   document.body.addEventListener('click', (e) => {
     const btn = e.target.closest('.btn');
     if(!btn) return;
@@ -117,59 +106,48 @@ document.addEventListener('DOMContentLoaded', () => {
       a.click();
       a.remove();
     } else if(btn.classList.contains('preview')){
+      // ensure preview opens only if src non-empty
+      if(!src || src === '#') { alert('Preview not available for this item.'); return; }
       window.open(src, '_blank');
     }
   });
 
-  // Try multiple paths to fetch papers.json (works for gh-pages also)
-  async function tryLoadJson(candidateUrls){
-    for(const url of candidateUrls){
+  // JSON loading with multiple candidate paths (works for gh-pages)
+  async function tryLoadJson(candidates){
+    for(const url of candidates){
       try{
-        const r = await fetch(url, {cache: 'no-cache'});
+        const r = await fetch(url, {cache:'no-cache'});
         if(!r.ok) continue;
         const json = await r.json();
         if(Array.isArray(json)) return json;
         if(json && Array.isArray(json.papers)) return json.papers;
-      } catch(err){
-        // continue to next
-      }
+      } catch(e){ /* try next */ }
     }
     return null;
   }
 
   async function loadPapers(){
-    const candidates = [
-      './papers/papers.json',
-      'papers/papers.json',
-      './papers.json',
-      'papers.json'
-    ];
-
-    try {
-      const repoSegment = location.pathname.split('/').filter(Boolean)[0];
-      if(location.hostname && location.hostname.endsWith('github.io') && repoSegment){
-        candidates.push(`/${repoSegment}/papers/papers.json`);
-        candidates.push(`/${repoSegment}/papers.json`);
+    const candidates = ['./papers/papers.json','papers/papers.json','./papers.json','papers.json'];
+    try{
+      const repo = location.pathname.split('/').filter(Boolean)[0];
+      if(location.hostname && location.hostname.endsWith('github.io') && repo){
+        candidates.push(`/${repo}/papers/papers.json`);
+        candidates.push(`/${repo}/papers.json`);
       }
-    } catch(e){ /* ignore */ }
-
+    }catch(e){}
     const res = await tryLoadJson(candidates);
-    if(res && res.length){
-      papers = res;
-    } else {
-      // fallback sample - keeps table from being empty so you can verify layout
+    if(res && res.length) papers = res;
+    else {
+      // fallback sample so you see layout — replace when your real JSON is available
       papers = [
-        { path: './papers/CBCS/Science/HCC/Physics/2021-PHSHCC102T.pdf', title: 'PHSHCC102T — Mechanics (2021)', available:false, program:'CBCS' },
-        { path: './papers/CBCS/Science/HCC/Physics/2022-PHSHCC102T.pdf', title: 'PHSHCC102T — Mechanics (2022)', available:false, program:'CBCS' },
-        { path: './papers/NEP/FYUG/Physics/2023-XYZ2001.pdf', title: 'XYZ2001 — Intro to Physics (2023)', available:true, program:'FYUG' },
-        { path: './papers/CBCS/Science/HCC/Physics/2022-PHSHCC201T.pdf', title: 'PHSHCC201T — Electricity and Magnetism (2022)', available:true, program:'CBCS' }
+        { path:'./papers/CBCS/Physics/2019-PHSHCC101T.pdf', title:'PHSHCC101T — Mathematical Physics - I (2019)', available:false, program:'CBCS' },
+        { path:'./papers/CBCS/Physics/2020-PHSHCC101T.pdf', title:'PHSHCC101T — Mathematical Physics - I (2020)', available:false, program:'CBCS' }
       ];
-      console.warn('Could not fetch papers/papers.json; using fallback sample data.');
+      console.warn('papers.json not found; using sample fallback.');
     }
     applyFilter(currentFilter);
   }
 
-  // Initial load
+  // initialize
   loadPapers();
-
-}); // DOMContentLoaded
+});
