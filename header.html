@@ -1,7 +1,7 @@
 <!-- header.html -->
 <header class="site-header" role="banner">
   <div class="container header-inner">
-    <a class="logo" href="index.html">ExamArchive 📚</a>
+    <a class="logo" href="index.html" aria-label="ExamArchive home">ExamArchive 📚</a>
 
     <!-- Desktop nav -->
     <nav class="nav-desktop" role="navigation" aria-label="Primary">
@@ -14,7 +14,7 @@
     </nav>
 
     <!-- Mobile hamburger -->
-    <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
@@ -22,7 +22,7 @@
   </div>
 
   <!-- Mobile menu (hidden by default) -->
-  <nav id="mobile-menu" class="nav-mobile" aria-label="Mobile Primary">
+  <nav id="mobile-menu" class="nav-mobile" aria-label="Mobile Primary" aria-hidden="true">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="browse.html">Browse</a></li>
