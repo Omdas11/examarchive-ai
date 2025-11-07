@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login | ExamArchive</title>
+  <link rel="stylesheet" href="style/common.css" />
+</head>
+<body>
+
+  <!-- header will be injected by scripts/include.js -->
+  <main class="container">
+    <div class="login-panel" style="display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap; margin-top:1rem;">
+      <!-- Animal box (left on desktop; above on mobile) -->
+      <div class="animal-box" style="flex:0 0 200px;">
+        <!-- Inline SVG animation container -->
+        <div class="ea-animal" aria-hidden="true" role="img" title="cute helper">
+          <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="presentation">
+            <rect x="0" y="0" width="160" height="160" rx="18" fill="#fff" stroke="rgba(0,0,0,0.03)"/>
+            <circle cx="80" cy="70" r="35" fill="#fde6e6" />
+            <ellipse cx="65" cy="65" rx="9" ry="12" fill="#fff" />
+            <ellipse cx="95" cy="65" rx="9" ry="12" fill="#fff" />
+            <circle class="ea-pupil" cx="65" cy="65" r="4.5" fill="#222" />
+            <circle class="ea-pupil" cx="95" cy="65" r="4.5" fill="#222" />
+            <path d="M70 85 q10 12 20 0" stroke="#b85" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Login form -->
+      <div class="form-box" style="flex:1;min-width:260px;">
+        <h1 class="page-title">Sign in</h1>
+        <p class="page-sub">Enter your email and we’ll send a magic link — no password required.</p>
+
+        <form id="loginForm" style="margin-top:1rem;">
+          <div class="search-box" style="display:flex;gap:0.5rem;align-items:center;">
+            <input id="email" type="email" placeholder="you@college.edu" required style="flex:1;padding:0.5rem;border:0;background:transparent;" />
+            <button class="btn" id="sendLink" type="submit">Send link</button>
+          </div>
+        </form>
+
+        <p class="hint" style="margin-top:0.6rem;">Tip: Toggle animations in Settings if you want them off.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Anim loader (decides whether to fetch anim.js) -->
+  <script src="scripts/anim-loader.js"></script>
+
+  <!-- Auth script (supabase / placeholder). Replace keys inside scripts/auth.js -->
+  <script src="scripts/auth.js"></script>
+
+  <!-- include scripts (header/footer include) if you normally add this at end of body -->
+  <script src="scripts/include.js"></script>
+</body>
+</html>
