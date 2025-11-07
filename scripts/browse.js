@@ -25,7 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let papers = [];
   let currentFilter = 'All';
-
+  
+  // --- segmented control small toggle (place after DOM refs) ---
+const segBtns = Array.from(document.querySelectorAll('.seg-btn'));
+if(segBtns.length){
+  segBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      segBtns.forEach(x => { x.classList.remove('active'); x.setAttribute('aria-pressed','false'); });
+      b.classList.add('active');
+      b.setAttribute('aria-pressed','true');
+      const prog = b.dataset.program || 'All';
+      // update UI text & apply filter
+      const ft = document.getElementById('filterText');
+      if(ft) ft.textContent = prog;
+      // call applyFilter (your script should have applyFilter defined)
+      if(typeof applyFilter === 'function') applyFilter(prog);
+    });
+  });
+}
   // RENDER
   function renderTable(list){
     papersBody.innerHTML = '';
