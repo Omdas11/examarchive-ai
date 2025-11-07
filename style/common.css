@@ -339,5 +339,87 @@ a:focus, button:focus, input:focus{
   .page-title{ font-size:1.12rem; }
 }
 
+/* ------------------ ExamArchive footer ------------------ */
+:root {
+  --ea-accent: #e53935;
+  --ea-muted: #6b6b6b;
+  --ea-bg: #f9f9f9;
+  --ea-maxw: 1200px;
+  --ea-pad: 28px;
+}
+
+/* Keeps footer at bottom */
+html, body { height: 100%; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1 0 auto; }
+
+/* Footer */
+.exam-footer {
+  background: var(--ea-bg);
+  color: #222;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.exam-footer-container {
+  max-width: var(--ea-maxw);
+  margin: 0 auto;
+  padding: var(--ea-pad);
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.exam-footer h4 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+}
+
+.exam-footer ul { list-style: none; padding: 0; margin: 0; }
+.exam-footer li { margin: 8px 0; }
+.exam-footer a { color: inherit; text-decoration: none; }
+.exam-footer a:hover { color: var(--ea-accent); text-decoration: underline; }
+
+/* Brand */
+.footer-logo { height: 45px; width: auto; display: block; margin-bottom: 8px; }
+.tagline { color: var(--ea-muted); font-size: 13px; margin-bottom: 12px; }
+.back-to-top { font-size: 13px; color: var(--ea-muted); text-decoration: none; }
+.back-to-top:hover { color: var(--ea-accent); }
+
+/* Socials */
+.socials { display: flex; gap: 10px; margin: 10px 0 16px 0; align-items: center; }
+.social { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: 6px; text-decoration: none; color: inherit; }
+.social-icon { width: 18px; height: 18px; fill: currentColor; display: block; }
+.social:hover { color: var(--ea-accent); }
+
+/* Sources */
+.sources { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.source-logo { height: 36px; width: auto; background: #fff; padding: 4px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+
+/* Footer bottom */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 28px;
+  border-top: 1px solid rgba(0,0,0,0.04);
+  font-size: 13px;
+  color: var(--ea-muted);
+}
+
+@media (max-width: 900px) {
+  .exam-footer-container { grid-template-columns: 1fr 1fr; gap: 18px; }
+}
+@media (max-width: 600px) {
+  .exam-footer-container { grid-template-columns: 1fr; text-align: center; padding: 20px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .sources { justify-content: center; }
+}
+/* ------------------ end footer ------------------ */
+
 /* ---------- Debugging helpers (comment out if not needed) ---------- */
 /* .site-header { outline: 1px solid rgba(0,0,255,0.03); } */
