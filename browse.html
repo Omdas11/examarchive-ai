@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Browse | ExamArchive</title>
 
-  <!-- shared header/site css -->
+  <!-- try to load your shared CSS; if your site uses a repo subpath on GH Pages, change to /<repo>/style/common.css -->
   <link rel="stylesheet" href="style/common.css" />
-  <!-- browse page styles -->
   <link rel="stylesheet" href="style/browse.css" />
 </head>
 <body>
-  <!-- Header: matches other pages (use your exact header from index if different) -->
+  <!-- Header: use the same header markup your other pages use.
+       If your homepage header differs, copy/paste that exact <header>..</header> block here. -->
   <header class="site-header" role="banner">
     <div class="site-inner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
       <div class="site-left" style="display:flex;align-items:center;gap:12px;">
@@ -29,37 +29,56 @@
   </header>
 
   <main>
-    <div class="top-row">
-      <div class="controls">
+    <!-- controls row (mobile-first stacking) -->
+    <div class="controls-row">
+      <div class="left-controls">
         <div class="segmented" role="tablist" aria-label="Program filter">
-          <button class="seg-btn active" data-program="All" aria-pressed="true">All</button>
+          <button class="seg-btn" data-program="All" aria-pressed="false">All</button>
           <button class="seg-btn" data-program="CBCS" aria-pressed="false">CBCS</button>
           <button class="seg-btn" data-program="FYUG" aria-pressed="false">FYUG</button>
         </div>
-        <div class="meta">Showing: <strong id="filterText">All</strong></div>
       </div>
-      <div class="meta">Total: <strong id="totalCount">0</strong></div>
+
+      <div class="right-controls">
+        <input id="searchBox" type="search" placeholder="Search filename, code or title" />
+        <select id="sortSelect" aria-label="Sort by">
+          <option value="name">Sort: Name</option>
+          <option value="year">Sort: Year</option>
+          <option value="avail">Sort: Availability</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="status-row">
+      <div>Showing: <strong id="filterText">All</strong></div>
+      <div>Total: <strong id="totalCount">0</strong></div>
     </div>
 
     <div class="card">
-      <table aria-describedby="papers">
+      <table>
         <thead>
           <tr>
             <th style="width:36px">#</th>
-            <th>File Name</th>
+            <th>File</th>
             <th>Code</th>
             <th>Year</th>
             <th>Title</th>
-            <th>Availability</th>
-            <th style="width:180px;text-align:right">Actions</th>
+            <th>Avail</th>
+            <th style="width:120px;text-align:right">Actions</th>
           </tr>
         </thead>
-        <tbody id="papersBody">
-          <!-- injected rows -->
-        </tbody>
+        <tbody id="papersBody"></tbody>
       </table>
     </div>
   </main>
+
+  <!-- PDF preview modal (embedded iframe) -->
+  <div id="pdfModal" class="pdf-modal" aria-hidden="true">
+    <div class="pdf-box">
+      <button id="closePdf" class="pdf-close">Close</button>
+      <iframe id="pdfFrame" sandbox="allow-scripts allow-same-origin" frameborder="0"></iframe>
+    </div>
+  </div>
 
   <script src="scripts/browse.js"></script>
 </body>
