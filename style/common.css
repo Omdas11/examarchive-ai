@@ -343,7 +343,7 @@ a:focus, button:focus, input:focus{
 :root {
   --ea-accent: #e53935;
   --ea-muted: #6b6b6b;
-  --ea-bg: #f9f9f9;
+  --ea-bg: #eeeeee;
   --ea-maxw: 1200px;
   --ea-pad: 28px;
 }
