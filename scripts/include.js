@@ -1,18 +1,63 @@
 // scripts/include.js
-document.addEventListener("DOMContentLoaded", () => {
-  const insertHeader = fetch("header.html").then(r => r.text());
-  const insertFooter = fetch("footer.html").then(r => r.text());
+// Robust include loader: tries multiple candidate paths so pages in subfolders still work.
+// After injection, initializes hamburger menu and active-link highlighting.
 
-  // Insert header and footer once fetched
-  Promise.all([insertHeader, insertFooter])
-    .then(([headerHTML, footerHTML]) => {
-      document.body.insertAdjacentHTML("afterbegin", headerHTML);
-      document.body.insertAdjacentHTML("beforeend", footerHTML);
+(function() {
+  // Candidate paths to try for header/footer (order matters)
+  const repoRoot = "/examarchive-ai"; // repo root on GitHub Pages (from your site)
+  const candidates = [
+    "header.html",
+    "./header.html",
+    "../header.html",
+    `${repoRoot}/header.html`,
+    `${repoRoot}/header.html` // repeated intentionally safe
+  ];
+  const footerCandidates = [
+    "footer.html",
+    "./footer.html",
+    "../footer.html",
+    `${repoRoot}/footer.html`,
+    `${repoRoot}/footer.html`
+  ];
 
-      // After insertion, init nav behaviour
-      initHeaderBehavior();
-    })
-    .catch(err => console.error("Include files load failed:", err));
+  async function fetchFirstSuccessful(paths) {
+    for (const p of paths) {
+      try {
+        const res = await fetch(p, {cache: "no-store"});
+        if (res && res.ok) {
+          const text = await res.text();
+          return { path: p, text };
+        }
+      } catch (e) {
+        // ignore and continue trying next path
+      }
+    }
+    throw new Error("No candidate path worked: " + paths.join(", "));
+  }
+
+  async function init() {
+    try {
+      const [headerRes, footerRes] = await Promise.all([
+        fetchFirstSuccessful(candidates).catch(() => ({ text: null })),
+        fetchFirstSuccessful(footerCandidates).catch(() => ({ text: null }))
+      ]);
+
+      if (headerRes && headerRes.text) {
+        document.body.insertAdjacentHTML("afterbegin", headerRes.text);
+      } else {
+        console.warn("header.html not found at any candidate path.");
+      }
+
+      if (footerRes && footerRes.text) {
+        document.body.insertAdjacentHTML("beforeend", footerRes.text);
+      } // footer optional
+
+      // Slight delay to ensure elements are in DOM
+      requestAnimationFrame(() => initHeaderBehavior());
+    } catch (err) {
+      console.error("Include loader error:", err);
+    }
+  }
 
   function initHeaderBehavior() {
     // Hamburger toggle
@@ -20,33 +65,66 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileMenu = document.getElementById("mobile-menu");
 
     if (hamburger && mobileMenu) {
+      // ensure initial hidden state
+      mobileMenu.style.display = "none";
+      mobileMenu.setAttribute("aria-hidden", "true");
+      hamburger.setAttribute("aria-expanded", "false");
+
       hamburger.addEventListener("click", () => {
-        const expanded = hamburger.getAttribute("aria-expanded") === "true";
-        hamburger.setAttribute("aria-expanded", String(!expanded));
-        // toggle visibility
-        if (mobileMenu.style.display === "block") {
-          mobileMenu.style.display = "none";
-        } else {
-          mobileMenu.style.display = "block";
-        }
+        const isOpen = hamburger.getAttribute("aria-expanded") === "true";
+        hamburger.setAttribute("aria-expanded", String(!isOpen));
+        mobileMenu.setAttribute("aria-hidden", String(isOpen));
+        mobileMenu.style.display = isOpen ? "none" : "block";
       });
 
-      // Close mobile menu when a link clicked
+      // Close mobile menu when any link clicked
       mobileMenu.querySelectorAll("a").forEach(a => {
         a.addEventListener("click", () => {
           mobileMenu.style.display = "none";
+          mobileMenu.setAttribute("aria-hidden", "true");
           hamburger.setAttribute("aria-expanded", "false");
         });
       });
+
+      // Close menu when clicking outside (mobile)
+      document.addEventListener("click", (e) => {
+        const target = e.target;
+        if (!mobileMenu.contains(target) && !hamburger.contains(target)) {
+          if (mobileMenu.style.display === "block") {
+            mobileMenu.style.display = "none";
+            mobileMenu.setAttribute("aria-hidden", "true");
+            hamburger.setAttribute("aria-expanded", "false");
+          }
+        }
+      }, true);
     }
 
-    // Optional: mark current link active
-    const path = location.pathname.split("/").pop() || "index.html";
-    document.querySelectorAll('.nav-links a, #mobile-menu a').forEach(a => {
-      const href = a.getAttribute('href');
-      if (href === path) {
-        a.classList.add('active');
+    // Active link highlighting (works for index.html / browse.html / about.html)
+    const current = location.pathname.split("/").pop() || "index.html";
+    const links = document.querySelectorAll('.nav-links a, #mobile-menu a');
+    links.forEach(a => {
+      // normalize href (strip query/hash)
+      const href = (a.getAttribute('href') || "").split(/[?#]/)[0].split("/").pop();
+      if (href === current || (href === "" && current === "index.html")) {
+        a.classList.add("active");
       }
     });
+
+    // Optional: keyboard accessibility — toggle menu with Enter/Space on hamburger
+    if (hamburger) {
+      hamburger.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          hamburger.click();
+        }
+      });
+    }
   }
-});
+
+  // Run init
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
