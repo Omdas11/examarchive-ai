@@ -48,3 +48,8 @@ tbody tr:hover{ background:#fafafa; }
   main{ padding:12px; }
   .modal{ width:90%; }
 }
+/* ensure preview and download look identical and aligned */
+.btns { display:flex; gap:8px; justify-content:flex-end; align-items:center; }
+.btn { padding:8px 12px; border-radius:8px; font-size:13px; min-width:84px; display:inline-flex; justify-content:center; align-items:center; gap:8px; box-sizing:border-box; }
+.btn.preview { background:#fff; border:1px solid #d1d1d1; color:#222; }
+.btn.download { background:var(--red); color:#fff; border:1px solid rgba(0,0,0,0.05); }
