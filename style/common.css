@@ -75,6 +75,32 @@ a:hover { text-decoration: underline; }
   color: var(--text);
 }
 
+
+/* --- EA Red Square Logo --- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.logo-icon {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: -0.5px;
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(211,47,47,0.25);
+}
+
+.logo-text {
+  font-size: 1.05rem;
+}
+
 /* Primary nav (desktop) */
 .nav-desktop{ display:flex; align-items:center; gap:1rem; }
 .nav-desktop .nav-links{ list-style:none; margin:0; padding:0; display:flex; gap:0.5rem; align-items:center; }
