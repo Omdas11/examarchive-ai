@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Settings | ExamArchive</title>
+  <link rel="stylesheet" href="style/common.css" />
+</head>
+<body>
+  <!-- header auto-inserted -->
+  <main class="container" style="padding-top:1.5rem;">
+    <h1 class="page-title">Preferences</h1>
+
+    <label style="display:flex;align-items:center;gap:0.6rem;margin-top:1rem;">
+      <input id="toggleAnim" type="checkbox" />
+      Enable fun animations (eyes & reactions)
+    </label>
+    <p class="hint">If you turn off animations here we will remember your preference.</p>
+  </main>
+
+  <script>
+    const KEY = "ea_animations";
+    const checkbox = document.getElementById('toggleAnim');
+    // default: on unless user prefers reduced motion
+    const pref = localStorage.getItem(KEY);
+    const defaultOn = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    checkbox.checked = (pref === "on") || (pref === null && defaultOn);
+
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) localStorage.setItem(KEY, "on");
+      else localStorage.setItem(KEY, "off");
+      // reload to apply immediately
+      location.reload();
+    });
+  </script>
+
+  <script src="scripts/include.js"></script>
+</body>
+</html>
