@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function codeFromTitle(title, fallbackFilename){
     let t = (title || fallbackFilename || '').toString();
-    // prefer left-of-em-dash or hyphen
     if(t.indexOf('—') !== -1) t = t.split('—')[0].trim();
     if(t.indexOf(' - ') !== -1) t = t.split(' - ')[0].trim();
     const codeMatch = t.match(/[A-Z]{2,}[A-Z0-9\-]*\d{2,}[A-Z0-9]*/);
@@ -21,6 +20,87 @@ document.addEventListener('DOMContentLoaded', () => {
     const fname = (fallbackFilename || '').replace(/\.[^.]+$/, '');
     if(fname) return fname.split(/[\s_]+/)[0];
     return '';
+  }
+
+  // Robust availability interpretation: returns {available:Boolean, text:String}
+  function interpretAvailability(item){
+    // Allow multiple input shapes: item.available (bool or string/number), item.availableText, item.status, item.note
+    const raw = (item.available !== undefined) ? item.available : (item.availableText !== undefined ? item.availableText : (item.status !== undefined ? item.status : ''));
+    const textCandidate = (item.availableText && typeof item.availableText === 'string') ? item.availableText
+                          : (typeof raw === 'string' ? raw : '');
+
+    // normalize string -> boolean detection
+    const norm = (val) => {
+      if(val === true || val === 1) return true;
+      if(val === false || val === 0 || val === null || val === undefined) return false;
+      const s = String(val).trim().toLowerCase();
+      if(!s) return null;
+      if(['true','available','yes','y','1'].includes(s)) return true;
+      if(['false','not available','not available','no','n','0'].includes(s)) return false;
+      return null; // unknown
+    };
+
+    const bool = norm(raw);
+    if(bool === true) return { available: true, text: (textCandidate || 'Available') };
+    if(bool === false) return { available: false, text: (textCandidate || 'Not available') };
+
+    // fallback: if there's explicit availableText mentioning available
+    if(typeof textCandidate === 'string'){
+      const tc = textCandidate.trim().toLowerCase();
+      if(tc.includes('available') || tc.includes('yes') || tc.includes('uploaded') || tc.includes('present')) {
+        return { available: true, text: item.availableText || 'Available' };
+      }
+      if(tc.includes('not') || tc.includes('no') || tc.includes('missing') || tc.includes('absent')) {
+        return { available: false, text: item.availableText || 'Not available' };
+      }
+    }
+
+    // last resort: if the item has a non-empty url/path (and it's not placeholder), treat as available
+    const p = (item.path || item.file || item.url || item.src || '');
+    if(p && !p.match(/^(#|javascript:void|undefined|null)$/i)) {
+      // if path seems like real file with .pdf or starts with papers/
+      if(p.toLowerCase().endsWith('.pdf') || p.toLowerCase().includes('/papers/') || p.startsWith('./') || p.startsWith('/')) {
+        return { available: true, text: item.availableText || 'Available' };
+      }
+    }
+
+    // unknown -> treat as not available
+    return { available: false, text: item.availableText || 'Not available' };
+  }
+
+  // Program detection (robust): returns array of program tags found (lowercase)
+  function detectPrograms(item){
+    const out = new Set();
+    const checkStr = (s) => {
+      if(!s) return;
+      const t = s.toString().toLowerCase();
+      if(t.includes('cbcs')) out.add('cbcs');
+      if(t.includes('fyug')) out.add('fyug');
+      if(t.includes('nep')) out.add('fyug'); // treat NEP as FYUG-equivalent
+      if(t.includes('ug') && t.includes('fy')) out.add('fyug');
+      if(t.includes('honours') || t.includes('hcc') || t.includes('hons')) out.add('cbcs');
+      if(t.includes('cbc')) out.add('cbcs'); // loose match
+    };
+
+    // check multiple places
+    checkStr(item.program);
+    checkStr(item.path);
+    checkStr(item.file);
+    checkStr(item.filename);
+    checkStr(item.title);
+    checkStr(item.name);
+    checkStr(item.category);
+    if(Array.isArray(item.tags)) item.tags.forEach(t => checkStr(t));
+
+    // also check path segments (/FYUG/ or /NEP/)
+    const path = (item.path || item.file || item.url || '').toString();
+    if(path){
+      const lower = path.toLowerCase();
+      if(lower.includes('/fyug/') || lower.includes('/nep/')) out.add('fyug');
+      if(lower.includes('/cbcs/')) out.add('cbcs');
+    }
+
+    return Array.from(out); // e.g. ['cbcs'] or ['fyug'] or []
   }
 
   /* ---------- DOM Refs ---------- */
@@ -36,15 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderTable(list){
     papersBody.innerHTML = '';
     list.forEach((p, idx) => {
-      const path = p.path || p.file || p.filename || p.src || '';
+      const path = p.path || p.file || p.filename || p.src || p.url || '';
       const fname = filenameFromPath(path);
       const year = p.year || yearFromText(p.title || fname) || '';
       const code = codeFromTitle(p.title || p.display || '', fname);
       const rawTitle = p.title || p.name || '';
       const title = rawTitle.indexOf('—')!==-1 ? rawTitle.split('—').slice(1).join('—').trim() : rawTitle;
-      const available = (p.available === true) ? true : (p.available === false ? false : Boolean(p.availableText));
-      const availText = (p.available === true) ? 'Available' : (p.available === false ? 'Not available' : (p.availableText || 'Not available'));
-      const availClass = p.available === true ? 'available' : 'na';
+      const availabilityObj = interpretAvailability(p);
+      const availText = availabilityObj.text;
+      const availClass = availabilityObj.available ? 'available' : 'na';
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -68,16 +148,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- Filtering ---------- */
   function applyFilter(program){
-    currentFilter = program || 'All';
+    currentFilter = (program || 'All');
     filterTextEl.textContent = currentFilter;
+    const progKey = (currentFilter || 'All').toString().toLowerCase();
+
     const filtered = papers.filter(p => {
-      if(!currentFilter || currentFilter === 'All') return true;
-      function t(x){ return (x || '').toString().toLowerCase().includes(currentFilter.toLowerCase()); }
-      if(t(p.program) || t(p.path) || t(p.file) || t(p.filename)) return true;
-      if(Array.isArray(p.tags) && t(p.tags.join(' '))) return true;
-      if(t(p.title) || t(p.name)) return true;
+      if(progKey === 'all' || !progKey) return true;
+      // detect program tags for this item
+      const progs = detectPrograms(p); // returns ['cbcs'] or ['fyug'] or []
+      if(progs.length && progs.some(x => x === progKey.toLowerCase())) return true;
+
+      // fallback checks on obvious fields
+      const test = (s) => (s || '').toString().toLowerCase().includes(progKey);
+      if(test(p.program) || test(p.path) || test(p.file) || test(p.filename) || test(p.title) || test(p.name)) return true;
+      if(Array.isArray(p.tags) && test(p.tags.join(' '))) return true;
+
       return false;
     });
+
     renderTable(filtered);
   }
 
@@ -113,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ---------- JSON loading (multiple candidate paths for GH pages) ---------- */
+  /* ---------- JSON loading (candidates for GH pages) ---------- */
   async function tryLoadJson(candidates){
     for(const url of candidates){
       try{
@@ -122,7 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const json = await r.json();
         if(Array.isArray(json)) return json;
         if(json && Array.isArray(json.papers)) return json.papers;
-      } catch(e){ /* try next */ }
+      } catch(e){
+        // try next
+      }
     }
     return null;
   }
@@ -138,9 +228,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e){}
     const res = await tryLoadJson(candidates);
     if(res && res.length) {
-      papers = res;
+      papers = res.map(it => {
+        // normalize some common naming differences
+        const copy = Object.assign({}, it);
+        // ensure `program` is present if detectPrograms can find one
+        const progs = detectPrograms(copy);
+        if(!copy.program && progs.length) copy.program = progs[0];
+        return copy;
+      });
     } else {
-      // fallback sample so page isn't empty — replace when real JSON present
+      // fallback sample so the table isn't empty during development
       papers = [
         { path:'./papers/CBCS/2019-PHSHCC101T.pdf', title:'PHSHCC101T — Mathematical Physics - I (2019)', available:false, program:'CBCS' },
         { path:'./papers/FYUG/2024-PHSHCC301T.pdf', title:'PHSHCC301T — Modern Physics (2024)', available:true, program:'FYUG' }
@@ -153,4 +250,4 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- initialize ---------- */
   loadPapers();
 
-});
+}); // DOMContentLoaded
