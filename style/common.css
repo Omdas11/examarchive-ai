@@ -364,7 +364,7 @@ a:focus, button:focus, input:focus{
   margin: 0 0 10px;
   font-size: 1.05rem;
   letter-spacing: 0.2px;
-  color: rgba(255,255,255,0.98);
+  color: #a82323;
 }
 
 .footer-col ul {
