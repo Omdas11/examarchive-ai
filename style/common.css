@@ -341,11 +341,11 @@ a:focus, button:focus, input:focus{
 
 /* ===== Footer: ExamArchive ===== */
 .site-footer {
-  background: linear-gradient(180deg, #7f1d1d 0%, #b71c1c 100%); /* deep-to-mid red */
+  background: #2f2f2f; /* dark neutral grey */
   color: #ffffff;
   padding: 36px 18px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  border-top: 3px solid rgba(255,255,255,0.04);
+  border-top: 4px solid #a82323; /* red accent line */
 }
 
 .footer-inner {
@@ -385,7 +385,7 @@ a:focus, button:focus, input:focus{
 }
 
 .footer-col a:hover {
-  color: #fff6f6;
+  color: #ff5555; /* soft red hover */
   transform: translateY(-2px);
 }
 
