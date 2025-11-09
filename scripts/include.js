@@ -2,6 +2,8 @@
 // Robust include loader: tries multiple candidate paths so pages in subfolders still work.
 // After injection, initializes hamburger menu and active-link highlighting.
 
+console.info('🔁 include.js loaded —', new Date().toISOString());
+
 (function() {
   // Candidate paths to try for header/footer (order matters)
   const repoRoot = "/examarchive-ai"; // repo root on GitHub Pages (from your site)
