@@ -437,5 +437,60 @@ a:focus, button:focus, input:focus{
   .footer-logo { height:48px; } /* slightly larger on wide screens */
 }
 
+/* ---------- Upload button: normalize to pill look ---------- */
+/* Anchor-based upload (common) */
+#upload-btn,
+a.upload-btn {
+  display:inline-block;
+  padding:0.45rem 0.85rem;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: linear-gradient(180deg, #fff, #fafafa);
+  font-weight:700;
+  color: var(--text, #111827);
+  text-decoration:none;
+  cursor:pointer;
+  box-shadow: none;
+}
+
+/* Label used as file upload trigger */
+label.upload-btn, .upload-label {
+  display:inline-block;
+  padding:0.45rem 0.85rem;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: linear-gradient(180deg, #fff, #fafafa);
+  font-weight:700;
+  color: var(--text, #111827);
+  cursor:pointer;
+}
+
+/* Hide native file input visually (but keep it accessible) */
+input[type="file"].hidden-upload,
+input[type="file"].upload-input {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hover / focus polish */
+#upload-btn:hover,
+a.upload-btn:hover,
+label.upload-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15,23,42,0.04);
+}
+
+/* If upload element was previously styled like an input, force reset */
+#upload-btn, a.upload-btn, label.upload-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  border-style: solid;
+  outline: none;
+}
+
 /* ---------- Debugging helpers (comment out if not needed) ---------- */
 /* .site-header { outline: 1px solid rgba(0,0,255,0.03); } */
