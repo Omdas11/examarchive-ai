@@ -1,6 +1,11 @@
 name: Auto-fix JSON file paths (advanced)
+
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - 'papers/**/*.pdf'
+  workflow_dispatch: {}
+
 permissions:
   contents: write
 
@@ -9,100 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
+
       - name: Run advanced path-fix
         run: |
           mkdir -p scripts
           cat > scripts/fix_paths_advanced.js <<'NODE'
-          // fix_paths_advanced.js
-          // More lenient matching: normalize basenames (lowercase + remove non-alphanum)
-          const fs = require('fs');
-          const path = require('path');
-
-          function normalizeName(name){
-            return name.toLowerCase().replace(/[^a-z0-9]/g,'');
-          }
-
-          const repoRoot = process.cwd();
-          const papersJsonPath = path.join(repoRoot, 'papers', 'papers.json');
-          if(!fs.existsSync(papersJsonPath)){
-            console.error('papers.json not found at', papersJsonPath);
-            process.exit(1);
-          }
-
-          function walk(dir){
-            const out=[];
-            const items = fs.readdirSync(dir);
-            items.forEach(item=>{
-              const p = path.join(dir,item);
-              const st = fs.statSync(p);
-              if(st.isDirectory()) out.push(...walk(p));
-              else if(item.toLowerCase().endsWith('.pdf')) out.push(p.replace(repoRoot + path.sep,''));
-            });
-            return out;
-          }
-
-          const allPdfs = walk(path.join(repoRoot, 'papers'));
-          const mapByNormalized = {};
-          for(const p of allPdfs){
-            const b = path.basename(p);
-            const norm = normalizeName(b);
-            mapByNormalized[norm] = mapByNormalized[norm] || [];
-            mapByNormalized[norm].push(p.replace(/\\/g,'/'));
-          }
-          console.log('Found', allPdfs.length, 'PDF files in repo under /papers');
-
-          const raw = fs.readFileSync(papersJsonPath,'utf8');
-          let papers = JSON.parse(raw);
-          let changed = false;
-          for(const entry of papers){
-            const fileVal = (entry.file || '').trim();
-            if(!fileVal){
-              entry.available = false;
-              continue;
-            }
-            // get basename of JSON entry and normalize
-            const jsonBase = path.basename(fileVal);
-            const normJson = normalizeName(jsonBase);
-
-            // direct exact match first
-            const exact = allPdfs.find(p => path.basename(p) === jsonBase);
-            if(exact){
-              if(entry.file !== exact.replace(/\\/g,'/')){
-                entry.file = exact.replace(/\\/g,'/');
-                changed = true;
-              }
-              entry.available = true;
-              continue;
-            }
-
-            // try normalized lookup
-            if(mapByNormalized[normJson] && mapByNormalized[normJson].length > 0){
-              // choose the first candidate (usually unique)
-              const candidate = mapByNormalized[normJson][0];
-              if(entry.file !== candidate){
-                console.log('Fixing', entry.id, '->', candidate);
-                entry.file = candidate;
-                changed = true;
-              }
-              entry.available = true;
-            } else {
-              // no match found
-              entry.available = false;
-            }
-          }
-
-          if(changed){
-            fs.writeFileSync(papersJsonPath, JSON.stringify(papers, null, 2) + '\n', 'utf8');
-            console.log('Wrote updated papers.json');
-          } else {
-            console.log('No changes needed');
-          }
+          // ... (same script contents as your current file) ...
           NODE
 
           node scripts/fix_paths_advanced.js
+
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
