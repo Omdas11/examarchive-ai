@@ -1,40 +1,47 @@
 <!-- header.html -->
-<header class="site-header" role="banner">
+<header class="site-header">
   <div class="container header-inner">
-    <a class="logo" href="index.html" aria-label="ExamArchive home">
-      <span class="logo-icon">EA</span>
-      <span class="logo-text">ExamArchive</span>
+    <a class="logo" href="/">
+      <span class="logo-badge">EA</span>
+      <span class="site-title">ExamArchive</span>
     </a>
 
-    <!-- Desktop nav -->
-    <nav class="nav-desktop" role="navigation" aria-label="Primary">
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="browse.html">Browse</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="upload.html" class="btn-upload">Upload</a></li>
-        <li><a href="login.html" class="btn-login">Login</a></li>
-        <li><a href="settings.html">Settings</a></li>
-      </ul>
+    <!-- primary nav (desktop) -->
+    <nav class="main-nav" role="navigation" aria-label="Main">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/browse.html">Browse</a>
+      <a class="nav-link" href="/about.html">About</a>
+
+      <!-- Upload styled as pill -->
+      <a id="upload-btn" class="btn upload-btn" href="/upload.html" role="button" aria-label="Upload paper">Upload</a>
     </nav>
 
-    <!-- Mobile hamburger -->
-    <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-      <span class="hamburger-bar"></span>
-      <span class="hamburger-bar"></span>
-      <span class="hamburger-bar"></span>
-    </button>
+    <div class="header-actions">
+      <!-- hidden on desktop -->
+      <a id="login-link" class="nav-link hide-from-header-desktop" href="/login.html">Login</a>
+
+      <!-- hamburger -->
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
+        <span class="sr-only">Open menu</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <!-- Mobile menu -->
-  <nav id="mobile-menu" class="nav-mobile" aria-label="Mobile Primary" aria-hidden="true">
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="browse.html">Browse</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="upload.html" class="btn-upload">Upload</a></li>
-      <li><a href="login.html" class="btn-login">Login</a></li>
-      <li><a href="settings.html">Settings</a></li>
+  <!-- menu toggled by JS -->
+  <div id="site-menu" class="site-menu" hidden>
+    <!-- JS will inject mobile search here -->
+    <div class="mobile-search mobile-only" style="display:none;"></div>
+
+    <ul class="menu-list" role="menu">
+      <li><a href="/">Home</a></li>
+      <li><a href="/browse.html">Browse</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li class="mobile-only"><a href="/upload.html">Upload</a></li>
+      <li><a href="/login.html">Login</a></li>
+      <li><a href="/settings.html">Settings</a></li>
     </ul>
-  </nav>
+  </div>
 </header>
