@@ -128,33 +128,3 @@
     init();
   }
 })();
-
-// upload-class-fix — run after header is injected
-(function () {
-  function addUploadClasses() {
-    // 1) Prefer explicit id
-    const elById = document.getElementById('upload-btn');
-    if (elById) elById.classList.add('upload-btn');
-
-    // 2) If there's a label or anchor with text "Upload", mark it
-    const candidates = Array.from(document.querySelectorAll('a,button,label'));
-    candidates.forEach(c => {
-      const txt = (c.textContent || '').trim().toLowerCase();
-      if (txt === 'upload' || txt === 'upload paper' || txt === 'upload file') {
-        c.classList.add('upload-btn', 'upload-label');
-      }
-    });
-
-    // 3) If there's a file input near those, hide the native input
-    const fileInputs = Array.from(document.querySelectorAll('input[type="file"]'));
-    fileInputs.forEach(fi => {
-      fi.classList.add('upload-input', 'hidden-upload');
-    });
-  }
-
-  // Run on DOMContentLoaded and again after a short delay (accounts for async includes)
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', addUploadClasses);
-  } else addUploadClasses();
-  setTimeout(addUploadClasses, 800);
-})();
