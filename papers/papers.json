@@ -406,7 +406,7 @@
     "id": "phshcc201t-2022",
     "title": "PHSHCC201T — Electricity and Magnetism (2022)",
     "meta": "PHSHCC201T · CBCS · HCC · 2022 · Assam University",
-    "file": "papers/CBSC/Science/HCC/Physics/2022-PHSHCC-201T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2022-PHSHCC-201T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
@@ -419,7 +419,7 @@
     "id": "phshcc201t-2023",
     "title": "PHSHCC201T — Electricity and Magnetism (2023)",
     "meta": "PHSHCC201T · CBCS · HCC · 2023 · Assam University",
-    "file": "papers/CBSC/Science/HCC/Physics/2023-PHSHCC-201T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2023-PHSHCC-201T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
@@ -744,14 +744,14 @@
     "id": "phshcc301t-2020",
     "title": "PHSHCC301T — Mathematical Physics – II (2020)",
     "meta": "PHSHCC301T · CBCS · HCC · 2020 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2020-PHSHCC301T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2020-PHSHCC-301T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2020,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc301t-2021",
@@ -1121,14 +1121,14 @@
     "id": "phshcc303t-2021",
     "title": "PHSHCC303T — Digital Systems and Applications (2021)",
     "meta": "PHSHCC303T · CBCS · HCC · 2021 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2021-PHSHCC303T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2021-PHSHCC-303T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2021,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc303t-2022",
@@ -1329,14 +1329,14 @@
     "id": "phshcc401t-2023",
     "title": "PHSHCC401T — Mathematical Physics – III (2023)",
     "meta": "PHSHCC401T · CBCS · HCC · 2023 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2023-PHSHCC401T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2023-PHSHCC-401T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2023,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc401t-2024",
@@ -1511,14 +1511,14 @@
     "id": "phshcc402t-2023",
     "title": "PHSHCC402T — Elements of Modern Physics (2023)",
     "meta": "PHSHCC402T · CBCS · HCC · 2023 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2023-PHSHCC402T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2023-PHSHCC-402T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2023,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc402t-2024",
@@ -1680,14 +1680,14 @@
     "id": "phshcc403t-2022",
     "title": "PHSHCC403T — Analog Systems and Applications (2022)",
     "meta": "PHSHCC403T · CBCS · HCC · 2022 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2022-PHSHCC403T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2022-PHSHCC-403T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2022,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc403t-2023",
@@ -2018,14 +2018,14 @@
     "id": "phshcc502t-2020",
     "title": "PHSHCC502T — Solid State Physics (2020)",
     "meta": "PHSHCC502T · CBCS · HCC · 2020 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2020-PHSHCC502T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2020-PHSHCC-502T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2020,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc502t-2021",
@@ -2213,14 +2213,14 @@
     "id": "phshcc601t-2021",
     "title": "PHSHCC601T — Electromagnetic Theory (2021)",
     "meta": "PHSHCC601T · CBCS · HCC · 2021 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2021-PHSHCC601T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2021-PHSHCC-601T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2021,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc601t-2022",
@@ -2239,27 +2239,27 @@
     "id": "phshcc601t-2023",
     "title": "PHSHCC601T — Electromagnetic Theory (2023)",
     "meta": "PHSHCC601T · CBCS · HCC · 2023 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2023-PHSHCC601T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2023-PHSHCC-601T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2023,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc601t-2024",
     "title": "PHSHCC601T — Electromagnetic Theory (2024)",
     "meta": "PHSHCC601T · CBCS · HCC · 2024 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2024-PHSHCC601T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2024-PHSHCC-601T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2024,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc601t-2025",
@@ -2434,14 +2434,14 @@
     "id": "phshcc602t-2024",
     "title": "PHSHCC602T — Statistical Mechanics (2024)",
     "meta": "PHSHCC602T · CBCS · HCC · 2024 · Assam University",
-    "file": "./papers/CBCS/Science/HCC/Physics/2024-PHSHCC602T.pdf",
+    "file": "papers/CBCS/Science/HCC/Physics/2024-PHSHCC-602T.pdf",
     "subject": "Physics",
     "stream": "Science",
     "university": "Assam University",
     "category": "HCC",
     "system": "CBCS",
     "year": 2024,
-    "available": false
+    "available": true
   },
   {
     "id": "phshcc602t-2025",
