@@ -128,3 +128,74 @@
     init();
   }
 })();
+
+// ---- UPLOAD FORCE-STYLE (append to scripts/include.js) ----
+(function(){
+  function forceStyle(el){
+    if(!el) return false;
+    // apply inline styles (override any CSS)
+    el.style.display = 'inline-block';
+    el.style.padding = '8px 14px';
+    el.style.borderRadius = '12px';
+    el.style.border = '1px solid rgba(0,0,0,0.06)';
+    el.style.background = '#fff';
+    el.style.fontWeight = '700';
+    el.style.color = '#111827';
+    el.style.textDecoration = 'none';
+    el.style.cursor = 'pointer';
+    el.style.boxShadow = '0 2px 6px rgba(15,23,42,0.04)';
+    el.classList.add('btn-upload');
+    return true;
+  }
+
+  function findAndFix(){
+    // try common selectors
+    const selectors = [
+      '#upload-btn',
+      '.btn-upload',
+      'a[id*="upload"]',
+      'button[id*="upload"]',
+      '[class*="btn-upload"]',
+      'label[for*="upload"]',
+      'a:contains("Upload")' // fallback via text check below
+    ];
+
+    // 1) direct known selectors
+    const candidates = [];
+    ['#upload-btn', '.btn-upload', 'a[id*="upload"]', 'button[id*="upload"]', '[class*="btn-upload"]', 'label[for*="upload"]'].forEach(sel=>{
+      document.querySelectorAll(sel).forEach(n => candidates.push(n));
+    });
+
+    // 2) fallback: find elements whose text contains 'upload'
+    if(candidates.length === 0){
+      Array.from(document.querySelectorAll('a,button,label,span')).forEach(n=>{
+        if((n.textContent||'').trim().toLowerCase().includes('upload')) candidates.push(n);
+      });
+    }
+
+    // dedupe and apply
+    const unique = Array.from(new Set(candidates));
+    if(unique.length === 0){
+      console.log('Upload fixer: no candidate found (will retry).');
+      return false;
+    }
+
+    unique.forEach(el => {
+      console.log('Upload fixer: styling element ->', el.tagName, el.className || el.id, el.outerHTML.slice(0,200));
+      forceStyle(el);
+    });
+    return true;
+  }
+
+  // run after DOM ready and try again a couple times to handle async includes
+  function runAttempts(attempts){
+    if(findAndFix()) return;
+    if(attempts>0) setTimeout(()=>runAttempts(attempts-1), 300);
+  }
+
+  if(document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ()=> setTimeout(()=>runAttempts(6), 80));
+  } else {
+    setTimeout(()=>runAttempts(6), 80);
+  }
+})();
