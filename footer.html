@@ -1,4 +1,4 @@
-<!-- footer.html - overwrite your current footer.html with this -->
+<!-- Replace your existing footer.html with this -->
 <footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
     <div class="footer-columns">
@@ -35,6 +35,7 @@
           <li><a href="/about.html">About</a></li>
           <li class="socials">
             <a href="#" aria-label="Instagram" title="Instagram" class="social-link">
+              <!-- small Instagram-like SVG -->
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.2"/>
                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.2"/>
@@ -63,66 +64,15 @@
       <p class="copyright">© <span id="currentYear"></span> ExamArchive — All rights reserved.</p>
 
       <div class="footer-logos" aria-hidden="false">
-        <img class="footer-logo" src="assets/logo-examarchive.png"
-             data-light="assets/logo-examarchive.png"
-             data-dark="assets/logo-examarchive-dark.png"
-             alt="ExamArchive logo" />
-        <img class="footer-logo" src="assets/logo-college.png"
-             data-light="assets/logo-college.png"
-             data-dark="assets/logo-college-dark.png"
-             alt="College logo" />
-        <img class="footer-logo" src="assets/github.svg"
-             data-light="assets/github.svg"
-             data-dark="assets/github-dark.svg"
-             alt="GitHub logo" />
+        <img src="assets/logo-examarchive.png" alt="ExamArchive logo" class="footer-logo" />
+        <img src="assets/logo-college.png" alt="College logo" class="footer-logo" />
+        <img src="assets/github.svg" alt="GitHub logo" class="footer-logo" />
       </div>
     </div>
   </div>
 </footer>
 
 <script>
-  // Set current year dynamically
+  // Dynamically set the year
   (function(){ var y = new Date().getFullYear(); var el = document.getElementById('currentYear'); if(el) el.textContent = y; })();
-</script>
-
-<!-- ======================
-     GLOBAL THEME UTILITIES
-     Place once (footer is a good place) so theme works site-wide
-     ====================== -->
-<script>
-/* THEME UTILS — include once globally */
-(function(){
-  const KEY = 'exam_theme'; // values: 'light'|'dark'|'system'
-  const defaultLightLogo = 'assets/logo-examarchive.png';
-  const defaultDarkLogo  = 'assets/logo-examarchive-dark.png';
-
-  function applyTheme(theme){
-    if(theme === 'dark') document.documentElement.setAttribute('data-theme','dark');
-    else document.documentElement.removeAttribute('data-theme'); // 'light' or 'system'
-    localStorage.setItem(KEY, theme);
-    swapLogos(theme);
-    window.dispatchEvent(new CustomEvent('exam-theme-changed', {detail:{theme}}));
-  }
-
-  function swapLogos(theme){
-    const logos = document.querySelectorAll('img.logo, img[data-theme-aware], img.site-logo, img.footer-logo');
-    logos.forEach(img=>{
-      const light = img.dataset.light || defaultLightLogo;
-      const dark  = img.dataset.dark  || defaultDarkLogo;
-      if(theme === 'dark') img.src = dark;
-      else if(theme === 'light') img.src = light;
-      else {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        img.src = prefersDark ? dark : light;
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem(KEY) || 'system';
-    applyTheme(saved);
-  });
-
-  window.examTheme = { applyTheme, swapLogos, read: ()=>localStorage.getItem(KEY) || 'system' };
-})();
 </script>
