@@ -583,3 +583,16 @@ a:focus, button:focus, input:focus{
   .segmented { width:100%; }
   .seg-btn { flex:1; text-align:center; }
 }
+
+.btn-upload {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #fff; 
+  color: #111d63;
+  border: none;
+  text-decoration: none;
+}
+.btn-upload:hover {
+  background: #f0f0f0;
+}
