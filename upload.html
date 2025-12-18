@@ -2,27 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Upload — ExamArchive</title>
-  <link rel="stylesheet" href="./style/common.css">
+  <title>Upload | ExamArchive</title>
+  <link rel="stylesheet" href="style/common.css">
 </head>
 <body>
-  <main>
-    <div class="container">
-      <div class="card">
-        <h1>Upload a paper</h1>
-        <p style="color:var(--muted)">This is a placeholder. We'll wire the upload flow later (Google Drive / GitHub Actions / server).</p>
-        <form onsubmit="event.preventDefault(); alert('Upload not configured yet');" style="margin-top:12px">
-          <input type="text" placeholder="Course code (e.g. PHSHCC-201T)" style="padding:10px;border-radius:8px;border:1px solid #eee;width:100%;margin-bottom:8px">
-          <input type="text" placeholder="Year (e.g. 2023)" style="padding:10px;border-radius:8px;border:1px solid #eee;width:100%;margin-bottom:8px">
-          <input type="file" accept="application/pdf" style="margin-bottom:8px">
-          <button class="btn" type="submit">Request Upload</button>
-        </form>
-      </div>
-    </div>
-  </main>
 
-  <script src="./js/main.js"></script>
-  <script src="scripts/include.js"></script>
+<main class="container">
+  <div class="card">
+    <h1>Upload Paper</h1>
+
+    <form onsubmit="event.preventDefault();alert('Upload not enabled');">
+      <input type="text" placeholder="Course Code"><br><br>
+      <input type="text" placeholder="Year"><br><br>
+      <input type="file" accept="application/pdf"><br><br>
+      <button class="btn">Request Upload</button>
+    </form>
+  </div>
+</main>
+
+<script src="scripts/include.js"></script>
 </body>
 </html>
