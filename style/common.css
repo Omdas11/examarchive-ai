@@ -110,3 +110,58 @@ main{padding:20px 0;}
 }
 
 .footer-col h3{color:var(--accent);}
+
+/* ================================
+   MOBILE RESPONSIVE FIXES
+   ================================ */
+
+@media (max-width: 768px){
+
+  /* Header */
+  .nav-desktop{
+    display: none;
+  }
+
+  .hamburger{
+    display: block;
+  }
+
+  .nav-mobile{
+    display: block;
+    border-top: 1px solid var(--border);
+    background: #fff;
+  }
+
+  .nav-mobile ul{
+    list-style: none;
+    padding: 10px 16px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-mobile a{
+    padding: 8px;
+    border-radius: 6px;
+  }
+
+  /* Footer */
+  .footer-columns{
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .site-footer{
+    text-align: left;
+  }
+
+  /* General spacing */
+  main{
+    padding: 14px 0;
+  }
+
+  h1{
+    font-size: 1.3rem;
+  }
+}
