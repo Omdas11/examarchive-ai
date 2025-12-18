@@ -196,3 +196,28 @@ main{
 a{
   -webkit-tap-highlight-color: transparent;
 }
+
+/* ================= MOBILE HEADER FIX ================= */
+
+@media (max-width: 768px){
+
+  /* hide desktop nav */
+  .nav-desktop{
+    display: none;
+  }
+
+  /* show hamburger */
+  .hamburger{
+    display: block;
+  }
+
+  /* mobile nav default hidden */
+  .nav-mobile{
+    display: none;
+  }
+
+  /* when open */
+  .nav-mobile.open{
+    display: block;
+  }
+}
