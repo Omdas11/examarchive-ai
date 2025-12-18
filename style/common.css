@@ -221,3 +221,21 @@ a{
     display: block;
   }
 }
+
+/* HAMBURGER MENU */
+
+.hamburger{
+  background: none;
+  border: 0;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.hamburger .bar{
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  background: #333;
+  border-radius: 2px;
+}
