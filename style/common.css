@@ -79,15 +79,6 @@ main{
   border-radius:6px;
 }
 
-.btn-upload{
-  color:var(--accent);
-  font-weight:600;
-}
-
-.btn-upload:hover{
-  background:rgba(211,47,47,.1);
-}
-
 /* Hamburger */
 .hamburger{
   display:none;
@@ -176,4 +167,28 @@ main{
     grid-template-columns:1fr;
   }
 
+}
+
+/* ================= NAV LINKS ================= */
+
+.nav-desktop a,
+.nav-mobile a{
+  display: inline-block;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Hover / tap feedback */
+.nav-desktop a:hover,
+.nav-mobile a:hover{
+  background: rgba(0,0,0,0.06);
+}
+
+/* Active page (optional but recommended) */
+.nav-desktop a.active,
+.nav-mobile a.active{
+  color: var(--accent);
 }
