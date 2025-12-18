@@ -192,3 +192,7 @@ main{
 .nav-mobile a.active{
   color: var(--accent);
 }
+
+a{
+  -webkit-tap-highlight-color: transparent;
+}
