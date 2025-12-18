@@ -239,3 +239,19 @@ a{
   background: #333;
   border-radius: 2px;
 }
+
+/* ================= MOBILE TAP / FOCUS FIX ================= */
+
+/* Remove Android tap highlight */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove focus ring for navigation links only */
+.nav-desktop a:focus,
+.nav-mobile a:focus,
+.nav-desktop a:active,
+.nav-mobile a:active {
+  outline: none;
+  box-shadow: none;
+}
