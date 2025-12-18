@@ -1,46 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
   <title>Login | ExamArchive</title>
-  <link rel="stylesheet" href="style/common.css" />
+  <link rel="stylesheet" href="style/common.css">
 </head>
 <body>
 
-  <!-- Header will be injected by scripts/include.js -->
-  <main class="container">
-    <div class="login-panel">
-      <div class="form-box">
-        <h1 class="page-title">Sign in</h1>
-        <p class="page-sub">
-          Enter your email below and we’ll send you a magic link — no password needed.
-        </p>
+<main class="container">
+  <div class="card">
+    <h1>Login</h1>
+    <input type="email" placeholder="Email">
+    <button class="btn">Send Link</button>
+  </div>
+</main>
 
-        <form id="loginForm" style="margin-top: 1rem;">
-          <div class="search-box">
-            <input
-              id="email"
-              type="email"
-              placeholder="you@college.edu"
-              required
-            />
-            <button class="btn" id="sendLink" type="submit">Send Link</button>
-          </div>
-        </form>
-
-        <p class="hint" style="margin-top: 0.6rem;">
-          Tip: You can manage site settings anytime from
-          <a href="settings.html" style="color: var(--accent); text-decoration: none;">Settings</a>.
-        </p>
-      </div>
-    </div>
-  </main>
-
-  <!-- Login script -->
-  <script src="scripts/auth.js"></script>
-
-  <!-- Header/Footer include script -->
-  <script src="scripts/include.js"></script>
+<script src="scripts/include.js"></script>
 </body>
 </html>
